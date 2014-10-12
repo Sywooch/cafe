@@ -6,7 +6,12 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'language' => 'ru-RU', 
+
+    // русификация фреймворка
+    'sourceLanguage' => 'en_US',
+    'language' => 'ru-RU',
+    'charset' => 'utf-8',
+    
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -16,7 +21,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Sysuser',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
