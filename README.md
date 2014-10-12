@@ -1,89 +1,71 @@
-Yii 2 Basic Application Template
-================================
-
-Yii 2 Basic Application Template is a skeleton Yii 2 application best for
-rapidly creating small projects.
-
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+ТЗ продажа кофе
 
 
-DIRECTORY STRUCTURE
--------------------
+Задача: разработка универсальной системы для реализации продукции в стационарной точке кофейни формата «кофе с собой»
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+Средства разработки: на выбор и умение создателя системы. Основные критерии: простота использования, функциональность, возможность дальнейшего клонирования.
 
+Цель: разработать универсальную систему учета продаж: графический интерфейс, реализация необходимого функционала, подвязка системы базы данных.
 
+Действия пользователя
+Войти в систему. Продавец видит страницу_входа с полями для ввода имени и пароля, есть отметка “Запомнить меня”. После входа в систему отображается страница_продавца или страница_администратора.
+Действия продавца
 
-REQUIREMENTS
-------------
+На странице_продавца:
+В зоне_категорий можно нажать на категорию (список категорий находиться вверху) и в зоне_товаров увидеть варианты_товара из этой категории, которые есть в наличии.
+В зоне_товаров можно нажать на Фасовку и в зоне_заказа появится ещё один пункт 
+зоне_дополнений есть список возможных дополнений (например: товар “кофе” может иметь дополнения “молоко”, “сливки”, “пакетик сахара” и т. д.)
+В зоне_заказа, в каждой строке можно нажать на кнопку удаления пункта.
+в зоне_заказа можно на жать на кнопки “+” или “-”, чтобы увеличить или уменьшить количество.
+В зоне_заказа можно нажать на кнопку “новый заказ”, чтобы очистить зону_заказа.
+В зоне_заказа можно нажать кнопку “Оплачено_наличными“ или кнопку “Оплачено_картой”. После чего термопринтер распечатывает чек, а на сервер уходит описание заказа. 
+Разрывами связи пренебрегаем. // непонятно
+Нужен пример чека.// чек будет
+После успешной отправки заказа обновляется зона_счетчика  в которой показано количество заказов за сегодня, их общая сумма, количество заработанных комиссионных.
+В зоне заказа есть “Калькулятор сдачи”: если вписать число в поле “Получено от покупателя”, то рядом можно будет увидеть сумму сдачи.
+Есть выпадающий список дополнительных действий. Например, “Выйти из системы”, “Товар принят”, “Привезите мне товар” и т. д.
+Связи с платёжным терминалом нет, это суперзащищённый и сертифицированный агрегат (я поинтересовался у знакомых сотрудников “Приватбанка”, думаю, что у других банков примерно то же самое). Так что все чеки печатает термопринтер.
+Если кофе одного и того же сорта, но в разном количестве, то учет расхода надо вести именно по количеству, например, молотого порошка кофе, а не по количеству проданных чашек. Это разная фасовка одного товара.
+Действия администратора:
+Страница администратора
+Страница администратора содержит ссылки на все остальные страницы: 
+товары
+пользователи
+продавцы
+точки реализации
+поставки
+отчёты (возможно, добавим позже)
 
-The minimum requirement by this application template that your Web server supports PHP 5.4.0.
+Управление товарами:
+добавить товар
+изменить товар
+управлять фасовкой (для выбранного товара - табличка с названием, ценой, количеством товара, иконкой)
+просмотреть список товаров, в списке подсвечены товары, которых осталось слишком мало, такие товары можно найти поиском, чтобы составить заказ поставщикам.
+удалить товар (только если остаток на складе равен нулю)
 
+Управление пользователями
+добавить пользователя
+изменить пользователя
+просмотреть список пользователей
 
-INSTALLATION
-------------
+Управление продавцами 
+список
+добавить
+изменить
+удалить
 
-### Install from an Archive File
+Управление списком точек реализации
+просмотреть список (в списке отмечены точки реализации, которым надо отправить товар )
+добавить
+изменить
+удалить
+составить список товаров для отправки в заданную точку реализации с возможностью исправить количество товара, чтобы не отправлять слишком мелкими порциями
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
+Заказы (можно отобрать заказы для заданной точки реализации, для заданного продавца, в заданном интервале дат), просмотреть детали каждого заказа.
 
-You can then access the application through the following URL:
+Действия принтера
+Принтер - один для каждого рабочего места продавца
+Для печати необходимо иметь микросервер печати, который
+получает по протоколу http все данные
+печатает их в заданном формате на принтере.
 
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install via Composer
-
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this application template using the following command:
-
-~~~
-php composer.phar global require "fxp/composer-asset-plugin:1.0.0-beta2"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
-~~~
-
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-CONFIGURATION
--------------
-
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
-
-Also check and edit the other files in the `config/` directory to customize your application.
