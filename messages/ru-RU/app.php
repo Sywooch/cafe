@@ -22,17 +22,20 @@ return [
     'sysuser_fullname' => 'Фамилия, имя, отчество',
     'sysuser_login' => 'Имя пользователя',
     'sysuser_password' => 'Пароль',
-    'sysuser_role_mask' => 'Роли',
+    'sysuser_role_mask' => 'Роль',
     'sysuser_telephone' => 'Телефон',
     'sysuser_token' => 'Секретный ключ для входа',
     'ROLE_ADMIN'=>'Администратор',
     'ROLE_SELLER'=>'Продавец',
     'Create Sysuser'=>'Создать пользователя',
+    'Update Sysuser:'=>'Изменить пользователя',
     
     'sysuser_password1'=>'Пароль',
     'sysuser_password2'=>'Повторите пароль',
     'Type_password_to_update'=>'Наберите пароль, чтобы изменить его',
     
     'Create'=>'Создать',
-    'Update'=>'Изменить'
+    'Update'=>'Изменить',
+    'Are you sure you want to delete this item?'=>"Вы действительно желаете удалить эту запись?",
+    'Delete'=>'Удалить'
 ];

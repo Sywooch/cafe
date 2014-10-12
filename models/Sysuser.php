@@ -23,6 +23,8 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     const ROLE_ADMIN = 1;
     const ROLE_SELLER = 2;
 
+    public $sysuser_password1;
+    public $sysuser_password2;
     private static $user = [
         'sysuser_id' => '1',
         'sysuser_fullname' => 'admin',
@@ -30,7 +32,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         //'sysuser_password' => (Yii::app()->params['apw']),
         'sysuser_role_mask' => self::ROLE_ADMIN,
         'sysuser_telephone' => 'gen_dobr@hotmail.com',
-        //'sysuser_token' => (Yii::app()->params['sysuser_token']),
+            //'sysuser_token' => (Yii::app()->params['sysuser_token']),
     ];
 
     /**
@@ -91,7 +93,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function validatePassword($password) {
         $encodedPassword = crypt($password, Yii::$app->params['salt']);
-        return $encodedPassword==$this->sysuser_password;
+        return $encodedPassword == $this->sysuser_password;
     }
 
     public function validateAuthKey($authKey) {
@@ -122,10 +124,23 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return static::findOne(['sysuser_token' => $token]);
     }
 
+    public function load($data, $formName = null) {
+        if (parent::load($data, $formName)) {
+            $x = Yii::$app->request->post('Sysuser');
+            $this->sysuser_password1 = $x['sysuser_password1'];
+            $this->sysuser_password2 = $x['sysuser_password2'];
+            return true;
+        }
+        return false;
+    }
+
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->sysuser_token = Yii::$app->getSecurity()->generateRandomString();
+            }
+            if (strlen($this->sysuser_password1) > 0 && $this->sysuser_password2 == $this->sysuser_password1) {
+                $this->sysuser_password = crypt($this->sysuser_password1, Yii::$app->params['salt']);
             }
             return true;
         }
@@ -158,6 +173,18 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             $admin = new static($admin);
         }
         return $admin;
+    }
+
+    public static function getRoles() {
+        return Array(self::ROLE_SELLER => Yii::t('app', 'ROLE_SELLER'), self::ROLE_ADMIN => Yii::t('app', 'ROLE_ADMIN'));
+    }
+
+    public static function getRoleName($n) {
+        $roleList = self::getRoles();
+        if (isset($roleList[$n])) {
+            return $roleList[$n];
+        }
+        return '';
     }
 
 }

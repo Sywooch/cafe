@@ -14,11 +14,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'sysuser_fullname')->textInput(['maxlength' => 512]) ?>
 
-    <?= $form->field($model, 'sysuser_login')->textInput(['maxlength' => 64]) ?>
+    <?php if($model->isNewRecord){
+           echo $form->field($model, 'sysuser_login')->textInput(['maxlength' => 64]);
+          }
+    ?>
 
     <?php /*= $form->field($model, 'sysuser_password')->textInput(['maxlength' => 128]) */ ?>
 
-    <?= $form->field($model, 'sysuser_role_mask')->textInput() ?>
+    <?= $form->field($model, 'sysuser_role_mask')-> dropDownList(\app\models\Sysuser::getRoles()) ?>
 
     <?= $form->field($model, 'sysuser_telephone')->textInput(['maxlength' => 64]) ?>
 

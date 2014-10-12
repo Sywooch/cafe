@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Sysusers');
 $this->params['breadcrumbs'][] = $this->title;
 
-$GLOBALS['rolemap']=Array(\app\models\Sysuser::ROLE_ADMIN=>Yii::t('app', 'ROLE_ADMIN'),\app\models\Sysuser::ROLE_SELLER=>Yii::t('app', 'ROLE_SELLER'));
+$GLOBALS['rolemap']=\app\models\Sysuser::getRoles();//
 
 ?>
 <div class="sysuser-index">

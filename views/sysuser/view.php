@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Sysuser */
 
-$this->title = $model->sysuser_id;
+$this->title = $model->sysuser_login;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sysusers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -31,10 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'sysuser_id',
             'sysuser_fullname',
             'sysuser_login',
-            'sysuser_password',
-            'sysuser_role_mask',
+            //'sysuser_password',
+            [                    // the owner name of the model
+            'label' => Yii::t('app','sysuser_role_mask'),
+            'value' => \app\models\Sysuser::getRoleName($model->sysuser_role_mask),
+            ],
             'sysuser_telephone',
-            'sysuser_token',
+            //'sysuser_token',
         ],
     ]) ?>
 
