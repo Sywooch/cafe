@@ -4,30 +4,24 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\SysuserSearch */
+/* @var $model app\models\PosSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="sysuser-search">
+<div class="pos-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'sysuser_id') ?>
+    <?= $form->field($model, 'pos_id') ?>
 
-    <?= $form->field($model, 'sysuser_fullname') ?>
+    <?= $form->field($model, 'pos_title') ?>
 
-    <?= $form->field($model, 'sysuser_login') ?>
+    <?= $form->field($model, 'pos_address') ?>
 
-    <?= $form->field($model, 'sysuser_password') ?>
-
-    <?= $form->field($model, 'sysuser_role') ?>
-
-    <?php // echo $form->field($model, 'sysuser_telephone') ?>
-
-    <?php // echo $form->field($model, 'sysuser_token') ?>
+    <?= $form->field($model, 'pos_timetable') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

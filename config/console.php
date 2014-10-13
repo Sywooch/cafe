@@ -25,7 +25,10 @@ return [
                 ],
             ],
         ],
-        'db' => $db,
+        'db' => $db,        
+        'authManager' => [
+                'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'params' => $params,
 ];

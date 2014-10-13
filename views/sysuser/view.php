@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'sysuser_login',
             //'sysuser_password',
             [                    // the owner name of the model
-            'label' => Yii::t('app','sysuser_role_mask'),
-            'value' => \app\models\Sysuser::getRoleName($model->sysuser_role_mask),
+            'label' => Yii::t('app','sysuser_role'),
+            'value' => \app\models\Sysuser::getRoleName($model->sysuser_role),
             ],
             'sysuser_telephone',
             //'sysuser_token',

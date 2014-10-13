@@ -18,8 +18,8 @@ class SysuserSearch extends Sysuser
     public function rules()
     {
         return [
-            [['sysuser_id', 'sysuser_role_mask'], 'integer'],
-            [['sysuser_fullname', 'sysuser_login', 'sysuser_password', 'sysuser_telephone', 'sysuser_token'], 'safe'],
+            [['sysuser_id'], 'integer'],
+            [['sysuser_fullname', 'sysuser_login', 'sysuser_password', 'sysuser_telephone', 'sysuser_token', 'sysuser_role'], 'safe'],
         ];
     }
 
@@ -53,7 +53,7 @@ class SysuserSearch extends Sysuser
 
         $query->andFilterWhere([
             'sysuser_id' => $this->sysuser_id,
-            'sysuser_role_mask' => $this->sysuser_role_mask,
+            'sysuser_role' => $this->sysuser_role,
         ]);
 
         $query->andFilterWhere(['like', 'sysuser_fullname', $this->sysuser_fullname])

@@ -12,6 +12,75 @@ MySQL - 5.5.38-0+wheezy1 : Database - cafe
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `auth_assignment` */
+
+DROP TABLE IF EXISTS `auth_assignment`;
+
+CREATE TABLE `auth_assignment` (
+  `item_name` varchar(64) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_name`,`user_id`),
+  CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `auth_assignment` */
+
+insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('admin','1',1413231535),('seller','5',1413231619);
+
+/*Table structure for table `auth_item` */
+
+DROP TABLE IF EXISTS `auth_item`;
+
+CREATE TABLE `auth_item` (
+  `name` varchar(64) NOT NULL,
+  `type` int(11) NOT NULL,
+  `description` text,
+  `rule_name` varchar(64) DEFAULT NULL,
+  `data` text,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`),
+  KEY `rule_name` (`rule_name`),
+  KEY `type` (`type`),
+  CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `auth_item` */
+
+insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('admin',1,NULL,NULL,NULL,1413229782,1413229782),('createOrder',2,'Create a order',NULL,NULL,1413229783,1413229783),('manageOrder',2,'Manage orders',NULL,NULL,1413229783,1413229783),('managePackaging',2,'Manage packaging',NULL,NULL,1413229783,1413229783),('managePos',2,'Manage points of sale',NULL,NULL,1413229783,1413229783),('manageProduct',2,'Manage products',NULL,NULL,1413229783,1413229783),('manageSeller',2,'Manage sellers',NULL,NULL,1413229783,1413229783),('manageSupply',2,'Manage supply',NULL,NULL,1413229783,1413229783),('manageSysuser',2,'Manage users',NULL,NULL,1413229783,1413229783),('seller',1,NULL,NULL,NULL,1413229782,1413229782),('viewPackaging',2,'View packaging',NULL,NULL,1413229783,1413229783);
+
+/*Table structure for table `auth_item_child` */
+
+DROP TABLE IF EXISTS `auth_item_child`;
+
+CREATE TABLE `auth_item_child` (
+  `parent` varchar(64) NOT NULL,
+  `child` varchar(64) NOT NULL,
+  PRIMARY KEY (`parent`,`child`),
+  KEY `child` (`child`),
+  CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `auth_item_child` */
+
+insert  into `auth_item_child`(`parent`,`child`) values ('admin','createOrder'),('seller','createOrder'),('admin','manageOrder'),('admin','managePackaging'),('admin','managePos'),('admin','manageProduct'),('admin','manageSeller'),('admin','manageSupply'),('admin','manageSysuser'),('admin','viewPackaging'),('seller','viewPackaging');
+
+/*Table structure for table `auth_rule` */
+
+DROP TABLE IF EXISTS `auth_rule`;
+
+CREATE TABLE `auth_rule` (
+  `name` varchar(64) NOT NULL,
+  `data` text,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `auth_rule` */
+
 /*Table structure for table `order` */
 
 DROP TABLE IF EXISTS `order`;
@@ -183,15 +252,15 @@ CREATE TABLE `sysuser` (
   `sysuser_fullname` varchar(512) DEFAULT NULL,
   `sysuser_login` varchar(64) DEFAULT NULL,
   `sysuser_password` varchar(128) DEFAULT NULL,
-  `sysuser_role_mask` int(11) DEFAULT NULL,
+  `sysuser_role` varchar(32) DEFAULT NULL,
   `sysuser_telephone` varchar(64) DEFAULT NULL,
   `sysuser_token` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`sysuser_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sysuser` */
 
-insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role_mask`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','admin',1,'','1');
+insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','admin','admin','','1'),(5,'test2 test2','test2','TlSKN8E5rPR9Q','seller','test234','96FCb7KBgN5PO56g7BISYvAHvG696ab9');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -35,13 +35,13 @@ $GLOBALS['rolemap']=\app\models\Sysuser::getRoles();//
             'sysuser_telephone',
             // 'sysuser_password',
             [
-                'attribute' => 'sysuser_role_mask',
+                'attribute' => 'sysuser_role',
                 'format' => 'text',
-                'label' => Yii::t('app', 'sysuser_role_mask'),
+                'label' => Yii::t('app', 'sysuser_role'),
                 'filter'=>$GLOBALS['rolemap'],
                 'content'=>function($sysuser) { 
-                              if(isset($GLOBALS['rolemap'][$sysuser->sysuser_role_mask])){
-                                  return $GLOBALS['rolemap'][$sysuser->sysuser_role_mask];
+                              if(isset($GLOBALS['rolemap'][$sysuser->sysuser_role])){
+                                  return $GLOBALS['rolemap'][$sysuser->sysuser_role];
                               }else{
                                   return '-';
                               }

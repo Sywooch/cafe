@@ -11,7 +11,7 @@ use Yii;
  * @property string $sysuser_fullname
  * @property string $sysuser_login
  * @property string $sysuser_password
- * @property integer $sysuser_role_mask
+ * @property integer $sysuser_role
  * @property string $sysuser_telephone
  * @property string $sysuser_token
  *
@@ -20,8 +20,8 @@ use Yii;
  */
 class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
-    const ROLE_ADMIN = 1;
-    const ROLE_SELLER = 2;
+    const ROLE_ADMIN = 'admin';
+    const ROLE_SELLER = 'seller';
 
     public $sysuser_password1;
     public $sysuser_password2;
@@ -30,7 +30,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         'sysuser_fullname' => 'admin',
         'sysuser_login' => 'admin',
         //'sysuser_password' => (Yii::app()->params['apw']),
-        'sysuser_role_mask' => self::ROLE_ADMIN,
+        'sysuser_role' => self::ROLE_ADMIN,
         'sysuser_telephone' => 'gen_dobr@hotmail.com',
             //'sysuser_token' => (Yii::app()->params['sysuser_token']),
     ];
@@ -47,7 +47,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function rules() {
         return [
-            [['sysuser_role_mask'], 'integer'],
+            [['sysuser_role'], 'string','max'=>32],
             [['sysuser_fullname'], 'string', 'max' => 512],
             [['sysuser_login', 'sysuser_telephone', 'sysuser_token'], 'string', 'max' => 64],
             [['sysuser_password'], 'string', 'max' => 128]
@@ -63,7 +63,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'sysuser_fullname' => Yii::t('app', 'sysuser_fullname'),
             'sysuser_login' => Yii::t('app', 'sysuser_login'),
             'sysuser_password' => Yii::t('app', 'sysuser_password'),
-            'sysuser_role_mask' => Yii::t('app', 'sysuser_role_mask'),
+            'sysuser_role' => Yii::t('app', 'sysuser_role'),
             'sysuser_telephone' => Yii::t('app', 'sysuser_telephone'),
             'sysuser_token' => Yii::t('app', 'sysuser_token'),
         ];
@@ -146,6 +146,15 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
         return false;
     }
+    
+    public function afterSave( $insert, $changedAttributes ){
+        parent::afterSave( $insert, $changedAttributes );
+        $auth = Yii::$app->authManager;
+        $theRole = $auth->getRole($this->sysuser_role);
+        $auth->assign($theRole, $this->sysuser_id);        
+    }
+    
+
 
     public static function getAdmin($key, $val) {
         $admin = false;
@@ -176,7 +185,12 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     public static function getRoles() {
-        return Array(self::ROLE_SELLER => Yii::t('app', 'ROLE_SELLER'), self::ROLE_ADMIN => Yii::t('app', 'ROLE_ADMIN'));
+        $roles=Yii::$app->authManager->getRoles();
+        $roleList=Array();
+        foreach($roles as $key=>$val){
+            $roleList[$key]=Yii::t('app', $key);
+        }
+        return $roleList;
     }
 
     public static function getRoleName($n) {
