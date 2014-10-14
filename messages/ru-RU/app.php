@@ -29,7 +29,7 @@ return [
     'seller'=>'Продавец',
     'Create Sysuser'=>'Создать пользователя',
     'Update Sysuser:'=>'Изменить пользователя',
-    
+    'Sysuser'=>'Пользователь',
     'sysuser_password1'=>'Пароль',
     'sysuser_password2'=>'Повторите пароль',
     'Type_password_to_update'=>'Наберите пароль, чтобы изменить его',
@@ -37,5 +37,18 @@ return [
     'Create'=>'Создать',
     'Update'=>'Изменить',
     'Are you sure you want to delete this item?'=>"Вы действительно желаете удалить эту запись?",
-    'Delete'=>'Удалить'
+    'Delete'=>'Удалить',
+    
+    'Pos'=>'Точка реализации',
+    'Seller Salary'=>'Оклад',
+    'Seller Commission Fee'=>'Комиссионные,%',
+    'seller_id'=>'№',
+    'Sellers'=>'Продавцы',
+    'Create Seller'=>'Добавить продавца',
+    'Pos-list'=>'Точки реализации',
+    'Create Pos'=>'Добавить точку реализации',
+    'Update Pos: '=>'Изменить точку реализации',
+    'Sysuser-list'=>'Пользователи',
+    'Logout ({login})'=>'Выход ({login})',
+    'Login'=>'Войти'
 ];

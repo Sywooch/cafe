@@ -5,9 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Pos */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Pos',
-]) . ' ' . $model->pos_id;
+$this->title = Yii::t('app', 'Update Pos: ') . ' ' . $model->pos_id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->pos_id, 'url' => ['view', 'id' => $model->pos_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');

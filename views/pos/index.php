@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Pos');
+$this->title = Yii::t('app', 'Pos-list');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pos-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
+        <?= Html::a(Yii::t('app', 'Create Pos', [
     'modelClass' => 'Pos',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -25,14 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'pos_id',
+            // ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\ActionColumn'],
+            ['attribute' => 'pos_id','filterOptions'=>['style'=>'width:100px;'],],
             'pos_title',
             'pos_address',
             'pos_timetable',
 
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

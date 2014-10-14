@@ -32,18 +32,29 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+            
+            
+            $items=[];
+            $items[]=['label' => 'Home', 'url' => ['/site/index']];
+            // $items[]=['label' => 'About', 'url' => ['/site/about']];
+
+            if(Yii::$app->user->identity->sysuser_role == \app\models\Sysuser::ROLE_ADMIN){
+                $items[]=['label' => Yii::t('app','Sysuser-list'), 'url' => ['/sysuser/index']];
+                $items[]=['label' => Yii::t('app','Pos-list'), 'url' => ['/pos/index']];
+                $items[]=['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']];
+            }
+            
+            if(Yii::$app->user->isGuest){
+                $items[]=['label' => Yii::t('app','Login'), 'url' => ['/site/login']];
+            }else{
+                $items[]=['label' => Yii::t('app','Logout ({login})',['login'=>Yii::$app->user->identity->sysuser_login]),
+                            'url' => ['/site/logout'],
+                            'linkOptions' => ['data-method' => 'post']];
+            }
+
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->sysuser_login . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
+                'items' => $items
             ]);
             NavBar::end();
         ?>
