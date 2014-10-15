@@ -26,7 +26,7 @@ CREATE TABLE `auth_assignment` (
 
 /*Data for the table `auth_assignment` */
 
-insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('admin','1',1413231535),('seller','5',1413231619);
+insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('admin','1',1413231535),('admin','6',1413320812),('seller','5',1413231619);
 
 /*Table structure for table `auth_item` */
 
@@ -168,9 +168,11 @@ CREATE TABLE `pos` (
   `pos_address` varchar(1024) DEFAULT NULL,
   `pos_timetable` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`pos_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `pos` */
+
+insert  into `pos`(`pos_id`,`pos_title`,`pos_address`,`pos_timetable`) values (1,'Точка А','Адрес точки А','Какой-то график');
 
 /*Table structure for table `pos_product` */
 
@@ -203,9 +205,11 @@ CREATE TABLE `product` (
   `product_min_quantity` double DEFAULT NULL,
   `product_unit_price` double DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product` */
+
+insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','',10,'кг',2,1000);
 
 /*Table structure for table `seller` */
 
@@ -222,9 +226,11 @@ CREATE TABLE `seller` (
   KEY `pos12` (`pos_id`),
   CONSTRAINT `pos12` FOREIGN KEY (`pos_id`) REFERENCES `pos` (`pos_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `sysuser5` FOREIGN KEY (`sysuser_id`) REFERENCES `sysuser` (`sysuser_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `seller` */
+
+insert  into `seller`(`seller_id`,`sysuser_id`,`pos_id`,`seller_salary`,`seller_commission_fee`) values (1,5,1,1000,5),(2,1,1,1,5);
 
 /*Table structure for table `supply` */
 
@@ -260,7 +266,7 @@ CREATE TABLE `sysuser` (
 
 /*Data for the table `sysuser` */
 
-insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','admin','admin','','1'),(5,'test2 test2','test2','TlSKN8E5rPR9Q','seller','test234','96FCb7KBgN5PO56g7BISYvAHvG696ab9');
+insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','TlK/nt2ZJff/k','admin','123','K9P9GKDD_-tLPPfXzwmFEjbziMUm5wLP'),(5,'test2 test2','test2','TlSKN8E5rPR9Q','seller','test234','96FCb7KBgN5PO56g7BISYvAHvG696ab9');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
