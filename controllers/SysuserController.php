@@ -104,8 +104,9 @@ class SysuserController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
+        if($id>0){
+            $this->findModel($id)->delete();        
+        }
         return $this->redirect(['index']);
     }
 

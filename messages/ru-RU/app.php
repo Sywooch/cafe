@@ -50,5 +50,9 @@ return [
     'Update Pos: '=>'Изменить точку реализации',
     'Sysuser-list'=>'Пользователи',
     'Logout ({login})'=>'Выход ({login})',
-    'Login'=>'Войти'
+    'Login'=>'Войти',
+    'Update Seller: '=>'Изменить продавца: ',
+    'Products'=>'Товары',
+    'Create Product'=>'Добавить товар',
+    'Update Product: '=>'Изменить товар: '
 ];

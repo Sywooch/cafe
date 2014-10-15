@@ -5,11 +5,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Seller */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Seller',
-]) . ' ' . $model->seller_id;
+
+$pos=$model->getPos()->one();
+$sysuser=$model->getSysuser()->one();
+
+$this->title = Yii::t('app', 'Update Seller: ') . ' ' . $sysuser->sysuser_fullname .' @ '.$pos->pos_title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sellers'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->seller_id, 'url' => ['view', 'id' => $model->seller_id]];
+$this->params['breadcrumbs'][] = ['label' => $sysuser->sysuser_fullname .' @ '.$pos->pos_title, 'url' => ['view', 'id' => $model->seller_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="seller-update">

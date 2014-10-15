@@ -39,6 +39,7 @@ AppAsset::register($this);
             // $items[]=['label' => 'About', 'url' => ['/site/about']];
 
             if(Yii::$app->user->identity->sysuser_role == \app\models\Sysuser::ROLE_ADMIN){
+                $items[]=['label' => Yii::t('app','Products'), 'url' => ['/product/index']];
                 $items[]=['label' => Yii::t('app','Sysuser-list'), 'url' => ['/sysuser/index']];
                 $items[]=['label' => Yii::t('app','Pos-list'), 'url' => ['/pos/index']];
                 $items[]=['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']];

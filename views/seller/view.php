@@ -6,7 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Seller */
 
-$this->title = $model->seller_id;
+
+$pos=$model->getPos()->one();
+$sysuser=$model->getSysuser()->one();
+
+$this->title = $sysuser->sysuser_fullname.' @ '.$pos->pos_title;//$model->seller_id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sellers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'seller_id',
-            'sysuser_id',
-            'pos_id',
+            'sysuser.sysuser_fullname',
+            'pos.pos_title',
             'seller_salary',
             'seller_commission_fee',
         ],
