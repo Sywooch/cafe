@@ -1,9 +1,9 @@
-/*
+/*!
 * jquery.inputmask.numeric.extensions.js
 * http://github.com/RobinHerbots/jquery.inputmask
 * Copyright (c) 2010 - 2014 Robin Herbots
 * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-* Version: 3.1.27
+* Version: 3.1.33
 */
 !function(factory) {
     "function" == typeof define && define.amd ? define([ "jquery", "./jquery.inputmask" ], factory) : factory(jQuery);
@@ -48,16 +48,16 @@
                 charAtPos == opts.groupSeparator && (cbuf.splice(pos--, 1), charAtPos = cbuf[pos]), 
                 reformatOnly ? cbuf[pos] = "?" : cbuf.splice(pos, 0, "?");
                 var bufVal = cbuf.join("");
-                if (opts.autoGroup || reformatOnly && -1 != bufVal.indexOf(opts.groupSeparator)) {
+                if (bufVal.length > 0 && opts.autoGroup || reformatOnly && -1 != bufVal.indexOf(opts.groupSeparator)) {
                     var escapedGroupSeparator = $.inputmask.escapeRegex.call(this, opts.groupSeparator);
                     needsRefresh = 0 == bufVal.indexOf(opts.groupSeparator), bufVal = bufVal.replace(new RegExp(escapedGroupSeparator, "g"), "");
                     var radixSplit = bufVal.split(opts.radixPoint);
-                    if (bufVal = radixSplit[0], bufVal != opts.prefix + "?0" && bufVal.length >= opts.groupSize + opts.prefix.length) {
+                    if (bufVal = "" == opts.radixPoint ? bufVal : radixSplit[0], bufVal != opts.prefix + "?0" && bufVal.length >= opts.groupSize + opts.prefix.length) {
                         needsRefresh = !0;
                         for (var reg = new RegExp("([-+]?[\\d?]+)([\\d?]{" + opts.groupSize + "})"); reg.test(bufVal); ) bufVal = bufVal.replace(reg, "$1" + opts.groupSeparator + "$2"), 
                         bufVal = bufVal.replace(opts.groupSeparator + opts.groupSeparator, opts.groupSeparator);
                     }
-                    radixSplit.length > 1 && (bufVal += opts.radixPoint + radixSplit[1]);
+                    "" != opts.radixPoint && radixSplit.length > 1 && (bufVal += opts.radixPoint + radixSplit[1]);
                 }
                 buffer.length = bufVal.length;
                 for (var i = 0, l = bufVal.length; l > i; i++) buffer[i] = bufVal.charAt(i);
@@ -98,29 +98,35 @@
                     return new RegExp("\\d+");
                 }
             },
-            signHandler: function(chrs, buffer, pos, strict, opts) {
-                if (!strict && (opts.allowMinus && "-" === chrs || opts.allowPlus && "+" === chrs)) {
-                    var matchRslt = buffer.join("").match(opts.regex.integerPart(opts));
-                    if (matchRslt && matchRslt.length > 0 && "0" !== matchRslt[matchRslt.index]) return buffer[matchRslt.index] == ("-" === chrs ? "+" : "-") ? {
-                        pos: matchRslt.index,
-                        c: chrs,
-                        remove: matchRslt.index,
-                        caret: pos
-                    } : buffer[matchRslt.index] == ("-" === chrs ? "-" : "+") ? {
-                        remove: matchRslt.index,
-                        caret: pos - 1
-                    } : {
-                        pos: matchRslt.index,
-                        c: chrs,
-                        caret: pos + 1
-                    };
+            signHandler: function(chrs, maskset, pos, strict, opts) {
+                if (!strict && (opts.allowMinus && "-" === chrs || opts.allowPlus && "+" === chrs || "0" === chrs)) {
+                    var matchRslt = maskset.buffer.join("").match(opts.regex.integerPart(opts));
+                    if (matchRslt && matchRslt.length > 0 && ("0" !== matchRslt[matchRslt.index] || maskset.buffer && maskset._buffer && maskset.buffer.join("") != maskset._buffer.join(""))) {
+                        if ("0" !== chrs) return maskset.buffer[matchRslt.index] == ("-" === chrs ? "+" : "-") ? {
+                            pos: matchRslt.index,
+                            c: chrs,
+                            remove: matchRslt.index,
+                            caret: pos
+                        } : maskset.buffer[matchRslt.index] == ("-" === chrs ? "-" : "+") ? {
+                            remove: matchRslt.index,
+                            caret: pos - 1
+                        } : {
+                            pos: matchRslt.index,
+                            c: chrs,
+                            caret: pos + 1
+                        };
+                        if ("-" == maskset.buffer[matchRslt.index] || "+" == maskset.buffer[matchRslt.index]) return {
+                            remove: matchRslt.index,
+                            caret: pos - 1
+                        };
+                    }
                 }
                 return !1;
             },
             radixHandler: function(chrs, maskset, pos, strict, opts) {
                 if (!strict && chrs === opts.radixPoint) {
                     var radixPos = $.inArray(opts.radixPoint, maskset.buffer), integerValue = maskset.buffer.join("").match(opts.regex.integerPart(opts));
-                    if (-1 != radixPos) return maskset.validPositions[radixPos - 1] ? {
+                    if (-1 != radixPos && maskset.validPositions[radixPos]) return maskset.validPositions[radixPos - 1] ? {
                         caret: radixPos + 1
                     } : {
                         pos: integerValue.index,
@@ -132,7 +138,7 @@
             },
             leadingZeroHandler: function(chrs, maskset, pos, strict, opts) {
                 var matchRslt = maskset.buffer.join("").match(opts.regex.integerNPart(opts)), radixPosition = $.inArray(opts.radixPoint, maskset.buffer);
-                if (matchRslt && !strict && (-1 == radixPosition || matchRslt.index < radixPosition)) if (0 == matchRslt[0].indexOf("0") && pos >= opts.prefix.length) {
+                if (matchRslt && !strict && (-1 == radixPosition || matchRslt.index < radixPosition)) if ("0" == matchRslt[0] && pos >= opts.prefix.length) {
                     if (-1 == radixPosition || radixPosition >= pos && void 0 == maskset.validPositions[radixPosition]) return maskset.buffer.splice(matchRslt.index, 1), 
                     pos = pos > matchRslt.index ? pos - 1 : matchRslt.index, {
                         pos: pos,
@@ -143,19 +149,23 @@
                         pos: pos,
                         remove: matchRslt.index
                     };
+                    if (void 0 == maskset.validPositions[radixPosition]) return maskset.buffer[pos] = chrs, 
+                    {
+                        refreshFromBuffer: !0
+                    };
                 } else if ("0" == chrs && pos <= matchRslt.index) return !1;
                 return !0;
             },
             definitions: {
                 "~": {
                     validator: function(chrs, maskset, pos, strict, opts) {
-                        var isValid = opts.signHandler(chrs, maskset.buffer, pos, strict, opts);
+                        var isValid = opts.signHandler(chrs, maskset, pos, strict, opts);
                         if (!isValid && (isValid = opts.radixHandler(chrs, maskset, pos, strict, opts), 
                         !isValid && (isValid = strict ? new RegExp("[0-9" + $.inputmask.escapeRegex.call(this, opts.groupSeparator) + "]").test(chrs) : new RegExp("[0-9]").test(chrs), 
                         isValid === !0 && (isValid = opts.leadingZeroHandler(chrs, maskset, pos, strict, opts), 
                         isValid === !0)))) {
                             var radixPosition = $.inArray(opts.radixPoint, maskset.buffer);
-                            return opts.digitsOptional === !1 && pos > radixPosition && !strict ? {
+                            isValid = opts.digitsOptional === !1 && pos > radixPosition && !strict ? {
                                 pos: pos,
                                 remove: pos
                             } : {
@@ -169,13 +179,9 @@
                 },
                 "+": {
                     validator: function(chrs, maskset, pos, strict, opts) {
-                        var isValid = opts.signHandler(chrs, maskset.buffer, pos, strict, opts);
-                        if (!isValid) {
-                            var signed = "[";
-                            opts.allowMinus === !0 && (signed += "-"), opts.allowPlus === !0 && (signed += "+"), 
-                            signed += "]", isValid = new RegExp(signed).test(chrs);
-                        }
-                        return isValid;
+                        var isValid = opts.signHandler(chrs, maskset, pos, strict, opts);
+                        return isValid || (isValid = opts.allowMinus && "-" == chrs || opts.allowPlus && "+" == chrs), 
+                        isValid;
                     },
                     cardinality: 1,
                     prevalidator: null,
@@ -183,7 +189,7 @@
                 },
                 ":": {
                     validator: function(chrs, maskset, pos, strict, opts) {
-                        var isValid = opts.signHandler(chrs, maskset.buffer, pos, strict, opts);
+                        var isValid = opts.signHandler(chrs, maskset, pos, strict, opts);
                         if (!isValid) {
                             var radix = "[" + $.inputmask.escapeRegex.call(this, opts.radixPoint) + "]";
                             isValid = new RegExp(radix).test(chrs), isValid && maskset.validPositions[pos] && maskset.validPositions[pos].match.placeholder == opts.radixPoint && (isValid = {
@@ -226,21 +232,20 @@
         currency: {
             prefix: "$ ",
             groupSeparator: ",",
-            radixPoint: ".",
             alias: "numeric",
             placeholder: "0",
             autoGroup: !0,
             digits: 2,
             digitsOptional: !1,
-            clearMaskOnLostFocus: !1,
-            decimalProtect: !0
+            clearMaskOnLostFocus: !1
         },
         decimal: {
             alias: "numeric"
         },
         integer: {
             alias: "numeric",
-            digits: "0"
+            digits: "0",
+            radixPoint: ""
         }
     }), $.fn.inputmask;
 });

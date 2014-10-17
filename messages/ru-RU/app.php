@@ -54,5 +54,15 @@ return [
     'Update Seller: '=>'Изменить продавца: ',
     'Products'=>'Товары',
     'Create Product'=>'Добавить товар',
-    'Update Product: '=>'Изменить товар: '
+    'Update Product: '=>'Изменить товар: ',
+    
+    'Packaging'=>'Фасовка',
+    'Packagings'=>'Фасовки',
+    'Create Packaging'=>'Создать фасовку',
+    'Packaging ID'=>'№',
+    'Packaging Icon'=>'Иконка',
+    'Packaging Title'=>'Название',
+    'Packaging Price'=>'Цена',
+    'packaging_icon'=>'Иконка',
+    'Update Packaging: '=>'Изменить фасовку: '
 ];

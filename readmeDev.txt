@@ -14,3 +14,7 @@ supply             manageSupply
 sysuser            manageSysuser
 
 
+
+
+http://demos.krajee.com/widget-details/fileinput#basic-usage
+

@@ -8,6 +8,7 @@ use app\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -21,6 +22,17 @@ class ProductController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update','delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update','delete'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
@@ -63,6 +75,12 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $file = \yii\web\UploadedFile::getInstanceByName('product_icon_file');
+            $iconfilename=$model->product_id.'.'.$file->getExtension();
+            if($file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
+                $model->product_icon=$iconfilename;
+                $model->save();                
+            }
             return $this->redirect(['view', 'id' => $model->product_id]);
         } else {
             return $this->render('create', [
@@ -82,6 +100,12 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $file = \yii\web\UploadedFile::getInstanceByName('product_icon_file');
+            $iconfilename='product'.$model->product_id.'.'.$file->getExtension();
+            if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
+                $model->product_icon=$iconfilename;
+                $model->save();                
+            }
             return $this->redirect(['view', 'id' => $model->product_id]);
         } else {
             return $this->render('update', [
@@ -98,8 +122,12 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model=$this->findModel($id);
+        $iconfilename=Yii::$app->params['file_root_dir'].'/'.$model->product_icon;
+        if(is_file($iconfilename)){
+            unlink($iconfilename);
+        }
+        $model->delete();
         return $this->redirect(['index']);
     }
 

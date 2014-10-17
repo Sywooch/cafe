@@ -29,11 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
             ['attribute' => 'product_id','filterOptions'=>['style'=>'width:100px;'],],
             'product_title',
-            'product_icon',
+            //'product_icon',
             'product_quantity',
             ['attribute' => 'product_unit','filterOptions'=>['style'=>'width:100px;'],],
-            // 'product_min_quantity',
-            // 'product_unit_price',
+            ['attribute' => 'product_min_quantity','filterOptions'=>['style'=>'width:100px;'],],
+            ['attribute' => 'product_unit_price','filterOptions'=>['style'=>'width:100px;'],],
 
             
         ],
