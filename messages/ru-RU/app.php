@@ -64,5 +64,10 @@ return [
     'Packaging Title'=>'Название',
     'Packaging Price'=>'Цена',
     'packaging_icon'=>'Иконка',
-    'Update Packaging: '=>'Изменить фасовку: '
+    'Update Packaging: '=>'Изменить фасовку: ',
+    
+    'Products in packaging'=>'Состав',
+    'Product'=>'Товар',
+    'Quantity'=>'Количество',
+    'Price'=>'Цена'
 ];

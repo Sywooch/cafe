@@ -76,10 +76,12 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $file = \yii\web\UploadedFile::getInstanceByName('product_icon_file');
-            $iconfilename=$model->product_id.'.'.$file->getExtension();
-            if($file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
-                $model->product_icon=$iconfilename;
-                $model->save();                
+            if($file){
+                $iconfilename=$model->product_id.'.'.$file->getExtension();
+                if($file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
+                    $model->product_icon=$iconfilename;
+                    $model->save();                
+                }
             }
             return $this->redirect(['view', 'id' => $model->product_id]);
         } else {
@@ -101,10 +103,12 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $file = \yii\web\UploadedFile::getInstanceByName('product_icon_file');
-            $iconfilename='product'.$model->product_id.'.'.$file->getExtension();
-            if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
-                $model->product_icon=$iconfilename;
-                $model->save();                
+            if($file){
+                $iconfilename='product'.$model->product_id.'.'.$file->getExtension();
+                if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
+                    $model->product_icon=$iconfilename;
+                    $model->save();                
+                }
             }
             return $this->redirect(['view', 'id' => $model->product_id]);
         } else {

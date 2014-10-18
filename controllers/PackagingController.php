@@ -135,6 +135,30 @@ class PackagingController extends Controller
         return $this->redirect(['index']);
     }
 
+    
+    public function actionProductlist($id){
+        $model=$this->findModel($id);
+        $productList=$model->getPackagingProducts()->all();
+        //var_dump($productList);
+        $result=Array();
+        foreach($productList as $it){
+            $item=Array();
+            $product=$it->getProduct()->one();
+            //var_dump($product);exit();
+            $item['product_id']=$product->product_id;
+            $item['product_title']=$product->product_title;
+            $item['product_unit']=$product->product_unit;
+            $item['product_unit_price']=$product->product_unit_price;
+            $item['packaging_product_quantity']=$it->packaging_product_quantity;
+            $item['packaging_product_price']=$it->packaging_product_quantity*$product->product_unit_price;
+            $result[]=$item;
+        }
+        //var_dump($result);
+        return json_encode($result);
+    }
+    
+    
+    
     /**
      * Finds the Packaging model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
