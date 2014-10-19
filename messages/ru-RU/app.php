@@ -69,5 +69,9 @@ return [
     'Products in packaging'=>'Состав',
     'Product'=>'Товар',
     'Quantity'=>'Количество',
-    'Price'=>'Цена'
+    'Price'=>'Цена',
+    'Select products ...'=>'Выберите товары',
+    'Add product to packaging'=>'Добавить в состав',
+    'Product quantity must be a number'=>'Количество должно быть числом, например 7.12 или 2',
+    'Select a product'=>'Выберите товар'
 ];

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use himiklab\thumbnail\EasyThumbnailImage;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Packaging */
@@ -47,3 +48,78 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+
+
+
+
+    <?php
+        $this->registerJs("
+        var currency='".\Yii::$app->params['currency']."';
+        var recalculateTotal=function(){
+            // alert('recalc');
+            //packaging_product_price
+            var summa=0;
+            $('.packaging_product_price').each(function(i, el){
+              var val=parseFloat($(el).text());
+              summa+=val;
+            });
+            //summa=0.01*Math.round(100*summa);
+            $('#totalPrice').html(summa.toFixed(2)+' '+currency);
+        }
+        var createRow=function(row){
+           var tr=$('<tr id=\"product'+row.product_id+'\"></tr>');
+           var td0=$('<td><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span></a></td>');
+           tr.append(td0);
+           
+           var td2=$('<td data-product_id=\"'+row.product_id+'\"></td>');
+           td2.html(row.product_title+', '+row.product_unit_price+' '+currency+'/'+row.product_unit);
+           tr.append(td2);
+           
+           var td3=$('<td></td>');
+           td3.html($('<span>'+row.packaging_product_quantity+'&nbsp;'+row.product_unit+'</span>'));
+           tr.append(td3);
+
+           var td5=$('<td class=\"packaging_product_price\"></td>');
+           td5.html(row.packaging_product_price+' '+currency);
+           tr.append(td5);
+
+           return tr;
+        }
+        var createTable = function () {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                dataType:'json',
+                url: '".Url::toRoute(['/packaging/productlist','id'=>$model->packaging_id])."',
+                success: function (response) {
+                    // console.log(response);
+                    var tableTotal=$('#productTotal')
+                    for(var i=0, cnt=response.length; i<cnt; i++){
+                        tableTotal.before(createRow(response[i]));
+                    }
+                    recalculateTotal();
+                }
+            });
+        }
+        $(window).load(createTable);
+       ");
+    ?>
+    <h3><?=Yii::t('app','Products in packaging')?></h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th><?=Yii::t('app','Product')?></th>
+                <th><?=Yii::t('app','Quantity')?></th>
+                <th><?=Yii::t('app','Price')?></th>
+            </tr>
+        </thead>
+        <tbody id="productList">
+            <tr id="productTotal">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th id="totalPrice"></th>
+            </tr> 
+        </tbody>
+    </table>

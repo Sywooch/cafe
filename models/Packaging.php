@@ -48,7 +48,7 @@ class Packaging extends \yii\db\ActiveRecord
             'packaging_id' => Yii::t('app','Packaging ID'),
             'packaging_icon' => Yii::t('app','Packaging Icon'),
             'packaging_title' => Yii::t('app','Packaging Title'),
-            'packaging_price' => Yii::t('app','Packaging Price'),
+            'packaging_price' => Yii::t('app','Packaging Price').', '.\Yii::$app->params['currency'],
         ];
     }
 

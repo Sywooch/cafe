@@ -9,4 +9,5 @@ return [
     'file_root_url'=>'/cafe/web/files',
     'icon_width'=>150,
     'icon_height'=>150,
+    'currency'=>'руб'
 ];

@@ -32,27 +32,49 @@ class PackagingProductController extends \yii\web\Controller {
         ];
     }
 
-    public function actionCreate($product_id, $packaging_id, $packaging_product_quantity) {
+    public function actionCreate() {
+        $product_id=\Yii::$app->request->post('product_id');
+        $packaging_id=\Yii::$app->request->post('packaging_id');
+        $packaging_product_quantity=\Yii::$app->request->post('packaging_product_quantity');
+
         $model=new PackagingProduct();
         $model->product_id=$product_id;
         $model->packaging_id=$packaging_id;
-        $model->packaging_product_quantity=$packaging_product_quantity;
+        $model->packaging_product_quantity=str_replace(',','.',$packaging_product_quantity);
         $model->save();
-        return 'OK';
+        
+        
+        
+        $item=Array();
+        $product=$model->getProduct()->one();
+        //var_dump($product);exit();
+        $item['product_id']=$product->product_id;
+        $item['product_title']=$product->product_title;
+        $item['product_unit']=$product->product_unit;
+        $item['product_unit_price']=$product->product_unit_price;
+        $item['packaging_product_quantity']=$model->packaging_product_quantity;
+        $item['packaging_product_price']=$model->packaging_product_quantity*$product->product_unit_price;
+
+        //var_dump($result);
+        return json_encode($item);
     }
 
-    public function actionDelete($product_id, $packaging_id) {
+    public function actionDelete() {
+        $product_id=\Yii::$app->request->post('product_id');
+        $packaging_id=\Yii::$app->request->post('packaging_id');
         $model=$this->findModel($product_id, $packaging_id);
         $model->delete();
         return 'OK';
-        //return $this->render('delete');
     }
 
     public function actionIndex() {
         return 'OK';
     }
 
-    public function actionUpdate($product_id, $packaging_id, $packaging_product_quantity) {
+    public function actionUpdate() {
+        $product_id=\Yii::$app->request->post('product_id');
+        $packaging_id=\Yii::$app->request->post('packaging_id');
+        $packaging_product_quantity=\Yii::$app->request->post('packaging_product_quantity');
         $model=$this->findModel($product_id, $packaging_id);
         $model->packaging_product_quantity=$packaging_product_quantity;
         $model->update();
