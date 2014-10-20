@@ -73,5 +73,13 @@ return [
     'Select products ...'=>'Выберите товары',
     'Add product to packaging'=>'Добавить в состав',
     'Product quantity must be a number'=>'Количество должно быть числом, например 7.12 или 2',
-    'Select a product'=>'Выберите товар'
+    'Select a product'=>'Выберите товар',
+    'Packaging Category'=>'Категория',
+    'Categories'=>'Категории',
+    'Create Category'=>'Создать категорию',
+    'Category ID'=>'№',
+    'Category Title'=>'Название',
+    'Packaging is additional'=>'Дополнительная',
+    'yes'=>'Да',
+    'no'=>'Нет'
 ];

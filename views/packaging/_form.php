@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
+use app\models\Category;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Packaging */
@@ -16,6 +18,10 @@ use kartik\widgets\FileInput;
     <?= $form->field($model, 'packaging_title')->textInput(['maxlength' => 32]) ?>
 
     <?= $form->field($model, 'packaging_price')->textInput() ?>
+    
+    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'category_id', 'category_title'),[]) ?>
+    
+    <?= $form->field($model, 'packaging_is_additional')->checkbox() ?>
 
     
     <?php
