@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * PosController implements the CRUD actions for Pos model.
@@ -26,11 +27,11 @@ class PosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update','delete'],
+                'only' => ['index', 'view', 'create', 'update','delete','products'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update','delete','products'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -102,6 +103,20 @@ class PosController extends Controller
         }
     }
 
+    public function actionProducts($id){
+        $model = $this->findModel($id);
+        //$dataProvider=$model->getPosProducts();
+        $query = $model->getPosProducts();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return $this->render('products', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    
     /**
      * Deletes an existing Pos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

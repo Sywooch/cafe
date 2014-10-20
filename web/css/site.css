@@ -96,3 +96,13 @@ a.desc:after {
 .table{
     width:auto;
 }
+
+.warning-marker{
+    display:inline-block;
+    width:25px;
+    height:25px;
+    background-color: orange;
+    text-align:center;
+    padding:1px;
+    font-weight:bold;
+}

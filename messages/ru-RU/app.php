@@ -81,5 +81,10 @@ return [
     'Category Title'=>'Название',
     'Packaging is additional'=>'Дополнительная',
     'yes'=>'Да',
-    'no'=>'Нет'
+    'no'=>'Нет',
+    'Pos-product-list {pos_title}'=>'Запасы в точке реализации "{pos_title}"',
+    'Pos-product-list'=>'Запасы',
+    'pos_product_quantity'=>'Количество',
+    'pos_product_min_quantity'=>'Мин.количество',
+    'Supply-needed'=>'Нужна поставка'
 ];

@@ -5,6 +5,8 @@ http://www.yiiframework.com/doc-2.0/yii-helpers-html.html
 
 http://www.yiiframework.com/doc-2.0/yii-db-activerecord.html
 
+http://www.yiiframework.com/doc-2.0/yii-grid-gridview.html
+
 http://demos.krajee.com/widget-details/select2
 
 http://demos.krajee.com/widget-details/fileinput
@@ -27,6 +29,18 @@ echo Url::canonical(); // получаем canonical URL для текущей �
 echo Url::home(); // получаем домашний URL
 Url::remember(); // сохраняем URL для последующего использования
 Url::previous(); // получаем ранее сохранённый URL
+
+
+
+   <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
+
+    <?= $form->field($model, 'packaging_title')->textInput(['maxlength' => 32]) ?>
+
+    <?= $form->field($model, 'packaging_price')->textInput() ?>
+    
+    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'category_id', 'category_title'),[]) ?>
+    
+    <?= $form->field($model, 'packaging_is_additional')->checkbox() ?>
 
 
 

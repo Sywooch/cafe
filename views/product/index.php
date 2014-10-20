@@ -26,11 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'buttons'=>[
+                //   'update'=>function ($url, $model, $key) {
+                //               //return $model->status == 'editable' ? Html::a('Update', $url) : '';
+                //               return Html::a('Update', '#');
+                //             }
+                //]
+            ],
             ['attribute' => 'product_id','filterOptions'=>['style'=>'width:100px;'],],
             'product_title',
             //'product_icon',
-            'product_quantity',
+            ['attribute' => 'product_quantity','filterOptions'=>['style'=>'width:100px;'],],
             ['attribute' => 'product_unit','filterOptions'=>['style'=>'width:100px;'],],
             ['attribute' => 'product_min_quantity','filterOptions'=>['style'=>'width:100px;'],],
             ['attribute' => 'product_unit_price','filterOptions'=>['style'=>'width:100px;'],],
