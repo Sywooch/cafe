@@ -42,7 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'product_unit','filterOptions'=>['style'=>'width:100px;'],],
             ['attribute' => 'product_min_quantity','filterOptions'=>['style'=>'width:100px;'],],
             ['attribute' => 'product_unit_price','filterOptions'=>['style'=>'width:100px;'],],
-
+            
+            [
+               'label'=>Yii::t('app', 'Supply-needed'),
+                'content'=>function ($model, $key, $index, $column){
+                                return ($model->product_quantity<=$model->product_min_quantity?"<span class=\"warning-marker\">!</span>":"");
+                           }
+            ],
             
         ],
     ]); ?>

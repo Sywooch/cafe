@@ -5,11 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Pos;
 use app\models\PosSearch;
+use app\models\Supply;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+
 
 /**
  * PosController implements the CRUD actions for Pos model.
@@ -27,11 +30,11 @@ class PosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update','delete','products'],
+                'only' => ['index', 'view', 'create', 'update','delete','products','supply'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','delete','products'],
+                        'actions' => ['index', 'view', 'create', 'update','delete','products','supply'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -116,6 +119,15 @@ class PosController extends Controller
         ]);
     }
     
+    
+    public function actionSupply($id){
+        $model = $this->findModel($id);
+        $dataProvider=Supply::getSupply($id);        
+        return $this->render('supply', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     
     /**
      * Deletes an existing Pos model.

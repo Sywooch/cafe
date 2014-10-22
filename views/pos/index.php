@@ -28,12 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\SerialColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}&nbsp;{update}{products}&nbsp;&nbsp;&nbsp;{delete}',
+                'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
                 'buttons'=>[
                    'products'=>function ($url, $model, $key) {
                                return '<b>'.Html::a(' 3 ', $url,['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
                                //return "<span>X</span>";
-                             }
+                             },
+                   'supply'=>function ($url, $model, $key) {
+                               return '<b>'.Html::a(' П ', $url,['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
+                               //return "<span>X</span>";
+                             },
+                                     
                 ]
             ],
             ['attribute' => 'pos_id','filterOptions'=>['style'=>'width:100px;'],],

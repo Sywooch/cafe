@@ -1,9 +1,15 @@
 
 roles: admin, seller
 
+http://www.yiiframework.com/doc-2.0/guide-README.html
+
 http://www.yiiframework.com/doc-2.0/yii-helpers-html.html
 
 http://www.yiiframework.com/doc-2.0/yii-db-activerecord.html
+
+http://www.yiiframework.com/doc-2.0/yii-db-activequeryinterface.html
+
+http://www.yiiframework.com/doc-2.0/guide-db-dao.html
 
 http://www.yiiframework.com/doc-2.0/yii-grid-gridview.html
 
@@ -64,15 +70,16 @@ packaging_title         varchar(32)  utf8_general_ci  YES             (NULL)    
 packaging_price         double       (NULL)           YES             (NULL)           select,insert,update,references           
 order_packaging_number  int(11)      (NULL)           YES             (NULL)           select,insert,update,references           
 
-// 
+
+
+// поставки
 pos_id           bigint(20)  (NULL)     NO      PRI     (NULL)           select,insert,update,references           
 product_id       bigint(20)  (NULL)     NO      PRI     (NULL)           select,insert,update,references           
 supply_quantity  double      (NULL)     YES             (NULL)           select,insert,update,references           
 
 
-
-
-
+// категория фасовки
++ тема категории
 
 // запасы товаров в точке реализации
 pos_id                    bigint(20)  (NULL)     NO      PRI     (NULL)           select,insert,update,references           
