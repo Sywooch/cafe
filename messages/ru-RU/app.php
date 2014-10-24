@@ -88,12 +88,14 @@ return [
     'pos_product_min_quantity'=>'Мин.количество',
     'Supply-needed'=>'Нужна поставка',
     'Update Category: '=>'Изменить категорию',
-    'Pos-product-supply'=>'Поставки',
+    'Pos-product-supply'=>'План поставки',
     'Pos-product-supply {pos_title}'=>'План поставки: {pos_title}',
     'Product quantity'=>'Товара на складе',
     'Product quantity available'=>'Доступно на складе',
     'Supplied quantity'=>'Будет поставлено',
     'Supply.pos_product_quantity'=>'Кол-во в точке',
-    'Supply.pos_product_min_quantity'=>'Мин.кол-во в точке'
-    
+    'Supply.pos_product_min_quantity'=>'Мин.кол-во в точке',
+    'Pos-product-supply-print {pos_title}'=>'Печать поставок: {pos_title}',
+    'Pos-product-supply-print'=>'Печать поставок',
+    'Category Skin'=>'Тема оформления вкладки с товарами'
 ];

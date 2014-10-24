@@ -30,11 +30,11 @@ class PosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update','delete','products','supply'],
+                'only' => ['index', 'view', 'create', 'update','delete','products','supply','supplyprint'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','delete','products','supply'],
+                        'actions' => ['index', 'view', 'create', 'update','delete','products','supply','supplyprint'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -124,6 +124,16 @@ class PosController extends Controller
         $model = $this->findModel($id);
         $dataProvider=Supply::getSupply($id);        
         return $this->render('supply', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    
+    public function actionSupplyprint($id){
+        $model = $this->findModel($id);
+        $dataProvider=Supply::getSupplyPrint($id);        
+        return $this->render('supplyprint', [
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);

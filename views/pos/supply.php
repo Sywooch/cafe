@@ -16,13 +16,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="pos-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <p>
+        <?= Html::a(Yii::t('app', 'Pos-product-supply-print',['pos_title'=>$model->pos_title]), ['supplyprint','id'=>$model->pos_id], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $model,
         'columns' => [
-            
+            [
+               'label'=>Yii::t('app', 'Supply-needed'),
+               'content'=>function ($model, $key, $index, $column){
+                              return ($model['pos_product_quantity']<=$model['pos_product_min_quantity']?"<span class=\"warning-marker\">!</span>":"");
+                          }
+            ],
             'product_title:text:'.\Yii::t('app','Product'),
             //'product_quantity:integer:'.\Yii::t('app','product_quantity'),
             //'product_unit',
@@ -50,12 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
                'label'=>Yii::t('app', 'Supply.pos_product_min_quantity'),
                'content'=>function ($model, $key, $index, $column){
                               return $model['pos_product_min_quantity'].' '.$model['product_unit'];
-                          }
-            ],
-            [
-               'label'=>Yii::t('app', 'Supply-needed'),
-               'content'=>function ($model, $key, $index, $column){
-                              return ($model['pos_product_quantity']<=$model['pos_product_min_quantity']?"<span class=\"warning-marker\">!</span>":"");
                           }
             ],
 
@@ -99,39 +100,20 @@ $this->params['breadcrumbs'][] = $this->title;
             
     <?php
     /*
-       'pos_id', 'p.product_id', 'p.product_title', 'p.product_quantity', 'p.product_unit', 'p.product_unit_price',
+     * 'pos_id', 'p.product_id', 'p.product_title', 'p.product_quantity', 'p.product_unit', 'p.product_unit_price',
      * 'pos_product_quantity', 'pos_product_min_quantity', 'supply_quantity','other_pos_supply'  
-     * 
-     * 
-     * 
-     *    
+     */
     $this->registerJs("
-        function update_min_quantity(product_id, pos_id, pos_product_min_quantity){
+        function update_supply_quantity(product_id, pos_id, supply_quantity){
             $.ajax({
                 type: 'POST',
                 cache: false,
                 dataType:'json',
-                url: '" . Url::toRoute(['/posproduct/update']) . "',
+                url: '" . Url::toRoute(['/supply/update']) . "',
                 data:{
                   product_id:product_id,
                   pos_id:pos_id,
-                  pos_product_min_quantity:pos_product_min_quantity
-                },
-                success: function (response) {
-                }
-            });
-
-        }
-        function update_quantity(product_id, pos_id, pos_product_quantity){
-            $.ajax({
-                type: 'POST',
-                cache: false,
-                dataType:'json',
-                url: '" . Url::toRoute(['/posproduct/updatequantity']) . "',
-                data:{
-                  product_id:product_id,
-                  pos_id:pos_id,
-                  pos_product_quantity:pos_product_quantity
+                  supply_quantity:supply_quantity
                 },
                 success: function (response) {
                 }
@@ -139,26 +121,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
         }
         function activateForm(){
-        
-            $('.pos_product_quantity').change(function(event){
+            $('.supply_quantity').change(function(event){
                 var ele=$(event.target);
                 var product_id=ele.attr('data-product-id');
                 var pos_id=ele.attr('data-pos-id');
-                var pos_product_quantity=ele.val();
-                update_quantity(product_id, pos_id, pos_product_quantity);
-            });
-
-            $('.pos_product_min_quantity').change(function(event){
-                var ele=$(event.target);
-                var product_id=ele.attr('data-product-id');
-                var pos_id=ele.attr('data-pos-id');
-                var pos_product_min_quantity=ele.val();
-                update_min_quantity(product_id, pos_id, pos_product_min_quantity);
+                var supply_quantity=ele.val();
+                update_supply_quantity(product_id, pos_id, supply_quantity);
             });
         }
         $(window).load(activateForm);    
     ");        
-            */
+
     ?>
 
 </div>

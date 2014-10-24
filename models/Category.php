@@ -28,7 +28,7 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_title'], 'string', 'max' => 64]
+            [['category_title','category_skin'], 'string', 'max' => 64]
         ];
     }
 
@@ -40,6 +40,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             'category_id' => Yii::t('app', 'Category ID'),
             'category_title' => Yii::t('app', 'Category Title'),
+            'category_skin' => Yii::t('app', 'Category Skin'),
         ];
     }
 

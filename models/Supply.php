@@ -97,4 +97,32 @@ class Supply extends \yii\db\ActiveRecord
         ]);
         return $dataProvider;
     }
+    
+    
+    public static function getSupplyPrint($pos_id){
+        // выбрать список всех товаров
+        //    для каждого товара показать кол-во, которое осталось от поставок в другие точки
+        //    кол-во, которое есть в текущей точке
+        //    кол-во запланированной поставки
+        
+
+        $pos_id*=1;
+        $query="SELECT  {$pos_id} as pos_id, p.product_id, p.product_title, p.product_unit, s.`supply_quantity`
+                FROM product p INNER JOIN supply s ON (s.pos_id={$pos_id} AND p.product_id=s.product_id)
+                ORDER BY p.product_title";
+        $data = \Yii::$app->db->createCommand($query, [])->queryAll();
+                     
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $data,
+            'sort' => [
+                'attributes' => ['pos_id', 'p.product_id', 'p.product_title', 'p.product_quantity', 'p.product_unit', 'p.product_unit_price','pos_product_quantity', 'pos_product_min_quantity', 'supply_quantity','other_pos_supply'],
+            ],
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+        ]);
+        return $dataProvider;
+    }
+    
+    
 }

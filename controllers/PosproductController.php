@@ -38,6 +38,7 @@ class PosproductController extends \yii\web\Controller {
 
         
         $model=$this->findModel($product_id, $pos_id);
+        
         $model->pos_product_min_quantity=$pos_product_min_quantity;
         $model->update();
         return 'OK';

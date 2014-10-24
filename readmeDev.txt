@@ -13,13 +13,14 @@ http://www.yiiframework.com/doc-2.0/guide-db-dao.html
 
 http://www.yiiframework.com/doc-2.0/yii-grid-gridview.html
 
+http://www.yiiframework.com/doc-2.0/yii-web-view.html
+
 http://demos.krajee.com/widget-details/select2
 
 http://demos.krajee.com/widget-details/fileinput
 
 http://demos.krajee.com/widget-details/active-form
 
-http://www.yiiframework.com/doc-2.0/yii-web-view.html
 
 // =================================================================================================
 // URLs

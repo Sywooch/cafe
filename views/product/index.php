@@ -38,10 +38,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'product_id','filterOptions'=>['style'=>'width:100px;'],],
             'product_title',
             //'product_icon',
-            ['attribute' => 'product_quantity','filterOptions'=>['style'=>'width:100px;'],],
-            ['attribute' => 'product_unit','filterOptions'=>['style'=>'width:100px;'],],
-            ['attribute' => 'product_min_quantity','filterOptions'=>['style'=>'width:100px;'],],
-            ['attribute' => 'product_unit_price','filterOptions'=>['style'=>'width:100px;'],],
+            //['attribute' => 'product_quantity','filterOptions'=>['style'=>'width:100px;'],],
+            [
+                'label' => Yii::t('app','product_quantity'),
+                'filterOptions'=>['style'=>'width:100px;'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->product_quantity.' '.$model->product_unit;
+                          }
+            ],
+            // ['attribute' => 'product_unit','filterOptions'=>['style'=>'width:100px;'],],
+            //['attribute' => 'product_min_quantity','filterOptions'=>['style'=>'width:100px;'],],
+            [
+                'label' => Yii::t('app','product_min_quantity'),
+                'filterOptions'=>['style'=>'width:100px;'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->product_min_quantity.' '.$model->product_unit;
+                          }
+            ],
+            //['attribute' => 'product_unit_price','filterOptions'=>['style'=>'width:100px;'],],
+            [
+                'label' => Yii::t('app','product_unit_price'),
+                'filterOptions'=>['style'=>'width:100px;'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->product_unit_price.' '.Yii::$app->params['currency'];
+                          }
+            ],
             
             [
                'label'=>Yii::t('app', 'Supply-needed'),

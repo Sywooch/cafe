@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="category-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -28,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['attribute' => 'category_id','filterOptions'=>['style'=>'width:100px;'],],
             'category_title',
-
+            'category_skin',
             
         ],
     ]); ?>

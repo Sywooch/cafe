@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Pos */
 
-$this->title = $model->pos_id .'. '.$model->pos_title;
+$this->title = $model->pos_title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->pos_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Pos-product-list'), ['products', 'pos_id' => $model->pos_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Pos-product-supply'), ['supply', 'id' => $model->pos_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Pos-product-supply-print'), ['supplyprint', 'id' => $model->pos_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->pos_id], [
             'class' => 'btn btn-danger',
             'data' => [
