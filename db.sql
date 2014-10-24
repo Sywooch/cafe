@@ -81,6 +81,21 @@ CREATE TABLE `auth_rule` (
 
 /*Data for the table `auth_rule` */
 
+/*Table structure for table `category` */
+
+DROP TABLE IF EXISTS `category`;
+
+CREATE TABLE `category` (
+  `category_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `category_title` varchar(64) DEFAULT NULL,
+  `category_skin` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `category` */
+
+insert  into `category`(`category_id`,`category_title`,`category_skin`) values (1,'Чай','tea'),(2,'Кофе','coffee'),(3,'Вкусняшки','food');
+
 /*Table structure for table `order` */
 
 DROP TABLE IF EXISTS `order`;
@@ -136,10 +151,16 @@ CREATE TABLE `packaging` (
   `packaging_icon` varchar(1024) DEFAULT NULL,
   `packaging_title` varchar(32) DEFAULT NULL,
   `packaging_price` double DEFAULT NULL,
-  PRIMARY KEY (`packaging_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `category_id` bigint(20) DEFAULT NULL,
+  `packaging_is_additional` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`packaging_id`),
+  KEY `catg` (`category_id`),
+  CONSTRAINT `catg` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `packaging` */
+
+insert  into `packaging`(`packaging_id`,`packaging_icon`,`packaging_title`,`packaging_price`,`category_id`,`packaging_is_additional`) values (1,'packaging1.jpg','Кофе со сливками, 200 г',15,NULL,1);
 
 /*Table structure for table `packaging_product` */
 
@@ -157,6 +178,8 @@ CREATE TABLE `packaging_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `packaging_product` */
+
+insert  into `packaging_product`(`packaging_id`,`product_id`,`packaging_product_quantity`) values (1,1,0.003),(1,2,0.005),(1,3,0.2);
 
 /*Table structure for table `pos` */
 
@@ -192,6 +215,8 @@ CREATE TABLE `pos_product` (
 
 /*Data for the table `pos_product` */
 
+insert  into `pos_product`(`pos_id`,`product_id`,`pos_product_quantity`,`pos_product_min_quantity`) values (1,1,6,3),(1,2,25,11),(1,3,30,0);
+
 /*Table structure for table `product` */
 
 DROP TABLE IF EXISTS `product`;
@@ -205,11 +230,11 @@ CREATE TABLE `product` (
   `product_min_quantity` double DEFAULT NULL,
   `product_unit_price` double DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product` */
 
-insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','',10,'кг',2,1000);
+insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','1.jpg',10,'кг',12,1000),(2,'Сливки',NULL,100,'кг',20,35),(3,'Вода','product3.jpg',80,'л',20,1);
 
 /*Table structure for table `seller` */
 
