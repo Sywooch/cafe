@@ -97,5 +97,19 @@ return [
     'Supply.pos_product_min_quantity'=>'Мин.кол-во в точке',
     'Pos-product-supply-print {pos_title}'=>'Печать поставок: {pos_title}',
     'Pos-product-supply-print'=>'Печать поставок',
-    'Category Skin'=>'Тема оформления вкладки с товарами'
+    'Category Skin'=>'Тема оформления вкладки с товарами',
+    
+    'Order ID'=>'ID заказа',
+    'Pos ID'=>'Точка реализации',
+    'Seller ID'=>'Продавец',
+    'Sysuser ID'=>'Пользователь',
+    'Order Datetime'=>'Дата и время заказа',
+    'Order Day Sequence Number'=>'Номер',
+    'Order Total'=>'Сумма',
+    'Order Discount'=>'Скидка',
+    'Order Payment Type'=>'Способ оплаты',
+    'Order Hash'=>'Контрольная сумма',
+    'Orders'=>'Заказы',
+    'Order {id}'=>'Заказ {id}',
+    'Order Items'=>'Состав заказа'
 ];

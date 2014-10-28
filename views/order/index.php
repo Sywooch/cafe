@@ -1,0 +1,60 @@
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\OrderSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('app', 'Orders');
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="order-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+    /*
+    <p>
+        <?= Html::a(Yii::t('app', 'Create {modelClass}', ['modelClass' => 'Order',]), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    */
+    ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            //['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
+                'template' => '{view}',
+            ],
+
+            ['attribute' => 'order_id','filterOptions'=>['class'=>'numFilter'],],
+
+            //'pos_id',
+            [
+                'attribute' => 'pos.pos_title',
+                'format' => 'text',
+                'label' => Yii::t('app','pos_title'),
+                'filter' => true,
+            ],
+
+            //'seller_id',
+            //'sysuser_id',
+            'sysuser.sysuser_fullname',
+            ['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
+            
+            // 'order_day_sequence_number',
+            ['attribute' => 'order_total','filterOptions'=>['class'=>'numFilter'],],
+            ['attribute' => 'order_discount','filterOptions'=>['class'=>'numFilter'],],
+            'order_payment_type',
+            // 'order_hash',
+
+        ],
+    ]); ?>
+
+</div>

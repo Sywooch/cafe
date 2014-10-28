@@ -106,3 +106,7 @@ a.desc:after {
     padding:1px;
     font-weight:bold;
 }
+
+.numFilter{
+    width:100px;
+}

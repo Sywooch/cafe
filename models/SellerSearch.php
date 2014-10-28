@@ -48,14 +48,16 @@ class SellerSearch extends Seller {
      */
     public function search($params) {
         $query = Seller::find();
+        $query->joinWith(['sysuser']);
+        $query->joinWith(['pos']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $dataProvider->sort->attributes['sysuser.sysuser_fullname'] = [
-            'asc' => ['sysuser.sysuser_fullname' => SORT_ASC,'pos.pos_title'=>SORT_ASC],
-            'desc' => ['sysuser.sysuser_fullname' => SORT_DESC,'pos.pos_title'=>SORT_DESC],
+            'asc' => ['sysuser.sysuser_fullname' => SORT_ASC],
+            'desc' => ['sysuser.sysuser_fullname' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['pos.pos_title'] = [
             'asc' => ['pos.pos_title' => SORT_ASC],
@@ -79,8 +81,6 @@ class SellerSearch extends Seller {
         $query->andFilterWhere(['like', 'sysuser.sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
         $query->andFilterWhere(['like', 'pos.pos_title', $this->getAttribute('pos.pos_title')]);
         // filter by sysuser name
-        $query->joinWith(['sysuser']);
-        $query->joinWith(['pos']);
 
         return $dataProvider;
     }

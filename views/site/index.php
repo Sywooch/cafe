@@ -1,11 +1,11 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
+$this->title = 'POS-H - учёт продаж';
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>POS-h</h1>
+        <h1>POS<span style="color:silver;">H</span></h1>
 
         <p class="lead">Учет продаж</p>
 
