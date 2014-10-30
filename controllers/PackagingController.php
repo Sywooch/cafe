@@ -80,7 +80,7 @@ class PackagingController extends Controller
                 $iconfilename='packaging'.$model->packaging_id.'.'.$file->getExtension();
                 if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
                     $model->packaging_icon=$iconfilename;
-                    $model->save();                
+                    $model->save();
                 }                
             }
             return $this->redirect(['view', 'id' => $model->packaging_id]);

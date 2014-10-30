@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'packaging_icon',
             'packaging_title',
             ['attribute' => 'packaging_price','filterOptions'=>['style'=>'width:100px;'],],
+            'packaging_is_additional',
 
         ],
     ]); ?>

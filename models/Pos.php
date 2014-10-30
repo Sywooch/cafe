@@ -90,4 +90,53 @@ class Pos extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Supply::className(), ['pos_id' => 'pos_id']);
     }
+    
+    
+    
+    public function getAvailablePackaging(){
+        $pos_id=(int)$this->pos_id;
+        
+        // get all available packaging
+        $sql="SELECT packaging.*, MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available
+              FROM packaging_product 
+                   INNER JOIN packaging ON packaging.packaging_id=packaging_product.packaging_id
+                   LEFT JOIN pos_product 
+                   ON (pos_product.product_id=packaging_product.product_id 
+                       AND pos_product.pos_id={$pos_id}
+                       AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
+              WHERE NOT packaging.packaging_is_additional
+              GROUP BY packaging.packaging_id
+              HAVING packaging_is_available>0";
+        $dataBasic = \Yii::$app->db->createCommand($sql, [])->queryAll();
+        
+        
+        $sql="SELECT packaging.*, MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available
+              FROM packaging_product 
+                   INNER JOIN packaging ON packaging.packaging_id=packaging_product.packaging_id
+                   LEFT JOIN pos_product 
+                   ON (pos_product.product_id=packaging_product.product_id 
+                       AND pos_product.pos_id={$pos_id}
+                       AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
+              WHERE packaging.packaging_is_additional
+              GROUP BY packaging.packaging_id
+              HAVING packaging_is_available>0";
+        $dataAdditional=\Yii::$app->db->createCommand($sql, [])->queryAll();
+        
+        
+        // get all categories
+        $category_ids=Array();
+        $category_ids[]=0;
+        foreach($dataBasic as $item){
+            $category_ids[]=(int)$item['category_id'];
+        }
+        //
+        $sql="SELECT * FROM category WHERE category_id IN(".join(',',$category_ids).")";
+        $categories=\Yii::$app->db->createCommand($sql, [])->queryAll();
+        
+        return [
+            'packagingBasic'=>$dataBasic,
+            'packagingAdditional'=>$dataAdditional,
+            'category'=>$categories
+        ];
+    }
 }
