@@ -64,6 +64,7 @@ class Order extends \yii\db\ActiveRecord
             'order_discount' => Yii::t('app', 'Order Discount'),
             'order_payment_type' => Yii::t('app', 'Order Payment Type'),
             'order_hash' => Yii::t('app', 'Order Hash'),
+            'discount_title'=>Yii::t('app', 'Discount Title')
         ];
     }
 
@@ -90,7 +91,13 @@ class Order extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Sysuser::className(), ['sysuser_id' => 'sysuser_id']);
     }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDiscount()
+    {
+        return $this->hasOne(Discount::className(), ['discount_id' => 'discount_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -105,5 +112,29 @@ class Order extends \yii\db\ActiveRecord
     public function getPackagings()
     {
         return $this->hasMany(Packaging::className(), ['packaging_id' => 'packaging_id'])->viaTable('order_packaging', ['order_id' => 'order_id']);
+    }
+    
+    
+    public static function countOrders($pos_id,$date=false){
+        if($date===false){
+            $date=date('Y-m-d');
+        }else{
+            $timestamp=strtotime($date);
+            if($timestamp!==false){
+                $date=date('Y-m-d',$timestamp);
+            }else{
+                $date=date('Y-m-d');
+            }
+        }
+        
+        $pos_id=(int)$pos_id;
+        
+        $sql="SELECT COUNT(*) AS nOrders FROM `order` WHERE pos_id={$pos_id} AND order_datetime BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59';";
+        $nOrders=\Yii::$app->db->createCommand($sql, [])->queryOne();
+        return (int)$nOrders['nOrders'];
+    }
+    
+    public static function createOrderHash($pos_id, $seller_id, $order_datetime, $order_total, $order_discount){
+        return sha1("{$pos_id}+{$seller_id}+{$order_datetime}+{$order_total}+{$order_discount}" + Yii::$app->params['salt']);
     }
 }

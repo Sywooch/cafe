@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                      
                 ]
             ],
-            ['attribute' => 'pos_id','filterOptions'=>['style'=>'width:100px;'],],
+            ['attribute' => 'pos_id','filterOptions'=>['class'=>'numFilter'],],
             'pos_title',
             'pos_address',
             'pos_timetable',

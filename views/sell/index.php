@@ -1,11 +1,9 @@
 <?php
-/* @var $this yii\web\View */
-
-
+$this->title=Yii::t('app','Sell');
+//var img_root_url="< ? =Yii::$app->homeUrl? >/";
 ?>
-<h1>sell/index</h1>
-
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
+<script type="application/javascript">
+var pos_id=<?=$pos->pos_id?>;
+var sysuser_id=<?=$sysuser->sysuser_id?>;
+var seller_id=<?=($seller?$seller->seller_id:0)?>;
+</script>

@@ -75,4 +75,16 @@ class Seller extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Sysuser::className(), ['sysuser_id' => 'sysuser_id']);
     }
+    
+    public function getSellerStats($date){
+        
+        $sql="SELECT SUM(order_total) AS total, count(*) n FROM `order` WHERE pos_id=".((int)$this->pos_id)." AND order_datetime BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59'";
+        $ordersTotal=\Yii::$app->db->createCommand($sql, [])->queryOne();
+        $comission=$this->seller_commission_fee * 0.01 * $ordersTotal['total'];
+        
+        $sysuser=$this->getSysuser()->one();
+        
+        $stats=Array('total'=>$ordersTotal['total'], 'count'=>$ordersTotal['n'], 'comission'=>$comission, 'sysuser_fullname'=>$sysuser->sysuser_fullname);
+        return $stats;
+    }
 }

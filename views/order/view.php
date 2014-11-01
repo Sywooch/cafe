@@ -44,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                'label' => Yii::t('app', 'Order Total'),
                'value' => $model->order_total.' '.Yii::$app->params['currency'],
             ],
-            //'order_discount',
+            'order_discount',
+            'discount.discount_title',
             [                    // the owner name of the model
                'label' => Yii::t('app', 'Order Discount'),
                'value' => $model->order_discount.' '.Yii::$app->params['currency'],

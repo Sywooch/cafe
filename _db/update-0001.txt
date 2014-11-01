@@ -1,0 +1,4 @@
+CREATE TABLE `discount`( `discount_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, `discount_title` VARCHAR(32), `discount_description` TEXT, `discount_rule` TEXT, PRIMARY KEY (`discount_id`) ); 
+ALTER TABLE `order` ADD COLUMN `discount_id` BIGINT NULL AFTER `order_hash`; 
+ALTER TABLE `order` CHANGE `discount_id` `discount_id` BIGINT(20) UNSIGNED NULL, ADD CONSTRAINT `dscnt` FOREIGN KEY (`discount_id`) REFERENCES `discount`(`discount_id`) ON UPDATE CASCADE ON DELETE CASCADE; 
+ALTER TABLE `order` ADD COLUMN `discount_title` VARCHAR(32) NULL AFTER `discount_id`; 

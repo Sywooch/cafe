@@ -111,5 +111,15 @@ return [
     'Order Hash'=>'Контрольная сумма',
     'Orders'=>'Заказы',
     'Order {id}'=>'Заказ {id}',
-    'Order Items'=>'Состав заказа'
+    'Order Items'=>'Состав заказа',
+    'Posselector'=>'Выбор точки реализации',
+    'Sell'=>'Продажа',
+    'Discounts'=>'Скидки',
+    
+    'Discount ID'=>'#',
+    'Discount Title'=>'Название скидки',
+    'Discount Description'=>'Описание скидки',
+    'Discount Rule'=>'Правило вычисления (JavaScript)',
+    'Create Discount'=>'Создать скидку',
+    'Update Discount: '=>'Изменить скидку: '
 ];

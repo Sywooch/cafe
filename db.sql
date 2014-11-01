@@ -96,6 +96,22 @@ CREATE TABLE `category` (
 
 insert  into `category`(`category_id`,`category_title`,`category_skin`) values (1,'Чай','tea'),(2,'Кофе','coffee'),(3,'Вкусняшки','food');
 
+/*Table structure for table `discount` */
+
+DROP TABLE IF EXISTS `discount`;
+
+CREATE TABLE `discount` (
+  `discount_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `discount_title` varchar(32) DEFAULT NULL,
+  `discount_description` text,
+  `discount_rule` text,
+  PRIMARY KEY (`discount_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `discount` */
+
+insert  into `discount`(`discount_id`,`discount_title`,`discount_description`,`discount_rule`) values (1,'Студентам 500 мл за 100 руб','','');
+
 /*Table structure for table `order` */
 
 DROP TABLE IF EXISTS `order`;
@@ -111,17 +127,23 @@ CREATE TABLE `order` (
   `order_discount` double DEFAULT NULL,
   `order_payment_type` varchar(32) DEFAULT NULL,
   `order_hash` varchar(64) DEFAULT NULL,
+  `discount_id` bigint(20) unsigned DEFAULT NULL,
+  `discount_title` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`order_id`),
   KEY `pos` (`pos_id`),
   KEY `seller` (`seller_id`),
   KEY `sysuser` (`sysuser_id`),
   KEY `odt` (`order_datetime`),
+  KEY `dscnt` (`discount_id`),
+  CONSTRAINT `dscnt` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pos6` FOREIGN KEY (`pos_id`) REFERENCES `pos` (`pos_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seller6` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sysuser6` FOREIGN KEY (`sysuser_id`) REFERENCES `sysuser` (`sysuser_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `order` */
+
+insert  into `order`(`order_id`,`pos_id`,`seller_id`,`sysuser_id`,`order_datetime`,`order_day_sequence_number`,`order_total`,`order_discount`,`order_payment_type`,`order_hash`,`discount_id`,`discount_title`) values (1,1,1,5,'2014-11-01 22:20:45',1,1234,10,'cash','1234556789',NULL,NULL);
 
 /*Table structure for table `order_packaging` */
 
@@ -142,6 +164,8 @@ CREATE TABLE `order_packaging` (
 
 /*Data for the table `order_packaging` */
 
+insert  into `order_packaging`(`order_id`,`packaging_id`,`packaging_title`,`packaging_price`,`order_packaging_number`) values (1,1,'Кофе со сливками',15,2);
+
 /*Table structure for table `packaging` */
 
 DROP TABLE IF EXISTS `packaging`;
@@ -156,11 +180,11 @@ CREATE TABLE `packaging` (
   PRIMARY KEY (`packaging_id`),
   KEY `catg` (`category_id`),
   CONSTRAINT `catg` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `packaging` */
 
-insert  into `packaging`(`packaging_id`,`packaging_icon`,`packaging_title`,`packaging_price`,`category_id`,`packaging_is_additional`) values (1,'packaging1.jpg','Кофе со сливками, 200 г',15,NULL,1);
+insert  into `packaging`(`packaging_id`,`packaging_icon`,`packaging_title`,`packaging_price`,`category_id`,`packaging_is_additional`) values (1,'packaging1.jpg','Кофе со сливками, 200 г',15,1,0),(2,'packaging2.jpg','Кофе, 200 г',16,2,0),(3,'packaging3.jpg','Кофе, 100 г',20,2,0),(4,'packaging4.jpg','Сахар',3,3,1),(5,'packaging5.jpg','Сливки, 5 г.',4,3,1);
 
 /*Table structure for table `packaging_product` */
 
@@ -179,7 +203,7 @@ CREATE TABLE `packaging_product` (
 
 /*Data for the table `packaging_product` */
 
-insert  into `packaging_product`(`packaging_id`,`product_id`,`packaging_product_quantity`) values (1,1,0.003),(1,2,0.005),(1,3,0.2);
+insert  into `packaging_product`(`packaging_id`,`product_id`,`packaging_product_quantity`) values (1,1,0.003),(1,2,0.005),(1,3,0.2),(2,1,0.005),(2,3,0.2),(3,1,0.005),(3,3,0.1),(4,4,0.005),(5,2,0.005);
 
 /*Table structure for table `pos` */
 
@@ -215,7 +239,7 @@ CREATE TABLE `pos_product` (
 
 /*Data for the table `pos_product` */
 
-insert  into `pos_product`(`pos_id`,`product_id`,`pos_product_quantity`,`pos_product_min_quantity`) values (1,1,6,3),(1,2,25,11),(1,3,30,0);
+insert  into `pos_product`(`pos_id`,`product_id`,`pos_product_quantity`,`pos_product_min_quantity`) values (1,1,10,3),(1,2,25,11),(1,3,30,0),(1,4,1,0);
 
 /*Table structure for table `product` */
 
@@ -230,11 +254,11 @@ CREATE TABLE `product` (
   `product_min_quantity` double DEFAULT NULL,
   `product_unit_price` double DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product` */
 
-insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','1.jpg',10,'кг',12,1000),(2,'Сливки',NULL,100,'кг',20,35),(3,'Вода','product3.jpg',80,'л',20,1);
+insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','1.jpg',10,'кг',12,1000),(2,'Сливки',NULL,100,'кг',20,35),(3,'Вода','product3.jpg',80,'л',20,1),(4,'Сахар','4.jpg',100,'кг',10,57);
 
 /*Table structure for table `seller` */
 

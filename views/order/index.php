@@ -47,11 +47,23 @@ $this->params['breadcrumbs'][] = $this->title;
             //'sysuser_id',
             'sysuser.sysuser_fullname',
             ['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
-            
             // 'order_day_sequence_number',
-            ['attribute' => 'order_total','filterOptions'=>['class'=>'numFilter'],],
-            ['attribute' => 'order_discount','filterOptions'=>['class'=>'numFilter'],],
-            'order_payment_type',
+            [
+                'label' => Yii::t('app','Order Total'),
+                'filterOptions'=>['class'=>'numFilter'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->order_total.' '.Yii::$app->params['currency'];
+                           }
+            ],
+            [
+                'label' => Yii::t('app','Order Discount'),
+                'filterOptions'=>['class'=>'numFilter'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->order_discount.' '.Yii::$app->params['currency'];
+                           }
+            ],
+            'discount_title',
+            ['attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],],
             // 'order_hash',
 
         ],
