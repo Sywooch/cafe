@@ -162,6 +162,7 @@ textarea {
     height:100%;
     background-position:top center;
     background-repeat:no-repeat;
+    cursor:pointer;
 }
 
 .tip h5{
@@ -190,7 +191,7 @@ textarea {
 
 .tovar {
   display: inline-block;
-  overflow: hidden;
+  /*overflow-y: scroll;*/
   padding: 0 ;
   text-align: left;
   width: 100%;
@@ -206,6 +207,7 @@ textarea {
     width:120px;
     vertical-align:bottom;
     display:inline-block;
+    cursor:pointer;
 }
 .produkt{
     vertical-align:bottom;
@@ -248,6 +250,7 @@ textarea {
     background-position: bottom left;
     background-repeat: no-repeat; 
     border-right:2px solid white;
+    cursor:pointer;
 }
 .button_stat:hover{
     background-color:#906248;
@@ -289,7 +292,39 @@ textarea {
     text-align:left;
     vertical-align:top;
     display:inline-block;
-    height:60%;
+    height:51%;
+    position:relative;
+}
+.zakaz h2{
+    height:15%;
+}
+.zakaz #zakazItems{
+    height:70%;
+}
+.zakazScrollerDown, .zakazScrollerUp{
+    display:block;
+    position:absolute;
+    width:100%;
+    height:7%;
+    left:0;
+    background-color:#906248;
+    color:white;
+    opacity:0.0;
+    text-align:center;
+}
+.zakazScrollerDown{
+    bottom:0;
+}
+.zakazScrollerUp{
+    bottom:7%;
+}
+.zakazScrollerUp.active:hover,
+.zakazScrollerDown.active:hover{
+    opacity:0.8;
+}
+.zakazScrollerUp.active,
+.zakazScrollerDown.active{
+    opacity:1;
 }
 .new{
     height:7%;
@@ -302,40 +337,71 @@ textarea {
 }
 
 .stroka_zakaza{
-width:100%;
-vertical-align:top;
-display:inline-block;
+    width:98%;
+    vertical-align:top;
+    display:inline-block;
+    margin:0 0 0 2%;
+    position:relative;
 }
 
 .stroka_zakaza .nazvanie{
-width:40%;
-vertical-align:top;
-display:inline-block;
+    width:44%;
+    vertical-align:top;
+    display:inline-block;
 }
 .stroka_zakaza .plus{
-width:10%;
-vertical-align:top;
-display:inline-block;
+    vertical-align:top;
+    display:inline-block;
+    background-color:#AECB13;
+    padding:0px 5px 3px 5px;
+    cursor:pointer;
+    width:6%;
+    text-align:center;
+}
+.stroka_zakaza .plus:hover{
+    opacity:0.8;
 }
 .stroka_zakaza .kolichestvo{
-width:10%;
-vertical-align:top;
-display:inline-block;
+    min-width:10%;
+    vertical-align:top;
+    display:inline-block;
+    text-align:center;
+    background-color:#F3F5CE;
+    padding:0px 5px 3px 5px;
+}
+.stroka_zakaza p{
+    margin-bottom:2px;
 }
 .stroka_zakaza .minus{
-width:10%;
-vertical-align:top;
-display:inline-block;
+    vertical-align:top;
+    display:inline-block;
+    background-color:#FFBD01;
+    padding:0px 5px 3px 5px;
+    cursor:pointer;
+    width:6%;
+    text-align:center;
+}
+.stroka_zakaza .minus:hover{
+    opacity:0.8;
 }
 .stroka_zakaza .cena{
-width:10%;
-vertical-align:top;
-display:inline-block;
+    width:25%;
+    vertical-align:top;
+    display:inline-block;
+
 }
 .stroka_zakaza .otmena{
-width:10%;
-vertical-align:top;
-display:inline-block;
+    vertical-align:top;
+    display:inline-block;
+    background-color:#FF7000;
+    padding:0px 5px 3px 5px;
+    width:6%;
+    text-align:center;
+    position:absolute;
+    right:0px;
+}
+.stroka_zakaza .otmena:hover{
+    opacity:0.8;
 }
 .arrow3{
 width:100%;
@@ -355,9 +421,12 @@ margin:10px;
     height: 6%;
     left: 0;
     position: absolute;
-    text-align: center;
+    text-align: left;
     vertical-align: top;
     width: 100%;
+}
+.itogo h4{
+    margin-left:10px;
 }
 .itogo span{
     color:#88a201;
@@ -395,9 +464,14 @@ margin:10px;
     text-align:center;
     background-color:#a5c500;
     height:100%;
+    cursor:pointer;
 }
 .cash:hover{opacity:0.9;}
 
+
+.cash img, .card img{
+    margin-top:15px;
+}
 .card{
     width:50%;
     vertical-align:top;
@@ -405,6 +479,7 @@ margin:10px;
     text-align:center;
     background-color:#88a201;
     height:100%;
+    cursor:pointer;
 }
 .card:hover{opacity:0.9;}
 
@@ -414,6 +489,7 @@ margin:10px;
     display:inline-block;
     text-align:center;
     background-image: url('../img/pattern2.png'); background-position: top left; background-repeat: repeat; 
+    cursor:pointer;
 }
 .new h4{
     margin-top:10px;
@@ -460,6 +536,33 @@ z-index:10;
   background-image: linear-gradient(to bottom, #719935, #396133);
   text-decoration: none;
 }
+
+
+
+
+
+.calcRow{
+    margin-left:10px;
+}
+
+.col1{
+    display:inline-block;
+    width:150px;
+}
+
+
+#extraLinks{
+    display:inline-block;
+    position:absolute;
+    left:20px;
+    bottom:7%;
+    padding:20px;
+    background-color:#C5977D;
+}
+
+
+
+
 
 
 

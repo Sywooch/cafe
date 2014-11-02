@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
@@ -19,6 +18,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/custom.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" />
+    <link href="css/jquery-ui/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css"/>
     <?= $content ?>
 </head>
 <body>
@@ -31,7 +32,7 @@ AppAsset::register($this);
             --><div class="tovar tov_2" id="packagingAdditional"></div><!-- 
         --></div><!-- 
         --><div class="statistika"><!-- 
-            --><div class="button_stat"></div><!--
+            --><div class="button_stat" id="button_stat"></div><!--
 		--><div class="text_stat"><!-- 
                     --><div class="text_stat_1" id="sellerName">-</div><!--
                     --><div class="text_stat_2">заказов: <span id="ordersCount">-</span></div><!--
@@ -44,20 +45,22 @@ AppAsset::register($this);
         --><div class="zakaz"><!-- 
             --><h2>Заказ №<span id="zakazId"></span></h2><!-- 
             --><div id="zakazItems"></div><!-- 
+            --><div id="zakazScrollUp" class="zakazScrollerUp">&Delta;</div><!-- 
+            --><div id="zakazScrollDown" class="zakazScrollerDown">&nabla;</div><!-- 
         --></div><!-- 
         --><div class="itogo"><!-- 
-           --><h4>Итого: <span id="orderTotal"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
+           --><h4><span class="col1">Итого: </span><span id="orderTotal"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
         --></div><!-- 
         --><div class="raschet"><!-- 
-            --><h4>Получено: <input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
-            --><h4>Сдача: <span id="sdacha"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
+            --><h4>Калькулятор сдачи:</h4><div class="calcRow"><span class="col1">Получено: </span><input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></div><!-- 
+            --><div class="calcRow"><span class="col1">Сдача: </span><span id="sdacha"></span></div><!-- 
         --></div><!-- 
         --><div class="oplata"><!-- 
-            --><div class="cash"><!-- 
+            --><div class="cash" id="cachPaid"><!-- 
                 --><img src=img/cash.png><!-- 
                 --><h5>Оплачено наличными</h5><!-- 
             --></div><!--
-            --><div class="card"><!-- 
+            --><div class="card" id="cardPaid"><!-- 
                 --><img src=img/card.png><!-- 
                 --><h5>Оплачено картой</h5><!-- 
             --></div><!-- 
@@ -66,6 +69,12 @@ AppAsset::register($this);
     --></div><!--
  --></div>
 <?php $this->endBody() ?>
+<div id="dialog" title="<?=Yii::t('app','Processing the order')?>" style="display:none;"><img src="img/waiting.gif"></div>
+<span id='extraLinks' style="display:none;">
+<?=Html::a('Стартовая страница',['site/index'])?>
+</span>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/sell.js" type="text/javascript"></script>
 </body>
 </html>

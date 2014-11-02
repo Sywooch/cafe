@@ -1,6 +1,13 @@
 
-var packagingData={};
+window.packagingData={};
+window.orderData={};
+window.orderUpdateEnabled=true;
 
+function showMessage(){
+    if(confirm("Заказ уже обработан.\nСоздать новый заказ?")){
+        newOrder();
+    }
+}
 
 
 function loadPackaging(){
@@ -9,7 +16,7 @@ function loadPackaging(){
         success:function(data){
             var i, cnt;
             // console.log(data);
-            packagingData=data;
+            window.packagingData=data;
              
             // draw categories:
             drawCategories(data);
@@ -19,7 +26,6 @@ function loadPackaging(){
 
             // draw additional 
             drawAdditionalPackaging(data);
-            
         }
     } );
 }
@@ -57,7 +63,6 @@ function drawCategories(data){
     }
 }
 
-
 function domOneCategory(item){
     var element=$('<div class="tip"></div>');
     element.addClass(item.category_skin);
@@ -72,7 +77,6 @@ function domOneCategory(item){
     return element;
 }
 
-
 function categoryClicked(event){
     // alert('clicked!');
     // remove active class
@@ -83,9 +87,8 @@ function categoryClicked(event){
     var skin=element.attr('data-category_skin');
     $('#tovaryList').removeClass().addClass('tovary').addClass(skin);
     // re-draw packagingBasic
-    drawBasicPackaging(packagingData);
+    drawBasicPackaging(window.packagingData);
 }
-
 
 function domOnePackaging(item){
     var element=$('<div class="produkt_block"></div>');
@@ -123,6 +126,12 @@ function drawBasicPackaging(data){
             // console.log('skiped:'+data.packagingBasic[i].packaging_title);
         }
     }
+    
+    $("#packagingBasic").mCustomScrollbar({
+       axis:"y", // vertical scrollbar
+       theme:'dark-3',
+       mouseWheel:true
+    });
 }
 
 function drawAdditionalPackaging(data){
@@ -131,6 +140,11 @@ function drawAdditionalPackaging(data){
         var element=domOnePackaging(data.packagingAdditional[i]);
         $('#packagingAdditional').append(element);
     }
+    $("#packagingAdditional").mCustomScrollbar({
+       axis:"y", // vertical scrollbar
+       theme:'dark-3',
+       mouseWheel:true
+    });
 }
 
 function gotCacheChanged(){
@@ -138,9 +152,9 @@ function gotCacheChanged(){
     var orderTotal=$('#orderTotal').text();
     var sdacha=gotCache-orderTotal;
     if(sdacha<0){
-        $('#sdacha').empty().html('Покупатель заплатил слишком мало');
+        $('#sdacha').empty().html('Покупатель должен дать больше');
     }else{
-        $('#sdacha').empty().html(sdacha);
+        $('#sdacha').empty().html(sdacha+' '+currency);
     }
 }
 
@@ -167,18 +181,227 @@ function newOrder(){
         dataType:'json',
         success:function(data){
             $('#zakazId').empty().html(data.id);
+            window.orderData={order_day_sequence_number:data.id};
+            window.orderUpdateEnabled=true;
         }
     });
+    
 }
-
 
 function packagingClicked(event){
-    alert('clicked!');
+    if(!window.orderUpdateEnabled){
+        showMessage();
+        return;
+    }
+    //alert('clicked!');
     var element=$(this);
     // get data
-    // add to order
+    var packaging_id=element.attr('data-packaging_id');
+    // console.log(packaging_id+' clicked');
+    // search packaging by id
+    //console.log(window.packagingData);
+    var dat,i,packaging=false;
+    dat=window.packagingData.packagingAdditional;
+    for(i=0;i<dat.length && !packaging;i++){
+        if(packaging_id===dat[i].packaging_id){
+            packaging=dat[i];
+        }
+    }
+    dat=window.packagingData.packagingBasic;
+    for(i=0;i<dat.length && !packaging;i++){
+        if(packaging_id===dat[i].packaging_id){
+            packaging=dat[i];
+        }
+    }
+    // console.log(packaging);
+    if(packaging){
+        addPackagingToOrder(packaging);
+        updateOrderTotal();
+    }
+    
 }
 
+function addPackagingToOrder(packaging){
+    // add to order
+    if(window.orderData[packaging.packaging_id]){
+        window.orderData[packaging.packaging_id].count++;
+    }else{
+        window.orderData[packaging.packaging_id]={
+            count:1,
+            packaging:packaging
+        }
+    }
+
+    var orderItem=$('#orderItem'+packaging.packaging_id);
+    if(orderItem.length==0){
+        var dom=$('<div class="stroka_zakaza"></div>');
+        dom.attr('id','orderItem'+packaging.packaging_id);
+        
+        var html;
+        html=$('<div class="nazvanie"><p>'+packaging.packaging_title+'</p></div>');
+        dom.append(html);
+
+        html=$('<div class="minus" data-packaging_id="'+packaging.packaging_id+'">&ndash;</div>');
+        html.click(minusitem);
+        dom.append(html);
+
+        html=$('<div class="kolichestvo" id="orderItem'+packaging.packaging_id+'count">1</div>');
+        dom.append(html);
+
+        html=$('<div class="plus" data-packaging_id="'+packaging.packaging_id+'">+</div>');
+        html.click(plusitem);
+        dom.append(html);
+        
+        html=$('<div class="cena">&nbsp;&times;&nbsp;'+packaging.packaging_price+' '+currency+'</div>');
+        dom.append(html);
+        
+        html=$('<div class="otmena" data-packaging_id="'+packaging.packaging_id+'">&times;</div>');
+        html.click(removeitem);
+        dom.append(html);
+	
+        $('#zakazItems').append(dom);
+        //$("#zakazItems").mCustomScrollbar({
+        //   axis:"y", // vertical scrollbar
+        //   theme:'dark-3',
+        //   mouseWheel:true
+        //});
+    }else{
+        $('#orderItem'+packaging.packaging_id+'count').html(window.orderData[packaging.packaging_id].count);
+        
+    }
+    
+    updateOrderTotal();
+}
+
+function plusitem(event){
+    if(!window.orderUpdateEnabled){
+        showMessage();
+        return;
+    }
+    var el=$(this);
+    var packaging_id=el.attr('data-packaging_id');
+    window.orderData[packaging_id].count++;
+    $('#orderItem'+packaging_id+'count').html(window.orderData[packaging_id].count);
+    
+    updateOrderTotal();
+}
+
+function minusitem(event){
+    if(!window.orderUpdateEnabled){
+        showMessage();
+        return;
+    }
+    var el=$(this);
+    var packaging_id=el.attr('data-packaging_id');
+    window.orderData[packaging_id].count--;
+    
+    if(window.orderData[packaging_id].count>0){
+        $('#orderItem'+packaging_id+'count').html(window.orderData[packaging_id].count);    
+    }else{
+        delete(window.orderData[packaging_id]);
+        $('#orderItem'+packaging_id).remove();  
+    }
+    
+    updateOrderTotal();
+}
+
+function removeitem(event){
+    if(!window.orderUpdateEnabled){
+        showMessage();
+        return;
+    }
+    var el=$(this);
+    var packaging_id=el.attr('data-packaging_id');    
+    delete(window.orderData[packaging_id]);
+    $('#orderItem'+packaging_id).remove();  
+    
+    updateOrderTotal();
+}
+
+function updateOrderTotal(){
+    //alert('updateOrderTotal');
+    var total=0;
+    //console.log(window.orderData);
+    for(var packaging_id in window.orderData){
+        if(isNaN(packaging_id)){
+           continue; 
+        }
+        total+=window.orderData[packaging_id].count * window.orderData[packaging_id].packaging.packaging_price;
+    }
+    $('#orderTotal').empty().html(total);
+    gotCacheChanged();
+}
+
+
+function paid(paymentTypeName){
+
+    return function cachPaid(){
+
+        if(!window.orderUpdateEnabled){
+            showMessage();
+            return;
+        }
+
+        var order_packaging={};
+        var nItems=0;
+        for(var packaging_id in window.orderData){
+            if(isNaN(packaging_id)){
+               continue; 
+            }
+            order_packaging[packaging_id]=window.orderData[packaging_id].count;
+            nItems++;
+        }
+        
+        if(nItems==0){
+            return;
+        }
+        
+        
+        // block buttons
+        window.orderUpdateEnabled=false;
+        $( "#dialog" ).dialog( "open" );
+
+        
+        var post={
+            // r:'sell/createorder',
+            order:{
+                order_day_sequence_number:window.orderData.order_day_sequence_number,
+                order_payment_type:paymentTypeName,
+                discount_id:0,
+                order_discount:0,
+                order_packaging:order_packaging
+            }
+        };
+
+        jQuery.ajax( 'index.php?r=sell/createorder&pos_id='+pos_id , {
+            //dataType:'json',
+            type:"POST",
+            data:post,
+            success:function(data){
+                // console.log(data);
+                getStats();
+                $( "#dialog" ).dialog( "close" );
+                printReceipt();
+            }
+        } );
+    }
+}
+
+// TODO: order scroller
+
+function printReceipt(){
+    //
+        jQuery.ajax( printerUrl , {
+            //dataType:'json',
+            type:"POST",
+            //data:post,
+            success:function(data){
+                // console.log(data);
+                //getStats();
+                //$( "#dialog" ).dialog( "close" );
+            }
+        } );
+}
 
 $(window).load(function(){
     loadPackaging();
@@ -186,5 +409,13 @@ $(window).load(function(){
     $('#gotCache').keyup(gotCacheChanged);
     getStats();
     newOrder();
+    $('#cachPaid').click(paid('cach'));
+    $('#cardPaid').click(paid('card'));
+    
+    $( "#dialog" ).dialog({ autoOpen: false, modal: true });
+    
+    $('#button_stat').click(function(){
+        $( "#extraLinks" ).slideToggle("slow");
+    });
 });
 

@@ -121,5 +121,7 @@ return [
     'Discount Description'=>'Описание скидки',
     'Discount Rule'=>'Правило вычисления (JavaScript)',
     'Create Discount'=>'Создать скидку',
-    'Update Discount: '=>'Изменить скидку: '
+    'Update Discount: '=>'Изменить скидку: ',
+    'Duplicate Order'=>'Заказ можно добавить только один раз',
+    'Processing the order'=>'Обработка заказа'
 ];

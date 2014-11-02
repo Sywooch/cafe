@@ -10,6 +10,7 @@ return [
     'icon_width'=>150,
     'icon_height'=>150,
     'currency'=>'руб',
-    "categoryskins"=>"food,coffee,tea"
+    "categoryskins"=>"food,coffee,tea",
+    'printerUrl'=>'http://localhost:9000/'
     
 ];

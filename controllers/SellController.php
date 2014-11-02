@@ -47,6 +47,7 @@ class SellController extends \yii\web\Controller {
         $sysuser = \Yii::$app->user->getIdentity();
         $seller=false;
         if ($pos){
+            // echo "pos ";
             // pos found
             // check access
             $roles = \Yii::$app->authManager->getRolesByUser($sysuser->sysuser_id);
@@ -72,10 +73,13 @@ class SellController extends \yii\web\Controller {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
         } else {
+            // echo "pos not found";
             // pos not found
             $sellers = Seller::find()->where(['sysuser_id' => ((int) $sysuser->sysuser_id)])->all();
             $cnt=count($seller);
+            // echo "cnt=$cnt";
             if($cnt==0){
+                
                 // POS not found but admin can access any POS
                 $roles = \Yii::$app->authManager->getRolesByUser($sysuser->sysuser_id);
                 if (isset($roles['admin'])) {
@@ -86,12 +90,15 @@ class SellController extends \yii\web\Controller {
                 }
             }elseif($cnt==1){
                 $seller=$sellers[0];
-                $pos = $seller->getPos();
+                //echo $seller->seller_id;
+                $pos = $seller->getPos()->one();
+                // print_r( $pos );
             }elseif($cnt>1){
                 // redirect to POS selector
                 return $this->redirect(['posselector']);
             }
         }
+        //return 'ffff';
         return $this->render('index',['pos' => $pos,'sysuser'=>$sysuser,'seller'=>$seller]);
     }
 
@@ -160,11 +167,12 @@ class SellController extends \yii\web\Controller {
         return json_encode($packaging);
     }
 
-    public function actionCreateorder() {
+    public function actionCreateorder($pos_id) {
         // get userId
         $sysuser = \Yii::$app->user->getIdentity();
-        //print_r($sysuser->sysuser_id);exit();
 
+        // get pos record
+        $pos=Pos::findOne($pos_id);
         $seller = $pos->getSellers()->where(['sysuser_id' => ((int) $sysuser->sysuser_id)])->one();
         // print_r($seller);exit();
         //print_r($role['admin']);exit();
@@ -175,12 +183,20 @@ class SellController extends \yii\web\Controller {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
         }
-        // get pos record
-        $pos_id = $seller->pos_id;
-        $pos = Pos::findOne($pos_id);
 
         $orderData = \Yii::$app->request->post('order');
 
+        $order_datetime = date('Y-m-d H:i:s');
+        
+        // check order_day_sequence_number
+        $order_day_sequence_number = Order::countOrders($pos_id,$order_datetime)+1;
+        if($order_day_sequence_number != $orderData['order_day_sequence_number']){
+            return "{'status':'error', 'message':'".Yii::t('app','Duplicate Order')."}";
+        }
+        
+        
+        
+        
         // order_packaging is array of ($packaging_id=>$order_packaging_number) pairs
         $tmp = $orderData['order_packaging'];
         $order_packaging = Array();
@@ -194,9 +210,9 @@ class SellController extends \yii\web\Controller {
                     'order_packaging_number' => $order_packaging_number
                 ];
 
-                $order_total+=$packaging->packaging_price;
+                $order_total+=$packaging->packaging_price * $order_packaging_number;
 
-                $packagingProducts = $packaging->getPackagingProducts();
+                $packagingProducts = $packaging->getPackagingProducts()->all();
                 foreach ($packagingProducts as $pp) {
                     if (!isset($pos_product_update[$pp->product_id])) {
                         $pos_product_update[$pp->product_id] = 0;
@@ -211,7 +227,7 @@ class SellController extends \yii\web\Controller {
         $order->pos_id = $pos_id;
         $order->seller_id = $seller->seller_id;
         $order->sysuser_id = $sysuser->sysuser_id;
-        $order->order_datetime = date('Y-m-d H:i:s');
+        $order->order_datetime = $order_datetime;
         $order->order_day_sequence_number = Order::countOrders($pos_id,$order->order_datetime)+1;
         $order->order_total = $order_total;
         $order->order_payment_type = $orderData['order_payment_type'];
@@ -242,14 +258,13 @@ class SellController extends \yii\web\Controller {
         }
 
         // update pos product quantity
-        $posProducts=$pos->getPosProducts();
+        $posProducts=$pos->getPosProducts()->all();
         foreach($posProducts as $posProduct){
             if(isset($pos_product_update[$posProduct->product_id])){
                 $posProduct->pos_product_quantity-=$pos_product_update[$posProduct->product_id];
                 $posProduct->save();
             }
         }
-
         // return new order info
     }
 
