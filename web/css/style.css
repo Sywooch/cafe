@@ -163,10 +163,12 @@ textarea {
     background-position:top center;
     background-repeat:no-repeat;
     cursor:pointer;
+    vertical-align: top;
 }
 
 .tip h5{
-    margin-top: 92px;
+    margin-top: 75px;
+    line-height: 1em;
 }
 .tip img.imgtip{
     width:100%;
@@ -561,7 +563,10 @@ z-index:10;
 }
 
 
-
+#sdacha{
+    display:inline-block;
+    vertical-align:top;
+}
 
 
 

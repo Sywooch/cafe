@@ -28,7 +28,8 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_title','category_skin'], 'string', 'max' => 64]
+            [['category_title','category_skin'], 'string', 'max' => 64],
+            [['category_ordering'], 'integer'],
         ];
     }
 
@@ -41,6 +42,7 @@ class Category extends \yii\db\ActiveRecord
             'category_id' => Yii::t('app', 'Category ID'),
             'category_title' => Yii::t('app', 'Category Title'),
             'category_skin' => Yii::t('app', 'Category Skin'),
+            'category_ordering' => Yii::t('app', 'Category Ordering'),
         ];
     }
 

@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'category_id','filterOptions'=>['style'=>'width:100px;'],],
             'category_title',
             'category_skin',
-            
+            'category_ordering',
         ],
     ]); ?>
 

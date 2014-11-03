@@ -97,7 +97,7 @@ return [
     'Supply.pos_product_min_quantity'=>'Мин.кол-во в точке',
     'Pos-product-supply-print {pos_title}'=>'Печать поставок: {pos_title}',
     'Pos-product-supply-print'=>'Печать поставок',
-    'Category Skin'=>'Тема оформления вкладки с товарами',
+    'Category Skin'=>'Тема оформления',
     
     'Order ID'=>'ID заказа',
     'Pos ID'=>'Точка реализации',
@@ -123,5 +123,6 @@ return [
     'Create Discount'=>'Создать скидку',
     'Update Discount: '=>'Изменить скидку: ',
     'Duplicate Order'=>'Заказ можно добавить только один раз',
-    'Processing the order'=>'Обработка заказа'
+    'Processing the order'=>'Обработка заказа',
+    'Category Ordering'=>'Номер по порядку'
 ];

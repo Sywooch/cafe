@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
     ?>
     <?= $form->field($model, 'category_skin')->dropDownList($category_skin_options,[]) ?>
 
+    <?= $form->field($model, 'category_ordering')->textInput() ?>
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

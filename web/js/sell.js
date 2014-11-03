@@ -238,7 +238,7 @@ function addPackagingToOrder(packaging){
         dom.attr('id','orderItem'+packaging.packaging_id);
         
         var html;
-        html=$('<div class="nazvanie"><p>'+packaging.packaging_title+'</p></div>');
+        html=$('<div class="nazvanie">'+packaging.packaging_title+'</div>');
         dom.append(html);
 
         html=$('<div class="minus" data-packaging_id="'+packaging.packaging_id+'">&ndash;</div>');

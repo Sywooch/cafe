@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     $this->registerJs("
         var currency='".\Yii::$app->params['currency']."';
         var recalculateTotal=function(){
-            // alert('recalc');
+            //alert('recalc');
             //packaging_product_price
             var summa=0;
             $('.packaging_product_price').each(function(i, el){
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
            tr.append(td2);
            
            var td3=$('<td></td>');
-           td3.html($('<input type=\"text\" class=\"packaging_product_quantity\" data-unit-price=\"'+row.product_unit_price+'\" data-product_id=\"'+row.product_id+'\" value=\"'+row.packaging_product_quantity+'\" size=\"3\">&nbsp;<span>'+row.product_unit+'</span>'));
+           td3.html($('<input type=\"text\" class=\"packaging_product_quantity\" data-unit-price=\"'+row.product_unit_price+'\" data-product_id=\"'+row.product_id+'\" value=\"'+row.packaging_product_quantity+'\" size=\"5\">&nbsp;<span>'+row.product_unit+'</span>'));
            tr.append(td3);
 
            var td5=$('<td class=\"packaging_product_price\"></td>');
@@ -235,6 +235,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                     success: function (response) {
                         var tableTotal=$('#productTotal')
                         tableTotal.before(createRow(response));
+                        recalculateTotal();
                     }
                 });
             });

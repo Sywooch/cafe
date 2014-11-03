@@ -130,7 +130,7 @@ class Pos extends \yii\db\ActiveRecord
             $category_ids[]=(int)$item['category_id'];
         }
         //
-        $sql="SELECT * FROM category WHERE category_id IN(".join(',',$category_ids).")";
+        $sql="SELECT * FROM category WHERE category_id IN(".join(',',$category_ids).") ORDER BY category_ordering ASC";
         $categories=\Yii::$app->db->createCommand($sql, [])->queryAll();
         
         return [
