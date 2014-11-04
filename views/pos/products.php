@@ -37,14 +37,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                'label'=>Yii::t('app', 'pos_product_quantity'),
                 'content'=>function ($model, $key, $index, $column){
-                                return Html::textInput('pos_product_quantity', $model->pos_product_quantity, ['class'=>'pos_product_quantity','data-product-id'=>$model->product_id,'data-pos-id'=>$model->pos_id,'size'=>3]);
+                                $product=$model->getProduct()->one();
+                                return Html::textInput('pos_product_quantity', $model->pos_product_quantity, ['class'=>'pos_product_quantity','data-product-id'=>$model->product_id,'data-pos-id'=>$model->pos_id,'size'=>3]).' '.$product->product_unit;
                            }
             ], 
             // 'pos_product_min_quantity:text:'.Yii::t('app','pos_product_min_quantity'),
             [
                'label'=>Yii::t('app', 'pos_product_min_quantity'),
                 'content'=>function ($model, $key, $index, $column){
-                                return Html::textInput('pos_product_min_quantity', $model->pos_product_min_quantity, ['class'=>'pos_product_min_quantity','data-product-id'=>$model->product_id,'data-pos-id'=>$model->pos_id,'size'=>3]);
+                                $product=$model->getProduct()->one();
+                                return Html::textInput('pos_product_min_quantity', $model->pos_product_min_quantity, ['class'=>'pos_product_min_quantity','data-product-id'=>$model->product_id,'data-pos-id'=>$model->pos_id,'size'=>3]).' '.$product->product_unit;
                            }
             ], 
             [
