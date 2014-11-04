@@ -57,7 +57,8 @@ function drawCategories(data){
         if(activeCategoryId == data.category[i].category_id ){
             element.addClass('active');
             var skin=element.attr('data-category_skin');
-            $('#tovaryList').removeClass().addClass('tovary').addClass(skin);
+            //$('#tovaryList').removeClass().addClass('tovary').addClass(skin);
+            $('#packagingBasic').removeClass().addClass('tovar tov_1 '+skin);
         }
         $('#categories').append(element);
     }
@@ -85,7 +86,7 @@ function categoryClicked(event){
     var element=$(this);
     element.addClass('active');
     var skin=element.attr('data-category_skin');
-    $('#tovaryList').removeClass().addClass('tovary').addClass(skin);
+    $('#packagingBasic').removeClass().addClass('tovar tov_1 '+skin);
     // re-draw packagingBasic
     drawBasicPackaging(window.packagingData);
 }
@@ -99,7 +100,7 @@ function domOnePackaging(item){
     html+='<div class="produkt">';
     html+=item.imageThumb;
     //html+='<p>';
-    html+=item.packaging_title;
+    html+=item.packaging_title+'; '+item.packaging_price+"&nbsp;"+currency;
     //html+='</p>';
     html+='</div>';
     element.html(html);
