@@ -30,7 +30,7 @@ h1 {font-size:220%;}
 h2 {font-size:200%;text-align:center;}
 h3 {font-size:180%;}
 h4 {font-size:160%;}
-h5 {font-size:150%;}
+h5 {font-size:140%;}
 h6 {font-size:120%;}
 
 p, blockquote, ul, ol, td, th {margin-bottom:1em;line-height:1.6em;}
@@ -568,7 +568,9 @@ z-index:10;
     vertical-align:top;
 }
 
-
+#extraLinks a{
+    font-family:"Verdana",​"Tahoma",​sans-serif;
+}
 
 
 
@@ -587,7 +589,7 @@ z-index:10;
 .tea:hover{
     background-color:#ffbd01;
 }
-.tea.tovary{
+.tea.tovar{
     background:none;
 }
 .tea .produkt_block {
@@ -607,7 +609,7 @@ z-index:10;
 .coffee:hover{
     background-color:#ff7000;
 }
-.coffee.tovary{
+.coffee.tovar{
     background:none;
 }
 .coffee  .produkt_block {
@@ -626,6 +628,9 @@ z-index:10;
 .food:hover{
     background-color:#0aaa8e;
 }
+.food.tovar{
+    background:none;
+}
 .tovar .food{
     background: rgb(244, 245, 205);
     background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
@@ -637,6 +642,34 @@ z-index:10;
     background-repeat:no-repeat;
     background-position: top center;
 }
+
+
+
+
+
+
+.dobavki{
+    background-color:#a5c500;
+}
+.dobavki:hover{
+    background-color:#88a201;
+}
+.dobavki.tovar{
+    background:none;
+}
+.tovar .dobavki{
+background: rgb(244, 245, 205);
+background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background-image:url(../img/tip_4.png);
+    background-repeat:no-repeat;
+    background-position: top center;
+}
+
+
 
 
 .tovar .tip_4{

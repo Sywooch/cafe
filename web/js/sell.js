@@ -418,5 +418,15 @@ $(window).load(function(){
     $('#button_stat').click(function(){
         $( "#extraLinks" ).slideToggle("slow");
     });
+    
+    
+    var lnk=$('<a href="javascript:void(\'Товар получен\')">Товар получен</a>');
+    lnk.click(function(){
+        $.get( "index.php?r=supply/accept&pos_id="+pos_id, function( data ) {
+            alert( "ОК" );
+        });
+    });
+    $('#extraLinks').append(lnk);
+    
 });
 

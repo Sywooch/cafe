@@ -71,7 +71,8 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 <div id="dialog" title="<?=Yii::t('app','Processing the order')?>" style="display:none;"><img src="img/waiting.gif"></div>
 <span id='extraLinks' style="display:none;">
-<?=Html::a('Стартовая страница',['site/index'])?>
+<?=Html::a('Стартовая страница',['site/index'])?><br>
+
 </span>
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
