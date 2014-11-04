@@ -29,7 +29,7 @@ AppAsset::register($this);
         --><div class="tipy" id="categories"></div><!-- 
         --><div class="tovary" id="tovaryList"><!-- 
             --><div class="tovar tov_1" id="packagingBasic"></div><!-- 
-            --><div class="tovar tov_2" id="packagingAdditional"></div><!-- 
+            --><div class="tovar tov_2 dobavki" id="packagingAdditional"></div><!-- 
         --></div><!-- 
         --><div class="statistika"><!-- 
             --><div class="button_stat" id="button_stat"></div><!--
