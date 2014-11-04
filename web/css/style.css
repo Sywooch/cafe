@@ -569,7 +569,7 @@ z-index:10;
 }
 
 #extraLinks a{
-    font-family:"Verdana",​"Tahoma",​sans-serif;
+    font-family:Verdana,​Tahoma,​sans-serif;
 }
 
 
@@ -624,6 +624,7 @@ z-index:10;
 
 .food{
     background-color:#55b293;
+    background-image:url(../img/tip_3.png);
 }
 .food:hover{
     background-color:#0aaa8e;
@@ -631,16 +632,13 @@ z-index:10;
 .food.tovar{
     background:none;
 }
-.tovar .food{
+.food .produkt_block{
     background: rgb(244, 245, 205);
     background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
     background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
     background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
     background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
     background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(90, 180, 145) 50%);
-    background-image:url(../img/tip_3.png);
-    background-repeat:no-repeat;
-    background-position: top center;
 }
 
 
@@ -650,6 +648,7 @@ z-index:10;
 
 .dobavki{
     background-color:#a5c500;
+    background-image:url(../img/tip_4.png);
 }
 .dobavki:hover{
     background-color:#88a201;
@@ -657,27 +656,21 @@ z-index:10;
 .dobavki.tovar{
     background:none;
 }
-.tovar .dobavki{
-background: rgb(244, 245, 205);
-background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-    background-image:url(../img/tip_4.png);
-    background-repeat:no-repeat;
-    background-position: top center;
+.dobavki  .produkt_block{
+    background: rgb(244, 245, 205);
+    background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
 }
 
 
-
-
 .tovar .tip_4{
-
-background: rgb(244, 245, 205);
-background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
-background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: rgb(244, 245, 205);
+    background: -moz-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -webkit-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -o-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: -ms-linear-gradient(90deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
+    background: linear-gradient(180deg, rgb(244, 245, 205) 50%, rgb(136, 162, 1) 50%);
 }
