@@ -106,8 +106,8 @@ class PosController extends Controller
         }
     }
 
-    public function actionProducts($id){
-        $model = $this->findModel($id);
+    public function actionProducts($pos_id){
+        $model = $this->findModel($pos_id);
         //$dataProvider=$model->getPosProducts();
         $query = $model->getPosProducts();
         $dataProvider = new ActiveDataProvider([
