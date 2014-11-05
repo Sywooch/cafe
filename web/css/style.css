@@ -639,7 +639,8 @@ z-index:10;
     background-color:#a5c500;
     background-image:url(../img/tip_4.png);
 }
-.dobavki:hover{display:none;
+.dobavki:hover{
+    /*display:none;*/
     background-color:#88a201;
 }
 .dobavki.tovar{
