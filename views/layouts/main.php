@@ -26,7 +26,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'Coffee Time',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -41,10 +41,11 @@ AppAsset::register($this);
             if(Yii::$app && Yii::$app->user && Yii::$app->user->identity && Yii::$app->user->identity->sysuser_role == \app\models\Sysuser::ROLE_ADMIN){
                 //http://localhost/cafe/web/index.php?r=sell%2Findex&pos_id=1
                 
+                $items[]=['label' => Yii::t('app','Sell'), 'url' => ['/sell/index']];
                 $items[]=['label' => Yii::t('app','Orders'), 'url' => ['/order/index']];
                 $items[]=['label' => Yii::t('app','Packaging'), 'url' => ['/packaging/index']];
                 $items[]=['label' => Yii::t('app','Categories'), 'url' => ['/category/index']];
-                $items[]=['label' => Yii::t('app','Discounts'), 'url' => ['/discount/index']];
+                //$items[]=['label' => Yii::t('app','Discounts'), 'url' => ['/discount/index']];
                 $items[]=['label' => Yii::t('app','Products'), 'url' => ['/product/index']];
                 $items[]=['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']];
                 $items[]=['label' => Yii::t('app','Pos-list'), 'url' => ['/pos/index']];
@@ -76,7 +77,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-left">&copy; Coffee Time <?= date('Y') ?></p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>

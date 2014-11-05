@@ -42,12 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app','pos_title'),
                 'filter' => true,
             ],
-
             //'seller_id',
             //'sysuser_id',
-            'sysuser.sysuser_fullname',
             ['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
             // 'order_day_sequence_number',
+            ['attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],],
             [
                 'label' => Yii::t('app','Order Total'),
                 'filterOptions'=>['class'=>'numFilter'],
@@ -55,15 +54,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $model->order_total.' '.Yii::$app->params['currency'];
                            }
             ],
+            'sysuser.sysuser_fullname',
             [
-                'label' => Yii::t('app','Order Discount'),
+                'label' => Yii::t('app','Seller Commission'),
                 'filterOptions'=>['class'=>'numFilter'],
                 'content'=>function ($model, $key, $index, $column){
-                                return $model->order_discount.' '.Yii::$app->params['currency'];
+                                $seller=$model->getSeller()->one();
+                                return ($model->order_total * 0.01 * $seller->seller_commission_fee).' '.Yii::$app->params['currency'];
                            }
             ],
-            'discount_title',
-            ['attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],],
+            //[
+            //    'label' => Yii::t('app','Order Discount'),
+            //    'filterOptions'=>['class'=>'numFilter'],
+            //    'content'=>function ($model, $key, $index, $column){
+            //                    return $model->order_discount.' '.Yii::$app->params['currency'];
+            //               }
+            //],
+            //'discount_title',
             // 'order_hash',
 
         ],

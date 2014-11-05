@@ -29,15 +29,15 @@ AppAsset::register($this);
         --><div class="tipy" id="categories"></div><!-- 
         --><div class="tovary" id="tovaryList"><!-- 
             --><div class="tovar tov_1" id="packagingBasic"></div><!-- 
-            --><div class="tovar tov_2 dobavki" id="packagingAdditional"></div><!-- 
+            --><!-- <div class="tovar tov_2 dobavki" id="packagingAdditional"></div> --><!-- 
         --></div><!-- 
         --><div class="statistika"><!-- 
             --><div class="button_stat" id="button_stat"></div><!--
 		--><div class="text_stat"><!-- 
                     --><div class="text_stat_1" id="sellerName">-</div><!--
-                    --><div class="text_stat_2">заказов: <span id="ordersCount">-</span></div><!--
+                    --><div class="text_stat_2">Сегодня: заказов: <span id="ordersCount">-</span></div><!--
                     --><div class="text_stat_3">на сумму: <span id="ordersTotal">-</span>&nbsp;<?=Yii::$app->params['currency']?>,</div><!--
-                    --><div class="text_stat_4">комиссионные: <span id="sellerCommissionFee">-</span>&nbsp;<?=Yii::$app->params['currency']?>.</div><!--
+                    --><!-- <div class="text_stat_4">комиссионные: <span id="sellerCommissionFee">-</span>&nbsp;<?=Yii::$app->params['currency']?>.</div> --><!--
 		--></div><!-- 
         --></div><!-- 
     --></div><!-- 
@@ -58,11 +58,11 @@ AppAsset::register($this);
         --><div class="oplata"><!-- 
             --><div class="cash" id="cachPaid"><!-- 
                 --><img src=img/cash.png><!-- 
-                --><h5>Оплачено наличными</h5><!-- 
+                --><h5>Оплачен наличными</h5><!-- 
             --></div><!--
             --><div class="card" id="cardPaid"><!-- 
                 --><img src=img/card.png><!-- 
-                --><h5>Оплачено картой</h5><!-- 
+                --><h5>Оплачен картой</h5><!-- 
             --></div><!-- 
         --></div><!-- 
         --><div class="new" id="newOrder"><h4>Новый заказ</h4></div><!--               

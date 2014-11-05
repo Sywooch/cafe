@@ -124,5 +124,6 @@ return [
     'Update Discount: '=>'Изменить скидку: ',
     'Duplicate Order'=>'Заказ можно добавить только один раз',
     'Processing the order'=>'Обработка заказа',
-    'Category Ordering'=>'Номер по порядку'
+    'Category Ordering'=>'Номер по порядку',
+    'Seller Commission'=>'Комиссионные',
 ];

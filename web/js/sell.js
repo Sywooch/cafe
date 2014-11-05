@@ -14,7 +14,7 @@ function loadPackaging(){
     jQuery.ajax( 'index.php?r=sell/packaging&pos_id='+pos_id+'&t='+Math.random() , {
         dataType:'json',
         success:function(data){
-            var i, cnt;
+            //var i, cnt;
             // console.log(data);
             window.packagingData=data;
              
@@ -25,7 +25,7 @@ function loadPackaging(){
             drawBasicPackaging(data);
 
             // draw additional 
-            drawAdditionalPackaging(data);
+            //drawAdditionalPackaging(data);
         }
     } );
 }
@@ -383,6 +383,7 @@ function paid(paymentTypeName){
                 getStats();
                 $( "#dialog" ).dialog( "close" );
                 printReceipt();
+                loadPackaging();
             }
         } );
     }

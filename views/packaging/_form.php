@@ -37,7 +37,8 @@ use yii\helpers\ArrayHelper;
         </div>
         <?php
     }
-    echo '<label class="control-label">' . Yii::t('app','Packaging Icon') . '</label>';
+
+    echo '<label class="control-label">' . Yii::t('app','Packaging Icon') . ' '.\Yii::$app->params['icon_width'].'x'.\Yii::$app->params['icon_height'].'px</label>';
     echo FileInput::widget([
         'name' => 'packaging_icon_file',
         'options' => ['accept' => 'image/*'],

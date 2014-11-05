@@ -29,12 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
                 'buttons'=>[
                    'products'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' 3 ', $url,['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
-                               //return "<span>X</span>";
+                               return '<b>'.Html::a(' 3 ', ['pos/products','pos_id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
                              },
                    'supply'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' П ', $url,['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
-                               //return "<span>X</span>";
+                               return '<b>'.Html::a(' П ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
                              },
                                      
                 ]
