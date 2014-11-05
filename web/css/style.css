@@ -304,6 +304,7 @@ display:none;
 }
 .zakaz #zakazItems{
     height:76%;
+    overflow: hidden;
 }
 .zakazScrollerDown, .zakazScrollerUp{
     display:block;
