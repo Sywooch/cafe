@@ -128,11 +128,11 @@ function drawBasicPackaging(data){
         }
     }
     
-    $("#packagingBasic").mCustomScrollbar({
-       axis:"y", // vertical scrollbar
-       theme:'dark-3',
-       mouseWheel:true
-    });
+    //$("#packagingBasic").mCustomScrollbar({
+    //   axis:"y", // vertical scrollbar
+    //   theme:'dark-3',
+    //   mouseWheel:true
+    //});
 }
 
 function drawAdditionalPackaging(data){
@@ -141,11 +141,11 @@ function drawAdditionalPackaging(data){
         var element=domOnePackaging(data.packagingAdditional[i]);
         $('#packagingAdditional').append(element);
     }
-    $("#packagingAdditional").mCustomScrollbar({
-       axis:"y", // vertical scrollbar
-       theme:'dark-3',
-       mouseWheel:true
-    });
+    //$("#packagingAdditional").mCustomScrollbar({
+    //   axis:"y", // vertical scrollbar
+    //   theme:'dark-3',
+    //   mouseWheel:true
+    //});
 }
 
 function gotCacheChanged(){
