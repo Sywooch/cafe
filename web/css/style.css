@@ -299,17 +299,18 @@ display:none;
     position:relative;
 }
 .zakaz h2{
-    height:10%;
-	margin:0px;
+    max-height:10%;
+    margin:0px;
 }
 #zakazItems{
-    height:76%;
+    height:74%;
     overflow: hidden;
     position:relative;
+    margin-top: 1%;
+    margin-bottom:1%;
 }
 .zakazScrollerDown, .zakazScrollerUp{
     display:block;
-    position:absolute;
     width:100%;
     height:7%;
     left:0;
@@ -320,12 +321,7 @@ display:none;
     text-align:center;
 	overflow:hidden;
 }
-.zakazScrollerDown{
-    bottom:0;
-}
-.zakazScrollerUp{
-    bottom:7%;
-}
+
 .zakazScrollerUp.active:hover,
 .zakazScrollerDown.active:hover{
     opacity:0.8;

@@ -2,6 +2,7 @@
 window.packagingData={};
 window.orderData={};
 window.orderUpdateEnabled=true;
+window.dy=-1;
 
 function showMessage(){
     if(confirm("Заказ уже обработан.\nСоздать новый заказ?")){
@@ -261,6 +262,9 @@ function addPackagingToOrder(packaging){
         dom.append(html);
 	
         $('#zakazItemsPanel').append(dom);
+        
+        reactiveteScroller();
+        $('#zakazItemsPanel').animate({ marginTop: "-"+window.dy+'px' }, 300);
         //$("#zakazItems").mCustomScrollbar({
         //   axis:"y", // vertical scrollbar
         //   theme:'dark-3',
@@ -317,6 +321,8 @@ function removeitem(event){
     $('#orderItem'+packaging_id).remove();  
     
     updateOrderTotal();
+    
+    reactiveteScroller();
 }
 
 function updateOrderTotal(){
@@ -389,7 +395,44 @@ function paid(paymentTypeName){
     }
 }
 
-// TODO: order scroller
+function zakazScrollDownClick(){
+        if(!$('#zakazScrollDown').hasClass('active')) return;
+		$('#zakazItemsPanel').animate({ marginTop: "+=20" }, 300,function(){
+		    var mtp=parseInt($('#zakazItemsPanel').css('margin-top'));
+			if( mtp>0){
+			   $('#zakazItemsPanel').animate({ marginTop: '0px' }, 300);
+			   $('#zakazScrollDown').removeClass('active');
+			}
+			$('#zakazScrollUp').addClass('active');
+		});	
+	};
+
+function zakazScrollUpClick(){
+        if(!$('#zakazScrollUp').hasClass('active')) return;
+	 	$('#zakazItemsPanel').animate({ marginTop: "-=20" }, 300,function(){
+		    var mtp=parseInt($('#zakazItemsPanel').css('margin-top'));
+			if( (window.dy+mtp)<0){
+			   $('#zakazItemsPanel').animate({ marginTop: "-"+window.dy+'px' }, 300);
+			   $('#zakazScrollUp').removeClass('active');
+			}
+			$('#zakazScrollDown').addClass('active');
+		});	
+	};
+
+
+function reactiveteScroller(){
+    $('#zakazScrollUp').removeClass('active');
+    $('#zakazScrollDown').removeClass('active');
+    var zh=$('#zakazItems').height();
+    var ph=$('#zakazItemsPanel').height();
+    window.dy=ph-zh;
+    if(window.dy>0){
+        $('#zakazScrollDown').addClass('active');
+    }else{
+        $('#zakazItemsPanel').animate({ marginTop: '0px' }, 300);
+    }
+}
+
 
 function printReceipt(){
     //
@@ -428,6 +471,9 @@ $(window).load(function(){
         });
     });
     $('#extraLinks').append(lnk);
+    
+    $('#zakazScrollUp').click(zakazScrollUpClick);
+    $('#zakazScrollDown').click(zakazScrollDownClick);
     
 });
 

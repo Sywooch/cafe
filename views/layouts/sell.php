@@ -44,8 +44,8 @@ AppAsset::register($this);
     --><div class="rightcolumn"><!-- 
         --><div class="zakaz"><!-- 
             --><h2>Заказ №<span id="zakazId"></span></h2><!-- 
-            --><div id="zakazItems"><div id="zakazItemsPanel"></div></div><!-- 
             --><div id="zakazScrollUp" class="zakazScrollerUp">&Delta;</div><!-- 
+            --><div id="zakazItems"><div id="zakazItemsPanel"></div></div><!-- 
             --><div id="zakazScrollDown" class="zakazScrollerDown">&nabla;</div><!-- 
         --></div><!-- 
         --><div class="itogo"><!-- 
