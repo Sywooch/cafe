@@ -302,9 +302,10 @@ display:none;
     height:10%;
 	margin:0px;
 }
-.zakaz #zakazItems{
+#zakazItems{
     height:76%;
     overflow: hidden;
+    position:relative;
 }
 .zakazScrollerDown, .zakazScrollerUp{
     display:block;
@@ -315,6 +316,7 @@ display:none;
     background-color:#906248;
     color:white;
     opacity:0.0;
+	cursor: pointer;
     text-align:center;
 	overflow:hidden;
 }
@@ -346,7 +348,7 @@ display:none;
     width:98%;
     vertical-align:top;
     display:inline-block;
-    margin:1px 0 1px 2%;
+    margin:2px 0 2px 2%;
     position:relative;
 }
 
@@ -477,7 +479,8 @@ margin:10px;
 
 
 .cash img, .card img{
-    margin-top:15px;
+    margin-top:20%;
+    margin-bottom: 5%;
 }
 .card{
     width:50%;
@@ -660,3 +663,4 @@ z-index:10;
 .tovar .tip_4{
     background: rgb(244, 245, 205);
 }
+

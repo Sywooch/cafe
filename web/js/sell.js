@@ -173,7 +173,7 @@ function getStats(){
 }
 
 function newOrder(){
-    $('#zakazItems').empty();
+    $('#zakazItemsPanel').empty();
     $('#gotCache').attr('value','');
     $('#sdacha').empty().html(0);
     $('#orderTotal').html(0);
@@ -260,7 +260,7 @@ function addPackagingToOrder(packaging){
         html.click(removeitem);
         dom.append(html);
 	
-        $('#zakazItems').append(dom);
+        $('#zakazItemsPanel').append(dom);
         //$("#zakazItems").mCustomScrollbar({
         //   axis:"y", // vertical scrollbar
         //   theme:'dark-3',
