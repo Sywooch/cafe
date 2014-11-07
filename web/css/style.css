@@ -234,7 +234,8 @@ display:none;
     vertical-align:bottom;
     text-align:center;
     height:150px;
-    /*width:110px;*/
+    /*width:110px;
+*/
     display:block;
     background:#f3f5ce;
     border: solid 2px #fffec5;
@@ -319,7 +320,7 @@ display:none;
 }
 .zakaz h2{
     /*max-height:10%;*/
-    /*background-image: url('../img/pattern2.png');*/
+    background-image: url('../img/pattern4.png');
     margin:0px;
     padding:15px 0;
 }
@@ -338,10 +339,20 @@ display:none;
     background-color:#906248;
     color:white;
     opacity:0.0;
-	cursor: pointer;
+    cursor: pointer;
     text-align:center;
-	overflow:hidden;
+    overflow:hidden;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
+
+.zakazScrollerDown{
+    background-image: url(../img/arrow-down.png);
+} .zakazScrollerUp{
+    background-image: url(../img/arrow-up.png);
+}
+
+
 
 .zakazScrollerUp.active:hover,
 .zakazScrollerDown.active:hover{
