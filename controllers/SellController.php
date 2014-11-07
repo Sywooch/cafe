@@ -89,10 +89,14 @@ class SellController extends \yii\web\Controller {
                     throw new NotFoundHttpException('The requested page does not exist.');
                 }
             }elseif($cnt==1){
-                $seller=$sellers[0];
-                //echo $seller->seller_id;
-                $pos = $seller->getPos()->one();
-                // print_r( $pos );
+                if(isset($sellers[0])){
+                    $seller=$sellers[0];
+                    //echo $seller->seller_id;
+                    $pos = $seller->getPos()->one();
+                    // print_r( $pos );
+                }else{
+                    throw new NotFoundHttpException('The requested page does not exist.');
+                }
             }elseif($cnt>1){
                 // redirect to POS selector
                 return $this->redirect(['posselector']);
