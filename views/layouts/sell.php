@@ -74,8 +74,8 @@ AppAsset::register($this);
 <?=Html::a('Стартовая страница',['site/index'])?><br>
 
 </span>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.mousewheel.min.js"></script>
 <script src="js/sell.js" type="text/javascript"></script>
 </body>
 </html>
