@@ -473,7 +473,7 @@ function adjustSizes(){
    $('.button_stat').css('width',statistikaHeight+'px');
 
    var textStatWidth=$('.statistika').width()-statistikaHeight;
-   $('.text_stat').css('width',(textStatWidth-10)+'px');
+   $('.text_stat').css('width',(textStatWidth-20)+'px');
 
    $('#newOrder').css('height',statistikaHeight+'px');
 
