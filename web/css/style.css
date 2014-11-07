@@ -167,7 +167,7 @@ textarea {
 }
 
 .tip h5{
-    margin-top: 75px;
+    margin-top: 78px;
     line-height: 1em;
 }
 .tip img.imgtip{
@@ -420,7 +420,7 @@ display:none;
     opacity:0.8;
 }
 .stroka_zakaza .cena{
-    width:20%;
+    width:22.5%;
     vertical-align:top;
     display:inline-block;
 
@@ -506,7 +506,7 @@ margin:10px;
 
 
 .cash img, .card img{
-    margin-top:20%;
+    margin-top:17%;
     margin-bottom: 5%;
 }
 .card{
@@ -529,7 +529,7 @@ margin:10px;
     cursor:pointer;
 }
 .new h4{
-    margin-top:10px;
+    margin-top:13px;
 }
 
 

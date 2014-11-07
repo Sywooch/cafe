@@ -452,11 +452,11 @@ function printReceipt(){
 
 function adjustSizes(){
 
-   var categoryHeight=120;
+   var categoryHeight=125;
    var statistikaHeight=50;
    var btnOplateHeight=150;
    var calcHeight=90;
-   var itogoHeight=40;
+   var itogoHeight=35;
    var zakazScrollHeight=20;
    var zarazTopMargin=3;
 

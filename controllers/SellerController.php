@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\base\ErrorException;
+use yii\db\IntegrityException;
 /**
  * SellerController implements the CRUD actions for Seller model.
  */
@@ -109,7 +111,11 @@ class SellerController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try{
+            $this->findModel($id)->delete();
+        }catch(IntegrityException $errro){
+            
+        }
 
         return $this->redirect(['index']);
     }

@@ -149,7 +149,12 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     
     public function afterSave( $insert, $changedAttributes ){
         parent::afterSave( $insert, $changedAttributes );
+        
         $auth = Yii::$app->authManager;
+        // remove old roles
+        $auth->revokeAll($this->sysuser_id);
+        
+        // add new role
         $theRole = $auth->getRole($this->sysuser_role);
         $auth->assign($theRole, $this->sysuser_id);        
     }
