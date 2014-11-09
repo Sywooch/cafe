@@ -131,7 +131,8 @@ class Pos extends \yii\db\ActiveRecord
                        AND pos_product.pos_id={$pos_id}
                        AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
               GROUP BY packaging.packaging_id
-              HAVING packaging_is_available>0";
+              ";
+        // HAVING packaging_is_available>0
         $dataBasic = \Yii::$app->db->createCommand($sql, [])->queryAll();
         
         // no additionalData block

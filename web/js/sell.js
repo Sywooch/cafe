@@ -92,11 +92,22 @@ function categoryClicked(event){
     drawBasicPackaging(window.packagingData);
 }
 
+
+function packagingClickedDisabled(){
+    alert('Не хватает составляющих, чтобы продать продукт.');
+}
+
 function domOnePackaging(item){
     var element=$('<div class="produkt_block"></div>');
     element.attr('data-packaging_id',item.packaging_id);
     element.attr('data-packaging_price',item.packaging_price);
-    element.click(packagingClicked);
+    if(item.packaging_is_available){
+        element.click(packagingClicked);
+    }else{
+        element.addClass('disabled');
+        element.click(packagingClickedDisabled);
+    }
+    
     var html='';
     html+='<div class="produkt">';
     html+=item.imageThumb;
