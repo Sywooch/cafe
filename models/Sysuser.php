@@ -206,4 +206,10 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return '';
     }
 
+    
+    //public function getSellers(){
+    //    $query = Seller::find();
+    //    $query->andFilterWhere(['sysuser_id' => $this->sysuser_id]);
+    //    return $query->all();
+    //}
 }

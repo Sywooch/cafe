@@ -221,7 +221,7 @@ class SellController extends \yii\web\Controller {
                     if (!isset($pos_product_update[$pp->product_id])) {
                         $pos_product_update[$pp->product_id] = 0;
                     }
-                    $pos_product_update[$pp->product_id]+=$pp->packaging_product_quantity;
+                    $pos_product_update[$pp->product_id]+=$pp->packaging_product_quantity * $order_packaging_number;
                 }
             }
         }

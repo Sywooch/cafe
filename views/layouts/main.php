@@ -42,7 +42,7 @@ AppAsset::register($this);
                 //http://localhost/cafe/web/index.php?r=sell%2Findex&pos_id=1
                 
                 $items[]=['label' => Yii::t('app','Sell'), 'url' => ['/sell/index']];
-                $items[]=['label' => Yii::t('app','Orders'), 'url' => ['/order/index']];
+                $items[]=['label' => Yii::t('app','Orders'), 'url' => ['/order/index','sort'=>'-order_datetime']];
                 $items[]=['label' => Yii::t('app','Packaging'), 'url' => ['/packaging/index']];
                 $items[]=['label' => Yii::t('app','Categories'), 'url' => ['/category/index']];
                 //$items[]=['label' => Yii::t('app','Discounts'), 'url' => ['/discount/index']];

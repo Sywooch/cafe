@@ -128,3 +128,20 @@ sysuser_login      varchar(64)   utf8_general_ci  YES             (NULL)        
 sysuser_password   varchar(128)  utf8_general_ci  YES             (NULL)                   select,insert,update,references           
 sysuser_role_mask  int(11)       (NULL)           YES             (NULL)                   select,insert,update,references           
 sysuser_telephone  varchar(64)   utf8_general_ci  YES             (NULL)                   select,insert,update,references           
+
+
+
+> Количество товара списать правильно (если несколько одинаковіх порций)
+
+> Стр Заказы.новые заказы сначала
+
+> Стр продажа не прятать товар, а деактивировать
+
+>"Экспрессо" - в начало
+
+> Счётчик заказов на стартовую страницу
+
+> В списке пользователей символ "нет места работы"
+
+> отмена чека и возврат денег
+

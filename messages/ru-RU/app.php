@@ -126,4 +126,6 @@ return [
     'Processing the order'=>'Обработка заказа',
     'Category Ordering'=>'Номер по порядку',
     'Seller Commission'=>'Комиссионные',
+    'has_pos_position'=>'Имеет рабочее место',
+    'assign'=>'Назначить'
 ];

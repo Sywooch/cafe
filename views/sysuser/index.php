@@ -46,9 +46,33 @@ $GLOBALS['rolemap']=\app\models\Sysuser::getRoles();//
                                   return '-';
                               }
                            },
+             ],
+            [
+                'format' => 'html',
+                'label' => Yii::t('app', 'has_pos_position'),
+                'content'=>function($sysuser) { 
+                                
+                                if($sysuser->sysuser_role=='seller'){
+                                    $sellers=$sysuser->getSellers()->all();
+                                    return count($sellers)>0?Yii::t('app', 'yes'):'<span class="warning">'.Yii::t('app', 'no').'</span><a href="index.php?r=seller%2Fcreate">'.Yii::t('app', 'assign').'</a>';
+                                }else{
+                                    return '';
+                                }
+                                  
+                             
+                           },
              ]
             // 'sysuser_token',
         ],
     ]); ?>
 
 </div>
+<style type="text/css">
+    .warning{
+        display:inline-block;
+        padding:2px;
+        background-color:orange;
+        color:black;
+        margin-right:5px;
+    }
+</style>
