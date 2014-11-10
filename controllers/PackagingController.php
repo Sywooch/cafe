@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
+use \yii\db\Exception;
 /**
  * PackagingController implements the CRUD actions for Packaging model.
  */
@@ -128,10 +128,15 @@ class PackagingController extends Controller
     {
         $model=$this->findModel($id);
         $iconfilename=Yii::$app->params['file_root_dir'].'/'.$model->packaging_icon;
-        if(is_file($iconfilename)){
-            unlink($iconfilename);
+        
+        try{
+            $model->delete();
+            if(is_file($iconfilename)){
+                unlink($iconfilename);
+            }
+        }catch (Exception $e){
+            
         }
-        $model->delete();
         return $this->redirect(['index']);
     }
 

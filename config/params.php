@@ -11,6 +11,6 @@ return [
     'icon_height'=>150,
     'currency'=>'руб',
     "categoryskins"=>"food,coffee,tea",
-    'printerUrl'=>'http://localhost:9000/'
-    
+    'printerUrl'=>'http://localhost:9000/',
+    'siteTitle'=>'Coffee Time'    
 ];

@@ -26,7 +26,7 @@ CREATE TABLE `auth_assignment` (
 
 /*Data for the table `auth_assignment` */
 
-insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('admin','1',1413231535),('admin','6',1413320812),('seller','5',1413231619);
+insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('admin','1',1413231535),('seller','5',1415575921),('seller','6',1415647349);
 
 /*Table structure for table `auth_item` */
 
@@ -89,12 +89,13 @@ CREATE TABLE `category` (
   `category_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `category_title` varchar(64) DEFAULT NULL,
   `category_skin` varchar(64) DEFAULT NULL,
+  `category_ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `category` */
 
-insert  into `category`(`category_id`,`category_title`,`category_skin`) values (1,'Чай','tea'),(2,'Кофе','coffee'),(3,'Вкусняшки','food');
+insert  into `category`(`category_id`,`category_title`,`category_skin`,`category_ordering`) values (1,'Чай','tea',10),(2,'Кофе','coffee',0),(3,'Вкусняшки','food',20);
 
 /*Table structure for table `discount` */
 
@@ -139,11 +140,11 @@ CREATE TABLE `order` (
   CONSTRAINT `pos6` FOREIGN KEY (`pos_id`) REFERENCES `pos` (`pos_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seller6` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sysuser6` FOREIGN KEY (`sysuser_id`) REFERENCES `sysuser` (`sysuser_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `order` */
 
-insert  into `order`(`order_id`,`pos_id`,`seller_id`,`sysuser_id`,`order_datetime`,`order_day_sequence_number`,`order_total`,`order_discount`,`order_payment_type`,`order_hash`,`discount_id`,`discount_title`) values (1,1,1,5,'2014-11-01 22:20:45',1,1234,10,'cash','1234556789',NULL,NULL);
+insert  into `order`(`order_id`,`pos_id`,`seller_id`,`sysuser_id`,`order_datetime`,`order_day_sequence_number`,`order_total`,`order_discount`,`order_payment_type`,`order_hash`,`discount_id`,`discount_title`) values (1,1,1,5,'2014-11-01 22:20:45',1,1234,10,'cash','1234556789',NULL,NULL),(2,1,2,1,'2014-11-02 20:35:20',1,15,NULL,'cach','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL),(3,1,2,1,'2014-11-02 20:36:12',2,15,NULL,'cach','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL),(4,1,2,1,'2014-11-02 21:28:28',3,15,NULL,'cach','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL),(5,1,2,1,'2014-11-02 21:38:34',4,15,NULL,'cach','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL),(6,1,2,1,'2014-11-05 20:37:01',1,81,NULL,'cach','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL),(7,1,2,1,'2014-11-05 20:39:32',2,32,NULL,'card','356a192b7913b04c54574d18c28d46e6395428ab',NULL,NULL);
 
 /*Table structure for table `order_packaging` */
 
@@ -164,7 +165,7 @@ CREATE TABLE `order_packaging` (
 
 /*Data for the table `order_packaging` */
 
-insert  into `order_packaging`(`order_id`,`packaging_id`,`packaging_title`,`packaging_price`,`order_packaging_number`) values (1,1,'Кофе со сливками',15,2);
+insert  into `order_packaging`(`order_id`,`packaging_id`,`packaging_title`,`packaging_price`,`order_packaging_number`) values (1,1,'Кофе со сливками',15,2),(2,1,'Кофе со сливками, 200 г',15,1),(3,1,'Кофе со сливками, 200 г',15,1),(4,1,'Кофе со сливками, 200 г',15,1),(5,1,'Кофе со сливками, 200 г',15,1),(6,2,'Кофе, 200 г',16,1),(6,3,'Кофе, 100 г',20,1),(6,6,'Кофе, 500 мл',45,1),(7,4,'Сахар',3,4),(7,5,'Сливки, 5 г.',4,5);
 
 /*Table structure for table `packaging` */
 
@@ -180,11 +181,11 @@ CREATE TABLE `packaging` (
   PRIMARY KEY (`packaging_id`),
   KEY `catg` (`category_id`),
   CONSTRAINT `catg` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `packaging` */
 
-insert  into `packaging`(`packaging_id`,`packaging_icon`,`packaging_title`,`packaging_price`,`category_id`,`packaging_is_additional`) values (1,'packaging1.jpg','Кофе со сливками, 200 г',15,1,0),(2,'packaging2.jpg','Кофе, 200 г',16,2,0),(3,'packaging3.jpg','Кофе, 100 г',20,2,0),(4,'packaging4.jpg','Сахар',3,3,1),(5,'packaging5.jpg','Сливки, 5 г.',4,3,1);
+insert  into `packaging`(`packaging_id`,`packaging_icon`,`packaging_title`,`packaging_price`,`category_id`,`packaging_is_additional`) values (1,'packaging1.jpg','Кофе со сливками, 200 г',15,1,0),(2,'packaging2.jpg','Кофе, 200 г',16,2,0),(3,'packaging3.jpg','Кофе, 100 г',20,2,0),(4,'packaging4.jpg','Сахар',3,3,1),(5,'packaging5.jpg','Сливки, 5 г.',4,3,1),(6,NULL,'Кофе, 500 мл',45,2,0);
 
 /*Table structure for table `packaging_product` */
 
@@ -203,7 +204,7 @@ CREATE TABLE `packaging_product` (
 
 /*Data for the table `packaging_product` */
 
-insert  into `packaging_product`(`packaging_id`,`product_id`,`packaging_product_quantity`) values (1,1,0.003),(1,2,0.005),(1,3,0.2),(2,1,0.005),(2,3,0.2),(3,1,0.005),(3,3,0.1),(4,4,0.005),(5,2,0.005);
+insert  into `packaging_product`(`packaging_id`,`product_id`,`packaging_product_quantity`) values (1,1,0.003),(1,2,0.005),(1,3,0.2),(2,1,0.005),(2,3,0.2),(3,1,0.005),(3,3,0.1),(4,4,0.005),(5,2,0.005),(6,1,0.021),(6,2,0.015),(6,3,0.5),(6,4,0.015);
 
 /*Table structure for table `pos` */
 
@@ -239,7 +240,7 @@ CREATE TABLE `pos_product` (
 
 /*Data for the table `pos_product` */
 
-insert  into `pos_product`(`pos_id`,`product_id`,`pos_product_quantity`,`pos_product_min_quantity`) values (1,1,10,3),(1,2,25,11),(1,3,30,0),(1,4,1,0);
+insert  into `pos_product`(`pos_id`,`product_id`,`pos_product_quantity`,`pos_product_min_quantity`) values (1,1,2.969,3),(1,2,9.98,11),(1,3,9.2,0),(1,4,2.98,0);
 
 /*Table structure for table `product` */
 
@@ -258,7 +259,7 @@ CREATE TABLE `product` (
 
 /*Data for the table `product` */
 
-insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','1.jpg',10,'кг',12,1000),(2,'Сливки',NULL,100,'кг',20,35),(3,'Вода','product3.jpg',80,'л',20,1),(4,'Сахар','4.jpg',100,'кг',10,57);
+insert  into `product`(`product_id`,`product_title`,`product_icon`,`product_quantity`,`product_unit`,`product_min_quantity`,`product_unit_price`) values (1,'Кофе молотый, Арабика','1.jpg',7,'кг',12,1000),(2,'Сливки',NULL,90,'кг',20,35),(3,'Вода','product3.jpg',70,'л',20,1),(4,'Сахар','4.jpg',97,'кг',10,57);
 
 /*Table structure for table `seller` */
 
@@ -311,11 +312,11 @@ CREATE TABLE `sysuser` (
   `sysuser_telephone` varchar(64) DEFAULT NULL,
   `sysuser_token` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`sysuser_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sysuser` */
 
-insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','TlK/nt2ZJff/k','admin','123','K9P9GKDD_-tLPPfXzwmFEjbziMUm5wLP'),(5,'test2 test2','test2','TlSKN8E5rPR9Q','seller','test234','96FCb7KBgN5PO56g7BISYvAHvG696ab9');
+insert  into `sysuser`(`sysuser_id`,`sysuser_fullname`,`sysuser_login`,`sysuser_password`,`sysuser_role`,`sysuser_telephone`,`sysuser_token`) values (1,'admin','admin','TlK/nt2ZJff/k','admin','123','K9P9GKDD_-tLPPfXzwmFEjbziMUm5wLP'),(5,'test2 test2','test2','TlSKN8E5rPR9Q','seller','test234','96FCb7KBgN5PO56g7BISYvAHvG696ab9'),(6,'test','test','TlU3P7tuaNWPw','seller','123','0SqhM6E9e9toMR8rZyy6EIhcWCbBFGE4');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

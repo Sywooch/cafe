@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use \yii\db\Exception;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -128,10 +129,14 @@ class ProductController extends Controller
     {
         $model=$this->findModel($id);
         $iconfilename=Yii::$app->params['file_root_dir'].'/'.$model->product_icon;
-        if(is_file($iconfilename)){
-            unlink($iconfilename);
+        try{
+            $model->delete();
+            if(is_file($iconfilename)){
+                unlink($iconfilename);
+            }            
+        }catch (Exception $e){
+            
         }
-        $model->delete();
         return $this->redirect(['index']);
     }
 
