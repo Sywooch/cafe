@@ -105,7 +105,8 @@ function domOnePackaging(item){
         element.click(packagingClicked);
     }else{
         element.addClass('disabled');
-        element.click(packagingClickedDisabled);
+        //element.click(packagingClickedDisabled); 
+        element.click(packagingClicked);
     }
     
     var html='';

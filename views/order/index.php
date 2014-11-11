@@ -44,7 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'seller_id',
             //'sysuser_id',
-            ['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
+            //['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
+            [
+                'attribute' => 'order_datetime',
+                'label' => Yii::t('app','Order Datetime'),
+                'content'=>function ($model, $key, $index, $column){
+                                return date('d.m.Y H:i:s',strtotime($model->order_datetime));
+                           }
+            ],
             // 'order_day_sequence_number',
             ['attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],],
             [

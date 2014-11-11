@@ -99,7 +99,7 @@ return [
     'Pos-product-supply-print'=>'Печать поставок',
     'Category Skin'=>'Тема оформления',
     
-    'Order ID'=>'ID заказа',
+    'Order ID'=>'Код заказа',
     'Pos ID'=>'Точка реализации',
     'Seller ID'=>'Продавец',
     'Sysuser ID'=>'Пользователь',
