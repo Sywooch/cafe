@@ -700,11 +700,11 @@ z-index:10;
 
 
 .action{
-    background-color:#a5c500;
+    background-color:#ef9f94;
     background-image:url(../img/akcii1.png);
 }
 .action:hover{
-    background-color:#88a201;
+    background-color:#efb5ad;
 }
 .action.tovar{
     background:none;
