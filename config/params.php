@@ -10,7 +10,7 @@ return [
     'icon_width'=>150,
     'icon_height'=>150,
     'currency'=>'руб',
-    "categoryskins"=>"food,coffee,tea,water",
+    "categoryskins"=>"food,coffee,tea,water,action",
     'printerUrl'=>'http://localhost:9000/',
     'siteTitle'=>'Coffee Time'    
 ];
