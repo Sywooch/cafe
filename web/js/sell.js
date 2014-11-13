@@ -18,7 +18,7 @@ function loadPackaging(){
             //var i, cnt;
             // console.log(data);
             window.packagingData=data;
-             
+            
             // draw categories:
             drawCategories(data);
             
@@ -354,7 +354,7 @@ function updateOrderTotal(){
 
 function paid(paymentTypeName){
 
-    return function cachPaid(){
+    return function (){
 
         if(!window.orderUpdateEnabled){
             showMessage();
@@ -447,6 +447,7 @@ function reactiveteScroller(){
 
 
 function printReceipt(){
+    return;
     //
         jQuery.ajax( printerUrl , {
             //dataType:'json',
@@ -513,6 +514,7 @@ function adjustSizes(){
 
 
 
+var extraLinksCount=0;
 
 $(window).load(function(){
     loadPackaging();
@@ -520,15 +522,24 @@ $(window).load(function(){
     $('#gotCache').keyup(gotCacheChanged);
     getStats();
     newOrder();
-    $('#cachPaid').click(paid('cach'));
+    $('#cachPaid').click(paid('cash'));
     $('#cardPaid').click(paid('card'));
     
     $( "#dialog" ).dialog({ autoOpen: false, modal: true });
     
     $('#button_stat').click(function(){
         $( "#extraLinks" ).slideToggle("slow");
+        extraLinksCount=1;
     });
-    
+    $(document).click(function(evene){
+        if(extraLinksCount>0){
+            extraLinksCount--;
+            return;
+        }
+        if($('#extraLinks:visible').length > 0){
+            $( "#extraLinks" ).slideToggle("slow");
+        }
+    });
     
     var lnk=$('<a href="javascript:void(\'Товар получен\')">Товар получен</a>');
     lnk.click(function(){

@@ -38,6 +38,7 @@ class OrderController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'foundOrdersTotal'=>$searchModel->getOrderTotal()
         ]);
     }
 

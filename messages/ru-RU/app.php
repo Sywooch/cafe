@@ -127,5 +127,18 @@ return [
     'Category Ordering'=>'Номер по порядку',
     'Seller Commission'=>'Комиссионные',
     'has_pos_position'=>'Имеет рабочее место',
-    'assign'=>'Назначить'
+    'assign'=>'Назначить',
+    'Order Total Min'=>'Сумма от',
+    'Order Total Max'=>'Сумма до',
+    'Order Datetime Min'=>'Дата от',
+    'Order Datetime Max'=>'Дата до',
+    'find'=>'Найти',
+    'foundOrdersTotal'=>'Итого для всех найденных заказов',
+    'today'=>'Сегодня',
+    'yesterday'=>'Вчера',
+    'thisweek'=>'Эта неделя',
+    'lastweek'=>'Прошлая неделя',
+    'thismonth'=>'Этот месяц',
+    'lastmonth'=>'Прошлый месяц',
+    'Order Datetime Set'=>'Выберите интервал дат:'
 ];

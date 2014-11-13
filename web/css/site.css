@@ -110,3 +110,15 @@ a.desc:after {
 .numFilter{
     width:100px;
 }
+
+.filter-element{
+    display: inline-block;
+    vertical-align:top;
+    margin-right:3px;
+}
+.filter-element label{
+    display:block;
+    color:gray;
+    font-size:85%;
+    margin:0px;
+}
