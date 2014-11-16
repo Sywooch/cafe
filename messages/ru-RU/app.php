@@ -140,5 +140,7 @@ return [
     'lastweek'=>'Прошлая неделя',
     'thismonth'=>'Этот месяц',
     'lastmonth'=>'Прошлый месяц',
-    'Order Datetime Set'=>'Выберите интервал дат:'
+    'Order Datetime Set'=>'Выберите интервал дат:',
+    'pos_printer_url'=>'Адрес принтера(URL)',
+    'pos_printer_template'=>'Шаблон чека'
 ];
