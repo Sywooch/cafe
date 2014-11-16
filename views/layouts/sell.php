@@ -77,6 +77,11 @@ AppAsset::register($this);
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
 <script src="js/sell.js" type="text/javascript"></script>
+
+
+    
+    
+
 </body>
 </html>
 <?php $this->endPage() ?>
