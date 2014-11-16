@@ -35,6 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'pos_title',
             'pos_address',
             'pos_timetable',
+            'pos_printer_url',
+            [
+                'attribute'=>'pos_printer_template',
+                'label'=>Yii::t('app','pos_printer_template'),
+                'value'=> '<pre>'.$model->pos_printer_template.'</pre>',
+                'format'=>'html'
+            ],
         ],
     ]) ?>
 
