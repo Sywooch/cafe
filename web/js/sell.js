@@ -348,6 +348,7 @@ function updateOrderTotal(){
         total+=window.orderData[packaging_id].count * window.orderData[packaging_id].packaging.packaging_price;
     }
     $('#orderTotal').empty().html(total);
+    window.orderData.order_total=total;
     gotCacheChanged();
 }
 
@@ -380,6 +381,7 @@ function paid(paymentTypeName){
         window.orderUpdateEnabled=false;
         $( "#dialog" ).dialog( "open" );
 
+        window.orderData.order_payment_type=paymentTypeName;
         
         var post={
             // r:'sell/createorder',
@@ -400,12 +402,17 @@ function paid(paymentTypeName){
                 // console.log(data);
                 getStats();
                 $( "#dialog" ).dialog( "close" );
-                printReceipt();
+                try{
+                  printReceipt();
+                }catch(err){
+                  //alert('print_error');
+                  console.log(err);
+                }
                 loadPackaging();
                 newOrder();
             }
         } );
-    }
+    };
 }
 
 function zakazScrollDownClick(){
@@ -448,18 +455,165 @@ function reactiveteScroller(){
 
 
 function printReceipt(){
+    
+    if(!printerUrl){
+        return;
+    }
+    
+    var orderData={};
+    orderData.order_day_sequence_number=window.orderData.order_day_sequence_number;
+    orderData.sysuser_lastname=sysuser_lastname;
+    orderData.order_total=window.orderData.order_total;
+    
+    switch(window.orderData.order_payment_type){
+        case 'cash':
+            orderData.order_payment_type='Наличные';
+            break;
+        case 'card':
+            orderData.order_payment_type='Карта';
+            break;
+        case 'return':
+            orderData.order_payment_type='Возврат';
+            break;
+    }
+
+    var d=new Date();
+    var day=d.getDate();
+    if(day<10){
+        day='0'+day;
+    }
+    var mon=d.getMonth()+1;
+    if(mon<10){
+        mon='0'+mon;
+    }
+    var year= d.getFullYear();
+    
+    var hrs=d.getHours();
+    if(hrs<10){
+        hrs='0'+hrs;
+    }
+    var mnt=d.getMinutes();
+    if(mnt<10){
+        mnt='0'+mnt;
+    }
+    orderData.order_datetime=day+'.'+mon+'.'+year+' '+hrs+':'+mnt;
+    
+    //console.log(window.orderData);
+    orderData.packaging={};
+    for(var packaging_id in window.orderData){
+        if(isNaN(packaging_id)){
+           continue; 
+        }
+        orderData.packaging[packaging_id]={
+            order_packaging_number:window.orderData[packaging_id].count,
+            packaging_price:window.orderData[packaging_id].packaging.packaging_price,
+            packaging_title:window.orderData[packaging_id].packaging.packaging_title
+        }
+    }
+
+    var str=processTemplate(orderData);
+    //console.log(str);
+    jQuery.ajax( printerUrl , {
+        //dataType:'json',
+        type:"POST",
+        data:{data:str},
+        success:function(data){
+            // console.log(data);
+            //getStats();
+            //$( "#dialog" ).dialog( "close" );
+        }
+    } );
     return;
     //
-        jQuery.ajax( printerUrl , {
-            //dataType:'json',
-            type:"POST",
-            //data:post,
-            success:function(data){
-                // console.log(data);
-                //getStats();
-                //$( "#dialog" ).dialog( "close" );
+}
+
+
+
+
+
+function tpl(){
+    this.max_str_size=50;
+    
+    this.blanks='';
+    for(var j=0;j<this.max_str_size; j++){
+        this.blanks+=' ';
+    }
+
+    this.center = function (s){
+        var s_len=s.length;
+        var rows=[];
+        var cnt=Math.floor(s_len/this.max_str_size);
+        for(var i=0; i<cnt; i++){
+            rows.push(s.substr(i*this.max_str_size,this.max_str_size));
+        }
+        var last_str=s.substr(cnt*this.max_str_size,this.max_str_size);
+        var margin=this.blanks.substr(0,Math.floor((this.max_str_size-last_str.length)/2));
+        last_str=' '+margin+last_str+margin;
+        if(last_str.length>this.max_str_size){
+            last_str=last_str.substr(1,last_str.length-1);
+        }
+        rows.push(last_str);
+        return rows;
+    }
+    
+    
+    this.justify=function(left, fill, right){
+        var rows=[];
+        var left_length=left.length;
+        var right_length=right.length;
+
+        var cnt, i, left_last_str, right_last_str;
+        if(left_length>this.max_str_size){
+            cnt=Math.floor(left_length/this.max_str_size);
+            for(i=0; i<cnt; i++){
+                rows.push(left.substr(i*this.max_str_size,this.max_str_size));
             }
-        } );
+            left_last_str=left.substr(cnt*this.max_str_size,this.max_str_size);
+        }else{
+            left_last_str=left;
+        }
+        //console.log(rows, left_last_str);
+        
+        var rrows=[];
+        if(right_length>this.max_str_size){
+            cnt=Math.floor(right_length/this.max_str_size);
+            for(i=0; i<cnt; i++){
+                rrows.push(right.substr(right_length-(i+1)*this.max_str_size,this.max_str_size));
+            }
+            right_last_str=right.substr(right_length-(cnt+1)*this.max_str_size,this.max_str_size);
+        }else{
+            right_last_str=right;
+        }
+        
+        if( (left_last_str.length+right_last_str.length) < this.max_str_size){
+            var rasporka='';
+            var rs=this.max_str_size-(left_last_str.length+right_last_str.length);
+            for(var i=0;i<rs; i++){
+                rasporka+=fill;
+            }
+            rows.push(left_last_str+rasporka+right_last_str);
+        }else{
+            var rs;
+            rs=this.max_str_size-left_last_str.length;
+            for(var i=0;i<rs; i++){
+                left_last_str+=fill;
+            }
+            rows.push(left_last_str);
+            
+            rs=this.max_str_size-right_last_str.length;
+            for(var i=0;i<rs; i++){
+                right_last_str=fill+right_last_str;
+            }
+            rows.push(right_last_str);
+        }
+        
+        rrows.reverse();
+        for(var k=0; k<rrows.length; k++){
+            rows.push(rrows[k]);
+        }
+        return rows;
+    }
+    
 }
 
 
