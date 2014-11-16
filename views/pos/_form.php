@@ -30,9 +30,9 @@ use yii\web\View;
 
 </div>
 <?php
-
-    //var_dump(Yii::$app);
-    $this->registerJsFile(dirname(Yii::$app->homeUrl)."/js/jquery.autosize.min.js",['depends'=>'yii\web\YiiAsset']);          
+    $path=Yii::$app->assetManager->publish(Yii::$app->basePath."/web/js/");
+    // var_dump($path[1]);exit();
+    $this->registerJsFile($path[1]."/jquery.autosize.min.js",['depends'=>'yii\web\YiiAsset']);          
     $this->registerJs("
         \$(window).load(function(){
           \$('#pos_printer_template').autosize();
