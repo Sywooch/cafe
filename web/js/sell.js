@@ -402,6 +402,7 @@ function paid(paymentTypeName){
                 $( "#dialog" ).dialog( "close" );
                 printReceipt();
                 loadPackaging();
+                newOrder();
             }
         } );
     }
