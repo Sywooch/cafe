@@ -34,7 +34,8 @@ class Pos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pos_title', 'pos_address', 'pos_timetable'], 'string', 'max' => 1024]
+            [['pos_title', 'pos_address', 'pos_timetable','pos_printer_url'], 'string', 'max' => 1024],
+            [['pos_printer_template'], 'string']
         ];
     }
 
@@ -48,6 +49,8 @@ class Pos extends \yii\db\ActiveRecord
             'pos_title' => Yii::t('app', 'pos_title'),
             'pos_address' => Yii::t('app', 'pos_address'),
             'pos_timetable' => Yii::t('app', 'pos_timetable'),
+            'pos_printer_url' => Yii::t('app', 'pos_printer_url'),
+            'pos_printer_template' => Yii::t('app', 'pos_printer_template'),
         ];
     }
 
