@@ -3,49 +3,101 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Orders');
 $this->params['breadcrumbs'][] = $this->title;
+$orderSearch=Yii::$app->request->get('OrderSearch');
+//print_r($orderSearch);
+if(!$orderSearch){
+    $orderSearch=Array ( 
+        'order_id' =>'', 'pos.pos_title' => '', 'sysuser.sysuser_fullname' =>'', 
+        'order_payment_type' =>'', 'order_total_min' =>'', 
+        'order_total_max' =>'', 'order_datetime_min' =>'', 
+        'order_datetime_max' =>'' ) ;
+}
+
+$data=[
+        'order_total_sum'=>((float)$total['order_total_sum']),
+        'currency'=>Yii::$app->params['currency'],
+        'order_num'=>( (int)$total['order_num'] ),
+        'order_total_avg'=>round($total['order_total_avg'],2)
+    ];
 ?>
+    <style type="text/css">
+        .col1, .col2{
+            display:inline-block;
+            vertical-align:top;
+        }
+        .col1{
+            width:25%;
+        }
+        .col2{
+            width:75%;
+        }
+        .width100{
+            width:100%;
+        }
+        .width90{
+            width:90%;
+        }
+        .width50{
+            width:43%;
+        }
+        .itogo{
+            margin-top: 20px;
+        }
+        #filterform{
+            padding-top:4px;
+        }
+    </style>
+
 <div class="order-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?php
-    $orderSearch=Yii::$app->request->get('OrderSearch');
-    //print_r($orderSearch);
-    if(!$orderSearch){
-        $orderSearch=Array ( 
-            'order_id' =>'', 'pos.pos_title' => '', 'sysuser.sysuser_fullname' =>'', 
-            'order_payment_type' =>'', 'order_total_min' =>'', 
-            'order_total_max' =>'', 'order_datetime_min' =>'', 
-            'order_datetime_max' =>'' ) ;
-    }
-    ?>
-    <div><form method="get" id="filterform">
+    <span class="col1"><h1><?= Html::encode($this->title) ?></h1></span><!-- 
+ --><span class="col2"><div class="itogo breadcrumb">
+        <span class="filter-element"><?=Yii::t('app','foundOrdersTotal',$data)?></span>
+        <span class="filter-element"><?=Yii::t('app','foundOrdersCount',$data)?></span>
+        <span class="filter-element"><?=Yii::t('app','foundOrdersAvg',$data)?></span>        
+     </div></span>
+    <span class="col1"><form method="get" id="filterform">
         <input type="hidden" name="r" value="order/index">
         <input type="hidden" name="sort" value="<?=Yii::$app->request->get('sort')?>">
-        <span class="filter-element"><label><?=Yii::t('app', 'Order ID')?></label><?=Html::textInput( 'OrderSearch[order_id]', $orderSearch['order_id'], ['size'=>3, 'class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Pos')?></label><?=Html::textInput( 'OrderSearch[pos.pos_title]', $orderSearch['pos.pos_title'], ['size'=>13, 'class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','seller')?></label><?=Html::textInput( 'OrderSearch[sysuser.sysuser_fullname]', $orderSearch['sysuser.sysuser_fullname'], ['size'=>13, 'class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Order Payment Type')?></label><?=Html::dropDownList('OrderSearch[order_payment_type]', $orderSearch['order_payment_type'], array_merge([''=>''],ArrayHelper::map($nOrders=\Yii::$app->db->createCommand("select distinct order_payment_type from `order`", [])->queryAll(),'order_payment_type','order_payment_type')), ['class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Order Total Min')?></label><?=Html::textInput('OrderSearch[order_total_min]', $orderSearch['order_total_min'], ['size'=>3, 'class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Order Total Max')?></label><?=Html::textInput('OrderSearch[order_total_max]', $orderSearch['order_total_max'], ['size'=>3, 'class'=>'form-control'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Order Datetime Min')?></label><?=Html::textInput('OrderSearch[order_datetime_min]', $orderSearch['order_datetime_min'], ['size'=>10, 'class'=>'form-control','id'=>'datefrom'] )?></span>
-        <span class="filter-element"><label><?=Yii::t('app','Order Datetime Max')?></label><?=Html::textInput('OrderSearch[order_datetime_max]', $orderSearch['order_datetime_max'], ['size'=>10, 'class'=>'form-control','id'=>'dateto'] )?></span>
-        <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
+        <span class="filter-element width90"><label><?=Yii::t('app', 'Order ID')?></label><?=Html::textInput( 'OrderSearch[order_id]', $orderSearch['order_id'], ['class'=>'form-control width100'] )?></span><br/>
+        <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('OrderSearch[pos.pos_title]', $orderSearch['pos.pos_title'], array_merge([''=>''],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct pos_title from `pos`", [])->queryAll(),'pos_title','pos_title')), ['class'=>'form-control width100'] )?></span><br/>
+        <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('OrderSearch[sysuser.sysuser_fullname]', $orderSearch['sysuser.sysuser_fullname'], array_merge([''=>''],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct sysuser_fullname from `sysuser`", [])->queryAll(),'sysuser_fullname','sysuser_fullname')), ['class'=>'form-control'] )?></span><br/>
+        <span class="filter-element width90"><label><?=Yii::t('app','Order Payment Type')?></label><?=Html::dropDownList('OrderSearch[order_payment_type]', $orderSearch['order_payment_type'], array_merge([''=>''],ArrayHelper::map($nOrders=\Yii::$app->db->createCommand("select distinct order_payment_type from `order`", [])->queryAll(),'order_payment_type','order_payment_type')), ['class'=>'form-control'] )?></span><br/>
+        <span class="filter-element width50"><label><?=Yii::t('app','Order Total Min')?></label><?=Html::textInput('OrderSearch[order_total_min]', $orderSearch['order_total_min'], ['size'=>3, 'class'=>'form-control'] )?></span>
+        <span class="filter-element width50"><label><?=Yii::t('app','Order Total Max')?></label><?=Html::textInput('OrderSearch[order_total_max]', $orderSearch['order_total_max'], ['size'=>3, 'class'=>'form-control'] )?></span>
+        <span class="filter-element width50"><label><?=Yii::t('app','Order Datetime Min')?></label>
+        <?=DatePicker::widget([
+            'name'  => 'OrderSearch[order_datetime_min]',
+            'value'  => ($orderSearch['order_datetime_min']?$orderSearch['order_datetime_min']:null),
+            'language' => 'ru',
+            'dateFormat' => 'dd.MM.yyyy',
+            'options'=>['size'=>10, 'class'=>'form-control','id'=>'datefrom']
+        ])?>
+        </span>
+        <span class="filter-element width50"><label><?=Yii::t('app','Order Datetime Max')?></label>
+        <?=DatePicker::widget([
+            'name'  => 'OrderSearch[order_datetime_max]',
+            'value'  => ($orderSearch['order_datetime_max']?$orderSearch['order_datetime_max']:null),
+            'language' => 'ru',
+            'dateFormat' => 'dd.MM.yyyy',
+            'options'=>['size'=>10, 'class'=>'form-control','id'=>'dateto']
+        ])?>
+        </span>
         <div>
-            <label><?=Yii::t('app','Order Datetime Set')?></label>
-            <a href="javascript:void(today())"><?=Yii::t('app','today')?></a>
-            <a href="javascript:void(yesterday())"><?=Yii::t('app','yesterday')?></a>
-            <a href="javascript:void(thisweek())"><?=Yii::t('app','thisweek')?></a>
-            <a href="javascript:void(lastweek())"><?=Yii::t('app','lastweek')?></a>
-            <a href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a>
-            <a href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a>
+            <!-- <label><?=Yii::t('app','Order Datetime Set')?></label> -->
+            <a class="filter-element width50" href="javascript:void(today())"><?=Yii::t('app','today')?></a>
+            <a class="filter-element width50" href="javascript:void(yesterday())"><?=Yii::t('app','yesterday')?></a>
+            <a class="filter-element width50" href="javascript:void(thisweek())"><?=Yii::t('app','thisweek')?></a>
+            <a class="filter-element width50" href="javascript:void(lastweek())"><?=Yii::t('app','lastweek')?></a>
+            <a class="filter-element width50" href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a>
+            <a class="filter-element width50" href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a>
             <script type="application/javascript">
             function today(){
                 var today = new Date();
@@ -122,7 +174,10 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             </script>
         </div>
-    </form></div><br>
+        <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
+    </form>
+    </span><!-- 
+ --><span class="col2">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
@@ -131,7 +186,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 //'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
-                'template' => '{view}',
+                'template' => ($role['admin']?'{view}&nbsp;&nbsp;&nbsp;{delete}':'{view}'),
             ],
 
             ['attribute' => 'order_id','filterOptions'=>['class'=>'numFilter'],'filter' => false,],
@@ -185,7 +240,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
-
+    </span>
     
-    <p><b><?=Yii::t('app','foundOrdersTotal')?> : <?=$foundOrdersTotal.' '.Yii::$app->params['currency']?></b></p>
+    <p></p>
 </div>

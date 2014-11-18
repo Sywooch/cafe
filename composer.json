@@ -21,7 +21,8 @@
         "kartik-v/yii2-widgets": "dev-master",
         "kartik-v/yii2-grid": "*",
         "bower-asset/jquery": "~2.0 | ~1.10",
-        "himiklab/yii2-easy-thumbnail-image-helper" : "*"
+        "himiklab/yii2-easy-thumbnail-image-helper" : "*",
+        "yiisoft/yii2-jui": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -35,10 +35,14 @@ class OrderController extends Controller
         $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $sysuser = \Yii::$app->user->getIdentity();
+        $role = \Yii::$app->authManager->getRolesByUser($sysuser->sysuser_id);        
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'foundOrdersTotal'=>$searchModel->getOrderTotal()
+            'total'=>$searchModel->getOrderTotal(),
+            'role'=>$role
         ]);
     }
 

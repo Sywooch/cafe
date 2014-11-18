@@ -169,7 +169,7 @@ class OrderSearch extends Order {
 
         //query database
         $sql='
-            SELECT SUM(order_total) as order_total_sum
+            SELECT SUM(order_total) as order_total_sum, count(order_id) as order_num, AVG(order_total) as order_total_avg
             FROM `order`
                   inner join pos on `order`.pos_id=pos.pos_id
                   inner join sysuser on `order`.sysuser_id=sysuser.sysuser_id
@@ -181,7 +181,7 @@ class OrderSearch extends Order {
 
 
         $summa = $command->queryOne();
-        return $summa['order_total_sum'];
+        return $summa;
     }
 
 }
