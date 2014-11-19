@@ -122,3 +122,27 @@ a.desc:after {
     font-size:85%;
     margin:0px;
 }
+
+.nav > li > a{
+    padding:10px 10px;
+}
+
+a{
+    border-bottom:1px solid rgba(0,0,255,0.1);
+}
+a:hover, a:link, a:active{
+    text-decoration:none;
+}
+
+#w2{
+    margin-top:5px;
+}
+.navbar-brand{
+    height:40px;
+    padding-bottom:5px;
+    padding-top:10px;
+}
+
+.navbar{
+    min-height:40px;
+}

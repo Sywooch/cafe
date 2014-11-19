@@ -142,7 +142,14 @@ return [
     'lastweek'=>'Прошлая неделя',
     'thismonth'=>'Этот месяц',
     'lastmonth'=>'Прошлый месяц',
-    'Order Datetime Set'=>'Выберите интервал дат:',
+    'Order Datetime Set'=>'Выбрать период',
     'pos_printer_url'=>'Адрес принтера(URL)',
-    'pos_printer_template'=>'Шаблон чека'
+    'pos_printer_template'=>'Шаблон чека',
+    'Order report'=>'Отчёт о заказах',
+    'Order report flter'=>'Настройки',
+    'Reports'=>'Отчёты',
+    'Choose report type'=>'Отчёты',
+    'Seller Comission'=>'Комиссионные',
+    'Order Count'=>'Количество заказов',
+    'Order Average'=>'Средняя сумма'
 ];

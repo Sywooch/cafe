@@ -28,7 +28,10 @@ $GLOBALS['rolemap']=\app\models\Sysuser::getRoles();//
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '<nobr>{view}&nbsp;{update}&nbsp;{delete}</nobr>',
+            ],
             ['attribute' => 'sysuser_id','filterOptions'=>['style'=>'width:100px;'],],
             'sysuser_login',
             'sysuser_fullname',

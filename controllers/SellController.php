@@ -235,6 +235,7 @@ class SellController extends \yii\web\Controller {
         $order->order_day_sequence_number = Order::countOrders($pos_id,$order->order_datetime)+1;
         $order->order_total = $order_total;
         $order->order_payment_type = $orderData['order_payment_type'];
+        $order->order_seller_comission=($seller->seller_commission_fee)*0.01*$order_total;
 
         if( isset($orderData['discount_id']) && $orderData['discount_id']>0 ){
             $discount=Discount::findOne($orderData['discount_id']);
