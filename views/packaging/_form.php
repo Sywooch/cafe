@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
     
     <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'category_id', 'category_title'),[]) ?>
     
-    <?php/*= $form->field($model, 'packaging_is_additional')->checkbox() */?>
+    
 
     
     <?php
