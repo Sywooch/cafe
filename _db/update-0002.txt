@@ -1,0 +1,23 @@
+ALTER TABLE `packaging` 
+   ADD COLUMN `packaging_is_visible` TINYINT(1) DEFAULT 1 NOT NULL AFTER `packaging_is_additional`, 
+   ADD COLUMN `packaging_ordering` INT DEFAULT 1000 AFTER `packaging_is_visible`;
+
+
+ALTER TABLE `packaging` DROP FOREIGN KEY `catg`; 
+ALTER TABLE `packaging` ADD CONSTRAINT `catg` FOREIGN KEY (`category_id`) REFERENCES `cafe`.`category`(`category_id`) ON UPDATE CASCADE ON DELETE CASCADE; 
+
+
+
+CREATE TABLE `pos_packaging` (
+ `pos_id` bigint(20) NOT NULL,
+ `packaging_id` bigint(20) NOT NULL,
+ `pos_packaging_price` double DEFAULT NULL,
+  PRIMARY KEY (`pos_id`,`packaging_id`),
+  KEY `pack100` (`packaging_id`),
+  CONSTRAINT `pack100` FOREIGN KEY (`packaging_id`) REFERENCES `packaging` (`packaging_id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pos100` FOREIGN KEY (`pos_id`) REFERENCES `pos` (`pos_id`) ON DELETE CASCADE
+   ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+ALTER TABLE `sysuser` ADD COLUMN `sysuser_active` TINYINT(1) DEFAULT 1 NOT NULL AFTER `sysuser_token`; 

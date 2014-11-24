@@ -33,6 +33,7 @@ return [
     'sysuser_password1'=>'Пароль',
     'sysuser_password2'=>'Повторите пароль',
     'Type_password_to_update'=>'Наберите пароль, чтобы изменить его',
+    'sysuser_active'=>'Разрешить вход',
     
     'Create'=>'Создать',
     'Update'=>'Изменить',
@@ -59,7 +60,7 @@ return [
     'Packaging'=>'Фасовка',
     'Packagings'=>'Фасовки',
     'Create Packaging'=>'Создать фасовку',
-    'Packaging ID'=>'№',
+    'Packaging ID'=>'Код',
     'Packaging Icon'=>'Иконка',
     'Packaging Title'=>'Название',
     'Packaging Price'=>'Цена',
@@ -151,5 +152,15 @@ return [
     'Choose report type'=>'Отчёты',
     'Seller Comission'=>'Комиссионные',
     'Order Count'=>'Количество заказов',
-    'Order Average'=>'Средняя сумма'
+    'Order Average'=>'Средняя сумма',
+    'Packaging ordering'=>'Номер по порядку',
+    'Packaging is visible'=>'Разрешить продажу',
+    'All POSs'=>'Все точки продаж',
+    'All sellers'=>'Все продавцы',
+    'Pos-packaging {pos_title}'=>'Цены в точке "{pos_title}"',
+    'packaging_id'=>'Код фасовки',
+    'Pos Packaging Price'=>'Цена в точке',
+    'rememberMe'=>'Запомнить меня',
+    'Login'=>'Войти на сайт',
+    'Pos-packaging-prices'=>'Цены в точке реализации'
 ];

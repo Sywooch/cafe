@@ -33,6 +33,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         'sysuser_role' => self::ROLE_ADMIN,
         'sysuser_telephone' => 'gen_dobr@hotmail.com',
             //'sysuser_token' => (Yii::app()->params['sysuser_token']),
+        'sysuser_active'=>1
     ];
 
     /**
@@ -50,7 +51,8 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['sysuser_role'], 'string','max'=>32],
             [['sysuser_fullname'], 'string', 'max' => 512],
             [['sysuser_login', 'sysuser_telephone', 'sysuser_token'], 'string', 'max' => 64],
-            [['sysuser_password'], 'string', 'max' => 128]
+            [['sysuser_password'], 'string', 'max' => 128],
+            [['sysuser_active'],'boolean']
         ];
     }
 
@@ -66,6 +68,7 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'sysuser_role' => Yii::t('app', 'sysuser_role'),
             'sysuser_telephone' => Yii::t('app', 'sysuser_telephone'),
             'sysuser_token' => Yii::t('app', 'sysuser_token'),
+            'sysuser_active' => Yii::t('app', 'sysuser_active'),
         ];
     }
 

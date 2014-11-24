@@ -18,23 +18,21 @@ use Yii;
  * @property Seller[] $sellers
  * @property Supply[] $supplies
  */
-class Pos extends \yii\db\ActiveRecord
-{
+class Pos extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'pos';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['pos_title', 'pos_address', 'pos_timetable','pos_printer_url'], 'string', 'max' => 1024],
+            [['pos_title', 'pos_address', 'pos_timetable', 'pos_printer_url'], 'string', 'max' => 1024],
             [['pos_printer_template'], 'string']
         ];
     }
@@ -42,8 +40,7 @@ class Pos extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'pos_id' => Yii::t('app', 'pos_id'),
             'pos_title' => Yii::t('app', 'pos_title'),
@@ -57,104 +54,95 @@ class Pos extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrders()
-    {
+    public function getOrders() {
         return $this->hasMany(Order::className(), ['pos_id' => 'pos_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPosProducts()
-    {
+    public function getPosProducts() {
         return $this->hasMany(PosProduct::className(), ['pos_id' => 'pos_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
-    {
+    public function getProducts() {
         return $this->hasMany(Product::className(), ['product_id' => 'product_id'])->viaTable('{supply}', ['pos_id' => 'pos_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSellers()
-    {
+    public function getSellers() {
         return $this->hasMany(Seller::className(), ['pos_id' => 'pos_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSupplies()
-    {
+    public function getSupplies() {
         return $this->hasMany(Supply::className(), ['pos_id' => 'pos_id']);
     }
-    
-    
-    
-    public function getAvailablePackaging(){
-        $pos_id=(int)$this->pos_id;
-        
+
+    public function getAvailablePackaging() {
+        $pos_id = (int) $this->pos_id;
+
         // get all available packaging
-        //        $sql="SELECT packaging.*, MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available
-        //              FROM packaging_product 
-        //                   INNER JOIN packaging ON packaging.packaging_id=packaging_product.packaging_id
-        //                   LEFT JOIN pos_product 
-        //                   ON (pos_product.product_id=packaging_product.product_id 
-        //                       AND pos_product.pos_id={$pos_id}
-        //                       AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
-        //              WHERE NOT packaging.packaging_is_additional
-        //              GROUP BY packaging.packaging_id
-        //              HAVING packaging_is_available>0";
-        //        $dataBasic = \Yii::$app->db->createCommand($sql, [])->queryAll();
-        //        
-        //        
-        //        $sql="SELECT packaging.*, MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available
-        //              FROM packaging_product 
-        //                   INNER JOIN packaging ON packaging.packaging_id=packaging_product.packaging_id
-        //                   LEFT JOIN pos_product 
-        //                   ON (pos_product.product_id=packaging_product.product_id 
-        //                       AND pos_product.pos_id={$pos_id}
-        //                       AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
-        //              WHERE packaging.packaging_is_additional
-        //              GROUP BY packaging.packaging_id
-        //              HAVING packaging_is_available>0";
-        //        $dataAdditional=\Yii::$app->db->createCommand($sql, [])->queryAll();
-        
-        // get all available packaging
-        $sql="SELECT packaging.*, MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available
+        $sql = "SELECT packaging.*, 
+                    MIN(IF(pos_product.product_id IS NULL,-1,pos_product.product_id)) AS packaging_is_available,
+                    if(pos_packaging.pos_packaging_price is not null,pos_packaging.pos_packaging_price,packaging.packaging_price) as packaging_price
               FROM packaging_product 
                    INNER JOIN packaging ON packaging.packaging_id=packaging_product.packaging_id
                    LEFT JOIN pos_product 
                    ON (pos_product.product_id=packaging_product.product_id 
                        AND pos_product.pos_id={$pos_id}
                        AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
+                   LEFT JOIN pos_packaging
+                   ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_product.pos_id={$pos_id})
+              WHERE packaging.packaging_is_visible
               GROUP BY packaging.packaging_id
+              ORDER BY packaging.packaging_ordering ASC
               ";
         // HAVING packaging_is_available>0
         $dataBasic = \Yii::$app->db->createCommand($sql, [])->queryAll();
-        
+
         // no additionalData block
-        $dataAdditional=[];
+        $dataAdditional = [];
 
         // get all categories
-        $category_ids=Array();
-        $category_ids[]=0;
-        foreach($dataBasic as $item){
-            $category_ids[]=(int)$item['category_id'];
+        $category_ids = Array();
+        $category_ids[] = 0;
+        foreach ($dataBasic as $item) {
+            $category_ids[] = (int) $item['category_id'];
         }
         //
-        $sql="SELECT * FROM category WHERE category_id IN(".join(',',$category_ids).") ORDER BY category_ordering ASC";
-        $categories=\Yii::$app->db->createCommand($sql, [])->queryAll();
-        
+        $sql = "SELECT * FROM category WHERE category_id IN(" . join(',', $category_ids) . ") ORDER BY category_ordering ASC";
+        $categories = \Yii::$app->db->createCommand($sql, [])->queryAll();
+
         return [
-            'packagingBasic'=>$dataBasic,
-            'packagingAdditional'=>$dataAdditional,
-            'category'=>$categories
+            'packagingBasic' => $dataBasic,
+            'packagingAdditional' => $dataAdditional,
+            'category' => $categories
         ];
     }
+
+    public function getPackaging() {
+        $pos_id = (int) $this->pos_id;
+
+        // get all available packaging
+        $sql = "SELECT packaging.packaging_id, packaging.packaging_title,
+                       packaging.packaging_price,pos_packaging.pos_packaging_price
+                FROM packaging
+                   LEFT JOIN pos_packaging
+                   ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_packaging.pos_id={$pos_id})
+              GROUP BY packaging.packaging_id
+              ORDER BY packaging.packaging_title ASC
+              ";
+
+        return $sql;
+    }
+
+    
 }

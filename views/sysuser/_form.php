@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'sysuser_telephone')->textInput(['maxlength' => 64]) ?>
 
-    <?php /* $form->field($model, 'sysuser_token')->textInput(['maxlength' => 64]) */?>
+    <?= $form->field($model, 'sysuser_active')->checkbox() ?>
     
     <?=($model->isNewRecord?"":'<h3>'.Yii::t('app','Type_password_to_update').'</h3>')?>
     

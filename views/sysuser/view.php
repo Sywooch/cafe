@@ -31,13 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'sysuser_id',
             'sysuser_fullname',
             'sysuser_login',
-            //'sysuser_password',
-            [                    // the owner name of the model
+            [
             'label' => Yii::t('app','sysuser_role'),
             'value' => \app\models\Sysuser::getRoleName($model->sysuser_role),
             ],
             'sysuser_telephone',
-            //'sysuser_token',
+            ['label' => Yii::t('app', 'sysuser_active'), 'format' => 'html', 'value' => ($model->sysuser_active?Yii::t('app','yes'):Yii::t('app','no'))],
         ],
     ]) ?>
 

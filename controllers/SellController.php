@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Pos;
 use app\models\Order;
 use app\models\Packaging;
+use app\models\PosPackaging;
 use app\models\OrderPackaging;
 use app\models\Seller;
 use app\models\Discount;
@@ -207,14 +208,24 @@ class SellController extends \yii\web\Controller {
         $order_total = 0;
         $pos_product_update = Array();
         foreach ($tmp as $packaging_id => $order_packaging_number) {
-            $packaging = Packaging::findOne($packaging_id);
+            //$packaging = Packaging::findOne($packaging_id);
+            $posPackaging = PosPackaging::find()->where(['packaging_id' => ((int) $packaging_id), 'pos_id' => ((int) $pos_id)])->one();
+            if($posPackaging){
+                $packaging=$posPackaging->getPackaging()->one();
+                $packaging_price=$posPackaging->pos_packaging_price?$posPackaging->pos_packaging_price:$packaging->packaging_price;
+            }else{
+                $packaging = Packaging::findOne($packaging_id);
+                $packaging_price=$packaging->packaging_price;
+            }
+
             if ($packaging != null) {
                 $order_packaging[] = [
                     'packaging' => $packaging,
-                    'order_packaging_number' => $order_packaging_number
+                    'order_packaging_number' => $order_packaging_number,
+                    'packaging_price'=>$packaging_price
                 ];
 
-                $order_total+=$packaging->packaging_price * $order_packaging_number;
+                $order_total+=$packaging_price * $order_packaging_number;
 
                 $packagingProducts = $packaging->getPackagingProducts()->all();
                 foreach ($packagingProducts as $pp) {
@@ -257,7 +268,7 @@ class SellController extends \yii\web\Controller {
             $OP->order_id = $order_id;
             $OP->packaging_id = $op['packaging']->packaging_id;
             $OP->packaging_title = $op['packaging']->packaging_title;
-            $OP->packaging_price = $op['packaging']->packaging_price;
+            $OP->packaging_price = $op['packaging_price'];
             $OP->order_packaging_number = $op['order_packaging_number'];
             $OP->save();
         }

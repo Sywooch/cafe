@@ -44,8 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['label' => Yii::t('app', 'packaging_icon'), 'format' => 'html', 'value' => $imageThumb],
             'packaging_title',
             'packaging_price',
-            //['label' => Yii::t('app', 'Packaging is additional'), 'format' => 'html', 'value' => ($model->packaging_is_additional?Yii::t('app','yes'):Yii::t('app','no'))],
-
+            ['label' => Yii::t('app', 'Packaging is visible'), 'format' => 'html', 'value' => ($model->packaging_is_visible?Yii::t('app','yes'):Yii::t('app','no'))],
+            'packaging_ordering',
         ],
     ]) ?>
 

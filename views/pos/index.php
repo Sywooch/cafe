@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\SerialColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
+                'template' => '{view}&nbsp;{update}{products}{supply}{packaging}&nbsp;&nbsp;&nbsp;{delete}',
                 'buttons'=>[
                    'products'=>function ($url, $model, $key) {
                                return '<b>'.Html::a(' 3 ', ['pos/products','pos_id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
@@ -34,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
                    'supply'=>function ($url, $model, $key) {
                                return '<b>'.Html::a(' П ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
                              },
-                                     
+                   'packaging'=>function ($url, $model, $key) {
+                               return '<b>'.Html::a(' Ц ', ['pos/packaging','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-packaging-prices')]).'</b>';
+                             },
                 ]
             ],
             ['attribute' => 'pos_id','filterOptions'=>['class'=>'numFilter'],],

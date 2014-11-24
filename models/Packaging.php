@@ -35,8 +35,8 @@ class Packaging extends \yii\db\ActiveRecord {
         return [
             [['packaging_price'], 'number'],
             [['packaging_icon'], 'string', 'max' => 1024],
-            [['category_id'], 'integer'],
-            [['packaging_is_additional'], 'boolean'],
+            [['category_id','packaging_ordering'], 'integer'],
+            [['packaging_is_additional','packaging_is_visible'], 'boolean'],
             [['packaging_title'], 'string', 'max' => 32]
         ];
     }
@@ -52,6 +52,8 @@ class Packaging extends \yii\db\ActiveRecord {
             'packaging_price' => Yii::t('app', 'Packaging Price') . ', ' . \Yii::$app->params['currency'],
             'category_id' => Yii::t('app', 'Packaging Category'),
             'packaging_is_additional'=>Yii::t('app', 'Packaging is additional'),
+            'packaging_is_visible'=>Yii::t('app', 'Packaging is visible'),
+            'packaging_ordering'=>Yii::t('app', 'Packaging ordering'),
         ];
     }
 
