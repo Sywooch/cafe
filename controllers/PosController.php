@@ -149,6 +149,7 @@ class PosController extends Controller {
 
         $dataProvider = new SqlDataProvider([
             'sql' => $query,
+            'pagination'=>false,
         ]);
         return $this->render('packaging', [
                     'pos' => $model,
