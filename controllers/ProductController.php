@@ -27,11 +27,11 @@ class ProductController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update','delete'],
+                'only' => ['index', 'view', 'create', 'update','delete','updateproductquantity'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update','delete','updateproductquantity'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -140,6 +140,17 @@ class ProductController extends Controller
         return $this->redirect(['index']);
     }
 
+    
+    public function actionUpdateproductquantity(){
+        $product_id = \Yii::$app->request->post('product_id');
+        $product_quantity = \Yii::$app->request->post('product_quantity');
+        $model = $this->findModel($product_id); 
+        $model->product_quantity = $product_quantity;
+        $model->update();
+        return '{"status":"success"}';
+    }
+    
+    
     /**
      * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

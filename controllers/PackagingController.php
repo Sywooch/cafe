@@ -10,13 +10,13 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use \yii\db\Exception;
+
 /**
  * PackagingController implements the CRUD actions for Packaging model.
  */
-class PackagingController extends Controller
-{
-    public function behaviors()
-    {
+class PackagingController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -26,11 +26,11 @@ class PackagingController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update','delete'],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'updateordering'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'updateordering'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -42,14 +42,13 @@ class PackagingController extends Controller
      * Lists all Packaging models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new PackagingSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -58,10 +57,9 @@ class PackagingController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -70,23 +68,22 @@ class PackagingController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Packaging();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $file = \yii\web\UploadedFile::getInstanceByName('packaging_icon_file');
-            if($file){
-                $iconfilename='packaging'.$model->packaging_id.'.'.$file->getExtension();
-                if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
-                    $model->packaging_icon=$iconfilename;
+            if ($file) {
+                $iconfilename = 'packaging' . $model->packaging_id . '.' . $file->getExtension();
+                if ($file->size > 0 && $file->saveAs(Yii::$app->params['file_root_dir'] . '/' . $iconfilename)) {
+                    $model->packaging_icon = $iconfilename;
                     $model->save();
-                }                
+                }
             }
             return $this->redirect(['update', 'id' => $model->packaging_id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -97,23 +94,22 @@ class PackagingController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $file = \yii\web\UploadedFile::getInstanceByName('packaging_icon_file');
-            if($file){
-                $iconfilename='packaging'.$model->packaging_id.'.'.$file->getExtension();
-                if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
-                    $model->packaging_icon=$iconfilename;
-                    $model->save();                
-                }                
+            if ($file) {
+                $iconfilename = 'packaging' . $model->packaging_id . '.' . $file->getExtension();
+                if ($file->size > 0 && $file->saveAs(Yii::$app->params['file_root_dir'] . '/' . $iconfilename)) {
+                    $model->packaging_icon = $iconfilename;
+                    $model->save();
+                }
             }
             return $this->redirect(['view', 'id' => $model->packaging_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -124,46 +120,52 @@ class PackagingController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $model=$this->findModel($id);
-        $iconfilename=Yii::$app->params['file_root_dir'].'/'.$model->packaging_icon;
-        
-        try{
+    public function actionDelete($id) {
+        $model = $this->findModel($id);
+        $iconfilename = Yii::$app->params['file_root_dir'] . '/' . $model->packaging_icon;
+
+        try {
             $model->delete();
-            if(is_file($iconfilename)){
+            if (is_file($iconfilename)) {
                 unlink($iconfilename);
             }
-        }catch (Exception $e){
+        } catch (Exception $e) {
             
         }
         return $this->redirect(['index']);
     }
 
-    
-    public function actionProductlist($id){
-        $model=$this->findModel($id);
-        $productList=$model->getPackagingProducts()->all();
+    public function actionProductlist($id) {
+        $model = $this->findModel($id);
+        $productList = $model->getPackagingProducts()->all();
         //var_dump($productList);
-        $result=Array();
-        foreach($productList as $it){
-            $item=Array();
-            $product=$it->getProduct()->one();
+        $result = Array();
+        foreach ($productList as $it) {
+            $item = Array();
+            $product = $it->getProduct()->one();
             //var_dump($product);exit();
-            $item['product_id']=$product->product_id;
-            $item['product_title']=$product->product_title;
-            $item['product_unit']=$product->product_unit;
-            $item['product_unit_price']=$product->product_unit_price;
-            $item['packaging_product_quantity']=$it->packaging_product_quantity;
-            $item['packaging_product_price']=$it->packaging_product_quantity*$product->product_unit_price;
-            $result[]=$item;
+            $item['product_id'] = $product->product_id;
+            $item['product_title'] = $product->product_title;
+            $item['product_unit'] = $product->product_unit;
+            $item['product_unit_price'] = $product->product_unit_price;
+            $item['packaging_product_quantity'] = $it->packaging_product_quantity;
+            $item['packaging_product_price'] = $it->packaging_product_quantity * $product->product_unit_price;
+            $result[] = $item;
         }
         //var_dump($result);
         return json_encode($result);
     }
-    
-    
-    
+
+    public function actionUpdateordering() {
+        $packaging_id = \Yii::$app->request->post('packaging_id');
+        $packaging_ordering = \Yii::$app->request->post('packaging_ordering');
+
+        $model = $this->findModel($packaging_id);
+        $model->packaging_ordering = $packaging_ordering;
+        $model->update();
+        return 'OK';
+    }
+
     /**
      * Finds the Packaging model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -171,12 +173,12 @@ class PackagingController extends Controller
      * @return Packaging the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Packaging::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

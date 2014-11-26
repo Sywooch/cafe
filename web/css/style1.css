@@ -58,7 +58,7 @@ input[type="submit"],
 input[type="reset"] {
     background:#478898;
     color:#feedb9;
-    border: solid; 1px; #9dac24;
+    border: 1px solid #9dac24;
     font-size: 10pt;
     font-weight: bold;
     margin-left: 2px;
@@ -512,11 +512,11 @@ z-index:10;
 
 .hidden .btn {
   background: #a5c500;;
-  background-image: -webkit-linear-gradient(top, #a5c500;, #88a201;);
-  background-image: -moz-linear-gradient(top, #a5c500;, #88a201;);
-  background-image: -ms-linear-gradient(top, #a5c500;, #88a201;);
-  background-image: -o-linear-gradient(top, #a5c500;, #88a201;);
-  background-image: linear-gradient(to bottom, #a5c500;, #88a201;);
+  background-image: -webkit-linear-gradient(top, #a5c500, #88a201);
+  background-image: -moz-linear-gradient(top, #a5c500, #88a201);
+  background-image: -ms-linear-gradient(top, #a5c500, #88a201);
+  background-image: -o-linear-gradient(top, #a5c500, #88a201);
+  background-image: linear-gradient(to bottom, #a5c500, #88a201);
   -webkit-border-radius: 7;
   -moz-border-radius: 7;
   border-radius: 7px;
@@ -525,7 +525,7 @@ z-index:10;
   color: #fffec5;;
   font-size: 20px;
   padding: 10px 20px 10px 20px;
-  border: solid #88a201; 2px;
+  border: 2px solid #88a201;
   text-decoration: none;
 }
 

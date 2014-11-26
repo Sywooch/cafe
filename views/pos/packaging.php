@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
-    <?php
+<?php
     /*
      * 'pos_id', 'p.product_id', 'p.product_title', 'p.product_quantity', 'p.product_unit', 'p.product_unit_price',
      * 'pos_product_quantity', 'pos_product_min_quantity', 'supply_quantity','other_pos_supply'  
