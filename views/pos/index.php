@@ -29,13 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view}&nbsp;{update}{products}{supply}{packaging}&nbsp;&nbsp;&nbsp;{delete}',
                 'buttons'=>[
                    'products'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' 3 ', ['pos/products','pos_id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
+                               return '<b>'.Html::a(' <span class="glyphicon glyphicon-book"></span> ', ['pos/products','pos_id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
                              },
                    'supply'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' П ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
+                               return '<b>'.Html::a(' <span class="glyphicon glyphicon-import"></span> ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
                              },
                    'packaging'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' Ц ', ['pos/packaging','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-packaging-prices')]).'</b>';
+                               return '<b>'.Html::a(' <img src="img/ruble.gif" class="ruble-img" /> ', ['pos/packaging','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-packaging-prices')]).'</b>';
                              },
                 ]
             ],
@@ -46,5 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
-
+<style type="text/css">
+    img.ruble-img { height: 1.4ex; margin-bottom: 2px;}
+</style>
 </div>
