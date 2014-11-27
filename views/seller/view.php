@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 $pos=$model->getPos()->one();
 $sysuser=$model->getSysuser()->one();
 
-$this->title = $sysuser->sysuser_fullname.' @ '.$pos->pos_title;//$model->seller_id;
+$this->title = $sysuser->sysuser_fullname.' @ '.($pos?$pos->pos_title:"");
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sellers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
