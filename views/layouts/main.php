@@ -43,14 +43,35 @@ AppAsset::register($this);
                 
                 $items[]=['label' => Yii::t('app','Sell'), 'url' => ['/sell/index']];
                 //$items[]=['label' => Yii::t('app','Orders'), 'url' => ['/order/index','sort'=>'-order_datetime']];
-                $items[]=['label' => Yii::t('app','Reports'), 'url' => ['/report/index']];
-                $items[]=['label' => Yii::t('app','Packaging'), 'url' => ['/packaging/index']];
-                $items[]=['label' => Yii::t('app','Categories'), 'url' => ['/category/index']];
-                //$items[]=['label' => Yii::t('app','Discounts'), 'url' => ['/discount/index']];
-                $items[]=['label' => Yii::t('app','Products'), 'url' => ['/product/index']];
-                $items[]=['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']];
+                $items[]=[
+                    'label' => Yii::t('app','Reports'), 
+                    'items'=>[
+                        ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index']],
+                        ['label'=>Yii::t('app','Sellers'), 'url'=>['/report/seller']],
+                    ]
+                    //'url' => ['/report/index']
+                ];
+                
+                
+
                 $items[]=['label' => Yii::t('app','Pos-list'), 'url' => ['/pos/index']];
-                $items[]=['label' => Yii::t('app','Sysuser-list'), 'url' => ['/sysuser/index']];
+
+                $items[]=[
+                    'label' => Yii::t('app','Products'),
+                    'items' => [
+                        ['label' => Yii::t('app','Products'), 'url' => ['/product/index']],
+                        ['label' => Yii::t('app','Discounts'), 'url' => ['/discount/index']],
+                        ['label' => Yii::t('app','Packaging'), 'url' => ['/packaging/index']],
+                        ['label' => Yii::t('app','Categories'), 'url' => ['/category/index']],
+                    ]
+                ];
+                $items[]=[
+                    'label'=>Yii::t('app','Personnel'),
+                    'items'=>[
+                        ['label' => Yii::t('app','Sysuser-list'),'url' => ['/sysuser/index']],
+                        ['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']]
+                    ]
+                ];
             }
             
             if(Yii::$app->user->isGuest){

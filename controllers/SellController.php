@@ -74,11 +74,12 @@ class SellController extends \yii\web\Controller {
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
         } else {
-            // echo "pos not found";
+            //echo "pos not found";
             // pos not found
             $sellers = Seller::find()->where(['sysuser_id' => ((int) $sysuser->sysuser_id)])->all();
-            $cnt=count($seller);
-            // echo "cnt=$cnt";
+            //var_dump($sellers);
+            $cnt=count($sellers);
+            //echo "cnt=$cnt";
             if($cnt==0){
                 
                 // POS not found but admin can access any POS
@@ -103,8 +104,11 @@ class SellController extends \yii\web\Controller {
                 return $this->redirect(['posselector']);
             }
         }
-        //return 'ffff';
-        return $this->render('index',['pos' => $pos,'sysuser'=>$sysuser,'seller'=>$seller]);
+        
+        // list of discounts
+        $discounts=Discount::find()->all();
+        
+        return $this->render('index',['pos' => $pos,'sysuser'=>$sysuser,'seller'=>$seller,'discounts'=>$discounts]);
     }
 
     public function actionPosselector() {
@@ -251,10 +255,20 @@ class SellController extends \yii\web\Controller {
         if( isset($orderData['discount_id']) && $orderData['discount_id']>0 ){
             $discount=Discount::findOne($orderData['discount_id']);
             if($discount){
-                $order->order_discount = $orderData['order_discount'];
+                
                 $order->discount_id = $discount->discount_id;
                 $order->discount_title = $discount->discount_title;
+                // update order_total
+                $order->order_discount = Discount::getDiscountValue(
+                        [
+                            'discount_id'=>$discount->discount_id,
+                            'order_total'=>$order_total,
+                            'order_packaging'=>$order_packaging
+                        ],
+                        json_decode($discount->discount_rule));
+                $order->order_total-=$order->order_discount;
             }
+            
         }
 
         $order->order_hash = Order::createOrderHash($order->pos_id, $order->seller_id, $order->order_datetime, $order->order_total, $order->order_discount);

@@ -83,8 +83,8 @@ class Seller extends \yii\db\ActiveRecord
         $comission=$this->seller_commission_fee * 0.01 * $ordersTotal['total'];
         
         $sysuser=$this->getSysuser()->one();
-        
-        $stats=Array('total'=>$ordersTotal['total'], 'count'=>$ordersTotal['n'], 'comission'=>$comission, 'sysuser_fullname'=>$sysuser->sysuser_fullname);
+        $pos = $this->getPos()->one();
+        $stats=Array('total'=>$ordersTotal['total'], 'count'=>$ordersTotal['n'], 'comission'=>$comission, 'sysuser_fullname'=>$sysuser->sysuser_fullname, 'pos_title'=>$pos->pos_title);
         return $stats;
     }
 }

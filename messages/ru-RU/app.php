@@ -117,10 +117,10 @@ return [
     'Sell'=>'Продажа',
     'Discounts'=>'Скидки',
     
-    'Discount ID'=>'#',
+    'Discount ID'=>'Код скидки',
     'Discount Title'=>'Название скидки',
-    'Discount Description'=>'Описание скидки',
-    'Discount Rule'=>'Правило вычисления (JavaScript)',
+    'Discount Description'=>'Примечания',
+    'Discount Rule'=>'Правило вычисления',
     'Create Discount'=>'Создать скидку',
     'Update Discount: '=>'Изменить скидку: ',
     'Duplicate Order'=>'Заказ можно добавить только один раз',
@@ -162,5 +162,16 @@ return [
     'Pos Packaging Price'=>'Цена в точке',
     'rememberMe'=>'Запомнить меня',
     'Login'=>'Войти на сайт',
-    'Pos-packaging-prices'=>'Цены в точке реализации'
+    'Pos-packaging-prices'=>'Цены в точке реализации',
+    'Personnel'=>'Сотрудники',
+    'no_condition'=>'<!-- -->',//Нет условия',
+    'order_total'=>'Сумма заказа',
+    'packaging_title'=>'Название фасовки',
+    'packaging_price'=>'Цена фасовки',
+    'condition_attribute'=>'Если',
+    'contains'=>'содержит',
+    'search_attribute'=>'то найти атрибут',
+    'exists'=>'существует',
+    'discount_value'=>'и применить к нему скидку',
+    'search_attribute_condition'=>"который "
 ];

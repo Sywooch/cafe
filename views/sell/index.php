@@ -1,6 +1,8 @@
 <?php
 $this->title=Yii::t('app','Sell');
 //var img_root_url="< ? =Yii::$app->homeUrl? >/";
+
+// printed order template
 function parseTemplate($in){
     $from = Array( "'"); //"\\",
     $to = Array("\\'"); //"\\\\", 
@@ -64,4 +66,13 @@ var org_title='<?=Yii::$app->params['siteTitle']?>';
 function processTemplate(data){
     <?=($pos?parseTemplate($pos->pos_printer_template):'')?>
 }
+
+var discounts={};
+<?php
+foreach($discounts as $key=>$discount){
+    if(strlen($discount->discount_rule)>0){
+       echo "discounts['{$discount->discount_id}']=".$discount->discount_rule.";\n";     
+    }
+}
+?>
 </script>

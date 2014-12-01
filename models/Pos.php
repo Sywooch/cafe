@@ -100,11 +100,14 @@ class Pos extends \yii\db\ActiveRecord {
                        AND pos_product.pos_id={$pos_id}
                        AND pos_product.pos_product_quantity>packaging_product.packaging_product_quantity)
                    LEFT JOIN pos_packaging
-                   ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_product.pos_id={$pos_id})
+                   ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_packaging.pos_id={$pos_id})
               WHERE packaging.packaging_is_visible
               GROUP BY packaging.packaging_id
               ORDER BY packaging.packaging_ordering ASC
               ";
+        if(isset($_REQUEST['v'])){
+            echo $sql;
+        }
         // HAVING packaging_is_available>0
         $dataBasic = \Yii::$app->db->createCommand($sql, [])->queryAll();
 

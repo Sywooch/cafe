@@ -26,7 +26,9 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="width light"><!-- 
     --><div class="leftcolumn"><!-- 
-        --><div class="tipy" id="categories"></div><!-- 
+     --><div class="bordercolumn"><div id="cornertop"></div><div id="cornerbottom"></div></div><!--
+     --><div class="tipy" id="categories"><!--
+     --></div><!-- 
         --><div class="tovary" id="tovaryList"><!-- 
             --><div class="tovar tov_1" id="packagingBasic"></div><!-- 
             --><!-- <div class="tovar tov_2 dobavki" id="packagingAdditional"></div> --><!-- 
@@ -43,16 +45,20 @@ AppAsset::register($this);
     --></div><!-- 
     --><div class="rightcolumn"><!-- 
         --><div class="zakaz"><!-- 
-            --><h2>Заказ №<span id="zakazId"></span></h2><!-- 
-            --><div id="zakazScrollUp" class="zakazScrollerUp">&Delta;</div><!-- 
+            --><h2>Заказ <span id="zakazId"></span></h2><!-- 
+            --><div id="zakazScrollUp" class="zakazScrollerUp">&nbsp;</div><!-- 
             --><div id="zakazItems"><div id="zakazItemsPanel"></div></div><!-- 
-            --><div id="zakazScrollDown" class="zakazScrollerDown">&nabla;</div><!-- 
+            --><div id="zakazScrollDown" class="zakazScrollerDown">&nbsp;</div><!-- 
+        --></div><!-- 
+        --><div class="discounts"><!-- 
+           --><h4><span class="col1">Скидка: </span></h4><!-- 
         --></div><!-- 
         --><div class="itogo"><!-- 
+           --><div class="new" id="newOrder">!</div><!--
            --><h4><span class="col1">Итого: </span><span id="orderTotal"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
         --></div><!-- 
         --><div class="raschet"><!-- 
-            --><h4>Калькулятор сдачи:</h4><div class="calcRow"><span class="col1">Получено: </span><input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></div><!-- 
+            --><h4>Сдача:</h4><div class="calcRow"><span class="col1">Получено: </span><input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></div><!-- 
             --><div class="calcRow"><span class="col1">Сдача: </span><span id="sdacha"></span></div><!-- 
         --></div><!-- 
         --><div class="oplata"><!-- 
@@ -65,7 +71,7 @@ AppAsset::register($this);
                 --><h5>Оплачен картой</h5><!-- 
             --></div><!-- 
         --></div><!-- 
-        --><div class="new" id="newOrder"><h4>Новый заказ</h4></div><!--               
+        --><!--               
     --></div><!--
  --></div>
 <?php $this->endBody() ?>

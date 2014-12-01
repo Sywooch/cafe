@@ -269,14 +269,14 @@ $data=[
             //                    return ($model->order_total * 0.01 * $seller->seller_commission_fee).' '.Yii::$app->params['currency'];
             //               }
             //],
-            //[
-            //    'label' => Yii::t('app','Order Discount'),
-            //    'filterOptions'=>['class'=>'numFilter'],
-            //    'content'=>function ($model, $key, $index, $column){
-            //                    return $model->order_discount.' '.Yii::$app->params['currency'];
-            //               }
-            //],
-            //'discount_title',
+            [
+                'label' => Yii::t('app','Order Discount'),
+                'filterOptions'=>['class'=>'numFilter'],
+                'content'=>function ($model, $key, $index, $column){
+                                return $model->order_discount.' '.Yii::$app->params['currency'];
+                           }
+            ],
+            'discount_title',
             // 'order_hash',
 
         ],
