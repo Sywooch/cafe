@@ -9,9 +9,9 @@ use yii\helpers\Html;
 $pos=$model->getPos()->one();
 $sysuser=$model->getSysuser()->one();
 
-$this->title = Yii::t('app', 'Update Seller: ') . ' ' . $sysuser->sysuser_fullname .' @ '.$pos->pos_title;
+$this->title = Yii::t('app', 'Update Seller: ') . ' ' . $sysuser->sysuser_fullname .' @ '.($pos?$pos->pos_title:"");
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sellers'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $sysuser->sysuser_fullname .' @ '.$pos->pos_title, 'url' => ['view', 'id' => $model->seller_id]];
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['view', 'id' => $model->seller_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="seller-update">
