@@ -257,7 +257,7 @@ function addPackagingToOrder(packaging) {
         html.click(plusitem);
         dom.append(html);
 
-        html = $('<div class="cena">&nbsp;&times;&nbsp;' + packaging.packaging_price + ' ' + currency + '</div>');
+        html = $('<div class="cena">&nbsp;&times;' + packaging.packaging_price + ' ' + currency + '</div>');
         dom.append(html);
 
         html = $('<div class="otmena" data-packaging_id="' + packaging.packaging_id + '">&times;</div>');
@@ -805,8 +805,8 @@ function tpl() {
 
 function adjustSizes() {
 
-    var categoryHeight = 150;
-    var statistikaHeight = 50;
+    var categoryHeight = 127;
+    var statistikaHeight = 40;
     var btnOplataHeight = 150;
     var calcHeight = 90;
     var itogoHeight = 40;
@@ -871,8 +871,7 @@ function adjustSizes() {
     $('.button_stat').css('width', statistikaHeight + 'px');
 
     var textStatWidth = $('.statistika').width() - statistikaHeight  -(zigzagWidth - 3 * zakazBorderWidth + 1);
-    $('.text_stat').css('width', (textStatWidth) + 'px');
-
+    $('.text_stat').css({width: (textStatWidth) + 'px',height:statistikaHeight+'px'});
 }
 
 

@@ -173,5 +173,6 @@ return [
     'search_attribute'=>'то найти атрибут',
     'exists'=>'существует',
     'discount_value'=>'и применить к нему скидку',
-    'search_attribute_condition'=>"который "
+    'search_attribute_condition'=>"который ",
+    'paytype'=>'Спос.оплаты'
 ];

@@ -63,11 +63,11 @@ AppAsset::register($this);
         --></div><!-- 
         --><div class="oplata"><!-- 
             --><div class="cash" id="cachPaid"><!-- 
-                --><img src=img/cash.png><!-- 
+                --><!--  <img src=img/cash.png>
                 --><h5>Оплачен наличными</h5><!-- 
             --></div><!--
             --><div class="card" id="cardPaid"><!-- 
-                --><img src=img/card.png><!-- 
+                --><!-- <img src=img/card.png>
                 --><h5>Оплачен картой</h5><!-- 
             --></div><!-- 
         --></div><!-- 

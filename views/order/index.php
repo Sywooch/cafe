@@ -59,6 +59,7 @@ $data=[
             padding-left:20px;
             background-image:url(./img/settings.png);
             background-repeat:no-repeat;
+            background-position:left center;
         }
     </style>
 
@@ -252,13 +253,14 @@ $data=[
                            }
             ],
             // 'order_day_sequence_number',
-            ['attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],'filter' => false,],
+            ['label' => Yii::t('app','paytype'),'attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],'filter' => false,],
             [
                 'label' => Yii::t('app','Order Total'),
                 'filterOptions'=>['class'=>'numFilter'],
                 'content'=>function ($model, $key, $index, $column){
                                 return $model->order_total.' '.Yii::$app->params['currency'];
-                           }
+                           },
+                'format' => 'html',
             ],
             //[
             //    'label' => Yii::t('app','Seller Commission'),
@@ -273,10 +275,11 @@ $data=[
                 'label' => Yii::t('app','Order Discount'),
                 'filterOptions'=>['class'=>'numFilter'],
                 'content'=>function ($model, $key, $index, $column){
-                                return $model->order_discount.' '.Yii::$app->params['currency'];
-                           }
+                                return $model->order_discount?($model->order_discount.' '.Yii::$app->params['currency']):'';
+                           },
+                'format' => 'html',
             ],
-            'discount_title',
+            //'discount_title',
             // 'order_hash',
 
         ],

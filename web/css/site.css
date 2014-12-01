@@ -115,6 +115,7 @@ a.desc:after {
     display: inline-block;
     vertical-align:top;
     margin-right:3px;
+    padding: 5px 0;
 }
 .filter-element label{
     display:block;
@@ -145,4 +146,14 @@ a:hover, a:link, a:active{
 
 .navbar{
     min-height:40px;
+}
+
+.rur {
+  background-image: url("../img/rur.png");
+  background-repeat: no-repeat;
+  background-size: 0.5em 0.7em;
+  display: inline-block;
+  height: 0.7em;
+  vertical-align: baseline;
+  width: 0.5em;
 }
