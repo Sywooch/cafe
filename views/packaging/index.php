@@ -30,7 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'packaging_id','filterOptions'=>['style'=>'width:100px;'],],
             // 'packaging_icon',
             'packaging_title',
-            ['attribute' => 'packaging_price','filterOptions'=>['style'=>'width:100px;'],],
+            [
+                'attribute' => 'packaging_price',
+                'filterOptions'=>['style'=>'width:100px;'],
+                'content'=>function ($model, $key, $index, $column){
+                                 return $model->packaging_price.' '.Yii::$app->params['currency'];
+                           },
+                'label' => Yii::t('app','Packaging Price'),
+            ],
             //'packaging_is_additional',
             //[
             //   'label'=>\Yii::t('app','Packaging ordering'),
