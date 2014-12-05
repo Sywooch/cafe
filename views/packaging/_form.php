@@ -17,11 +17,14 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'packaging_title')->textInput(['maxlength' => 32]) ?>
 
-    <?= $form->field($model, 'packaging_price')->textInput() ?>
+    <?php
+    $labels=$model->attributeLabels();
+    echo $form->field($model, 'packaging_price')->textInput()->label($labels['packaging_price']);
+    ?>
     
     <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'category_id', 'category_title'),[]) ?>
     
-    <?php /*echo $form->field($model, 'packaging_ordering')->textInput()*/ ?>
+    <?=$form->field($model, 'packaging_ordering')->textInput()?>
 
     <?= $form->field($model, 'packaging_is_visible')->checkbox() ?>
     

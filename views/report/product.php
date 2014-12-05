@@ -1,79 +1,79 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\OrderSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Orders');
+
+$this->title = Yii::t('app', 'ProductReport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/report/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+
+?>
+
+<h1><?= Html::encode($this->title) ?></h1>
+
+<style type="text/css">
+    .col1, .col2{
+        display:inline-block;
+        vertical-align:top;
+    }
+    .col1{
+        width:25%;
+    }
+    .col2{
+        width:75%;
+    }
+    .width100{
+        width:100%;
+    }
+    .width90{
+        width:90%;
+    }
+    .width50{
+        width:43%;
+    }
+    .itogo{
+        margin-top: 20px;
+    }
+    #filterform{
+        padding-top:4px;
+    }
+    .toggler{
+        margin-left:-20px;
+        padding-left:20px;
+        background-image:url(./img/settings.png);
+        background-repeat:no-repeat;
+        background-position:left center;
+    }
+</style>
+
+<?php
+
+
 $orderSearch=Yii::$app->request->get('OrderSearch');
 //print_r($orderSearch);
 if(!$orderSearch){
     $orderSearch=Array ( 
-        'order_id' =>'', 'pos.pos_title' => '', 'sysuser.sysuser_fullname' =>'', 
-        'order_payment_type' =>'', 'order_total_min' =>'', 
-        'order_total_max' =>'', 'order_datetime_min' =>'', 
-        'order_datetime_max' =>'' ) ;
+        'order_id' =>'',
+        'pos.pos_title' => '', 
+        'order_datetime_min' =>'', 
+        'order_datetime_max' =>'',
+        'sysuser.sysuser_fullname' =>'',
+        'product_title'=>''
+    ) ;
 }
 
-$data=[
-        'order_total_sum'=>((float)$total['order_total_sum']),
-        'currency'=>Yii::$app->params['currency'],
-        'order_num'=>( (int)$total['order_num'] ),
-        'order_total_avg'=>round($total['order_total_avg'],2)
-    ];
+
+
 ?>
-    <style type="text/css">
-        .col1, .col2{
-            display:inline-block;
-            vertical-align:top;
-        }
-        .col1{
-            width:25%;
-        }
-        .col2{
-            width:75%;
-        }
-        .width100{
-            width:100%;
-        }
-        .width90{
-            width:90%;
-        }
-        .width50{
-            width:43%;
-        }
-        .itogo{
-            margin-top: 20px;
-        }
-        #filterform{
-            padding-top:4px;
-        }
-        .toggler{
-            margin-left:-20px;
-            padding-left:20px;
-            background-image:url(./img/settings.png);
-            background-repeat:no-repeat;
-            background-position:left center;
-        }
-    </style>
 
-<div class="order-index">
-
-    <span class="col1"><h1><?= Html::encode($this->title) ?></h1></span><!-- 
- --><span class="col2"><div class="itogo breadcrumb">
-        <span class="filter-element"><?=Yii::t('app','foundOrdersTotal',$data)?></span>
-        <span class="filter-element"><?=Yii::t('app','foundOrdersCount',$data)?></span>
-        <span class="filter-element"><?=Yii::t('app','foundOrdersAvg',$data)?></span>        
-     </div></span>
-    <span class="col1"><form method="get" id="filterform">
-        <input type="hidden" name="r" value="order/index">
-        <input type="hidden" name="sort" value="<?=Yii::$app->request->get('sort')?>">
+<span class="col1">
+    <form method="get" id="filterform">
+        <input type="hidden" name="r" value="report/product">
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
@@ -109,14 +109,12 @@ $data=[
         <br/>
         <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
         <div id="otherOptions" style="display:none;">
-            <span class="filter-element width90"><label><?=Yii::t('app', 'Order ID')?></label><?=Html::textInput( 'OrderSearch[order_id]', $orderSearch['order_id'], ['class'=>'form-control width100'] )?></span><br/>
+            <span class="filter-element width90"><label><?=Yii::t('app','product_title')?></label><?=Html::textInput( 'OrderSearch[product_title]', $orderSearch['product_title'], ['class'=>'form-control width100'] )?></span><br/>
             <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('OrderSearch[pos.pos_title]', $orderSearch['pos.pos_title'], array_merge([''=>Yii::t('app','All POSs')],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct pos_title from `pos`", [])->queryAll(),'pos_title','pos_title')), ['class'=>'form-control width100'] )?></span><br/>
             <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('OrderSearch[sysuser.sysuser_fullname]', $orderSearch['sysuser.sysuser_fullname'], array_merge([''=>Yii::t('app','All sellers')],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct sysuser_fullname from `sysuser`", [])->queryAll(),'sysuser_fullname','sysuser_fullname')), ['class'=>'form-control'] )?></span><br/>
-            <span class="filter-element width90"><label><?=Yii::t('app','Order Payment Type')?></label><?=Html::dropDownList('OrderSearch[order_payment_type]', $orderSearch['order_payment_type'], array_merge([''=>''],ArrayHelper::map($nOrders=\Yii::$app->db->createCommand("select distinct order_payment_type from `order`", [])->queryAll(),'order_payment_type','order_payment_type')), ['class'=>'form-control'] )?></span><br/>
-            <span class="filter-element width50"><label><?=Yii::t('app','Order Total Min')?></label><?=Html::textInput('OrderSearch[order_total_min]', $orderSearch['order_total_min'], ['size'=>3, 'class'=>'form-control'] )?></span>
-            <span class="filter-element width50"><label><?=Yii::t('app','Order Total Max')?></label><?=Html::textInput('OrderSearch[order_total_max]', $orderSearch['order_total_max'], ['size'=>3, 'class'=>'form-control'] )?></span>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
+
         <script type="application/javascript">
         function toggleSelector(selector){
             if(typeof(Storage) !== "undefined") {
@@ -218,74 +216,60 @@ $data=[
             ");
         ?>
     </form>
-    </span><!-- 
- --><span class="col2">
+
+</span><!-- 
+--><span class="col2">
+    <?php
+    if(strlen($orderSearch['order_datetime_min'])>0 
+            || strlen($orderSearch['order_datetime_max'])>0
+            || strlen($orderSearch['pos.pos_title'])>0
+            || strlen($orderSearch['product_title'])>0){
+        ?>
+        <div class="itogo breadcrumb">
+            <?php
+            if($orderSearch['order_datetime_min']==$orderSearch['order_datetime_max']){
+                ?><?=$orderSearch['order_datetime_min']?><?php
+            }else{
+                ?><?=$orderSearch['order_datetime_min']?> &ndash; <?=$orderSearch['order_datetime_max']?><?php
+            }
+            ?>
+           
+            <?=$orderSearch['pos.pos_title']?>
+            <?=$orderSearch['product_title']?>
+        </div>
+        <?php
+    }
+    ?>
+    
+    
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $report,
         //'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
+            //            [
+            //                'class' => 'yii\grid\ActionColumn',
+            //                //'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
+            //                'template' => ($role['admin']?'<nobr>{view}&nbsp;&nbsp;&nbsp;{delete}</nobr>':'{view}'),
+            //            ],
+            //
             [
-                'class' => 'yii\grid\ActionColumn',
-                //'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
-                'template' => ($role['admin']?'<nobr>{view}&nbsp;&nbsp;&nbsp;{delete}</nobr>':'{view}'),
+                'attribute' => 'product_id',
+                'label' => Yii::t('app','product_id'),
             ],
-
-            ['attribute' => 'order_id','filterOptions'=>['class'=>'numFilter'],'filter' => false,],
-
-            //'pos_id',
             [
-                'attribute' => 'pos.pos_title',
-                'format' => 'text',
-                'label' => Yii::t('app','Pos'),
-                'filter' => false,
+                'attribute' => 'product_title',
+                'label' => Yii::t('app','product_title'),
             ],
-            //['attribute'=>'sysuser.sysuser_fullname','label' => Yii::t('app','seller'),'filter' => false,],
-            ['attribute'=>'sysuser_fullname','label' => Yii::t('app','seller'),'filter' => false,],
-            //'seller_id',
-            //'sysuser_id',
-            //['attribute' => 'order_datetime', 'format'=>['date', 'php:d.m.Y H:i:s']],
             [
-                'attribute' => 'order_datetime',
-                'label' => Yii::t('app','Order Datetime'),
-                'filter' => false,
+                'attribute' => 'total_packaging_product_quantity',
+                'label' => Yii::t('app','total_packaging_product_quantity'),
                 'content'=>function ($model, $key, $index, $column){
-                                return date('d.m.Y H:i:s',strtotime($model->order_datetime));
+                                return round($model['total_packaging_product_quantity'],5).' '.$model['product_unit'];
                            }
             ],
-            // 'order_day_sequence_number',
-            ['label' => Yii::t('app','paytype'),'attribute' => 'order_payment_type','filterOptions'=>['class'=>'numFilter'],'filter' => false,],
-            [
-                'label' => Yii::t('app','Order Total'),
-                'filterOptions'=>['class'=>'numFilter'],
-                'content'=>function ($model, $key, $index, $column){
-                                return $model->order_total.' '.Yii::$app->params['currency'];
-                           },
-                'format' => 'html',
-            ],
-            //[
-            //    'label' => Yii::t('app','Seller Commission'),
-            //    'filterOptions'=>['class'=>'numFilter'],
-            //    'filter' => false,
-            //    'content'=>function ($model, $key, $index, $column){
-            //                    $seller=$model->getSeller()->one();
-            //                    return ($model->order_total * 0.01 * $seller->seller_commission_fee).' '.Yii::$app->params['currency'];
-            //               }
-            //],
-            [
-                'label' => Yii::t('app','Order Discount'),
-                'filterOptions'=>['class'=>'numFilter'],
-                'content'=>function ($model, $key, $index, $column){
-                                return $model->order_discount?($model->order_discount.' '.Yii::$app->params['currency']):'';
-                           },
-                'format' => 'html',
-            ],
-            //'discount_title',
-            // 'order_hash',
 
         ],
     ]); ?>
-    </span>
-    
-    <p></p>
-</div>
+
+</span>

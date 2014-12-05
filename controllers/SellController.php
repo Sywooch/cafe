@@ -8,6 +8,7 @@ use app\models\Packaging;
 use app\models\PosPackaging;
 use app\models\OrderPackaging;
 use app\models\Seller;
+use app\models\Sysuser;
 use app\models\Discount;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -193,6 +194,8 @@ class SellController extends \yii\web\Controller {
             }
         }
 
+        $sysuser=Sysuser::findOne($sysuser->sysuser_id);
+        
         $orderData = \Yii::$app->request->post('order');
 
         $order_datetime = date('Y-m-d H:i:s');
@@ -246,6 +249,9 @@ class SellController extends \yii\web\Controller {
         $order->pos_id = $pos_id;
         $order->seller_id = $seller->seller_id;
         $order->sysuser_id = $sysuser->sysuser_id;
+        $order->sysuser_fullname = $sysuser->sysuser_fullname;
+        // header('FullName:'.$sysuser->sysuser_fullname);
+        // var_dump($sysuser);
         $order->order_datetime = $order_datetime;
         $order->order_day_sequence_number = Order::countOrders($pos_id,$order->order_datetime)+1;
         $order->order_total = $order_total;

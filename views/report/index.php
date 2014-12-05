@@ -14,4 +14,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Choose report type');
 <ul>
 <li><?=Html::a( Yii::t('app','Orders'), ['/order/index'], [] )?></li>
 <li><?=Html::a( Yii::t('app','Sellers'), ['/report/seller'], [] )?></li>
+<li><?=Html::a( Yii::t('app','ProductReport'), ['/report/product'], [] )?></li>
+<li><?=Html::a( Yii::t('app','PackagingReport'), ['/report/packaging'], [] )?></li>
+<li><?=Html::a( Yii::t('app', 'PosIncomeReport'), ['/report/posincome'], [] )?></li>
 </ul>
+

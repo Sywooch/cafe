@@ -48,6 +48,9 @@ AppAsset::register($this);
                     'items'=>[
                         ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index']],
                         ['label'=>Yii::t('app','Sellers'), 'url'=>['/report/seller']],
+                        ['label'=>Yii::t('app','ProductReport'), 'url'=>['/report/product']],
+                        ['label'=>Yii::t('app','PackagingReport'), 'url'=>['/report/packaging']],
+                        ['label'=>Yii::t('app','PosIncomeReport'), 'url'=>['/report/posincome']],
                     ]
                     //'url' => ['/report/index']
                 ];

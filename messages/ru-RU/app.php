@@ -2,13 +2,13 @@
 
 return [
     // точка реализации
-    'pos_id' => '№',
+    'pos_id' => 'Код',
     'pos_title' => 'Название точки реализации',
     'pos_address' => 'Адрес',
     'pos_timetable' => 'График работы',
     //
     // товар
-    'product_id' => '№',
+    'product_id' => 'Код',
     'product_title' => 'Название товара',
     'product_icon' => 'Иконка товара',
     'product_quantity' => 'Количество',
@@ -158,7 +158,7 @@ return [
     'All POSs'=>'Все точки продаж',
     'All sellers'=>'Все продавцы',
     'Pos-packaging {pos_title}'=>'Цены в точке "{pos_title}"',
-    'packaging_id'=>'Код фасовки',
+    'packaging_id'=>'Код',
     'Pos Packaging Price'=>'Цена в точке',
     'rememberMe'=>'Запомнить меня',
     'Login'=>'Войти на сайт',
@@ -174,5 +174,12 @@ return [
     'exists'=>'существует',
     'discount_value'=>'и применить к нему скидку',
     'search_attribute_condition'=>"который ",
-    'paytype'=>'Спос.оплаты'
+    'paytype'=>'Спос.оплаты',
+    'ProductReport'=>'Расход товара',
+    'total_packaging_product_quantity'=>'Расход',
+    'PackagingReport'=>'Популярность фасовок',
+    'packaging_number'=>'Продано, шт',
+    'PosIncomeReport'=>'Выручка по точкам реализации',
+    'totalIncome'=>'Выручка'
+    
 ];

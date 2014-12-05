@@ -83,7 +83,7 @@ class PackagingController extends Controller {
             return $this->redirect(['update', 'id' => $model->packaging_id]);
         } else {
             return $this->render('create', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }

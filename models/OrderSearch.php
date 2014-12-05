@@ -20,7 +20,7 @@ class OrderSearch extends Order {
             [['order_id', 'pos_id', 'seller_id', 'sysuser_id', 'order_day_sequence_number'], 'integer'],
             [['order_datetime', 'order_payment_type', 'order_hash'], 'safe'],
             [['order_total', 'order_discount'], 'safe'],
-            [['sysuser.sysuser_fullname', 'pos.pos_title'], 'safe'],
+            [['sysuser_fullname', 'pos.pos_title'], 'safe'],
         ];
     }
 
@@ -55,9 +55,9 @@ class OrderSearch extends Order {
             'query' => $query,
         ]);
 
-        $dataProvider->sort->attributes['sysuser.sysuser_fullname'] = [
-            'asc' => ['sysuser.sysuser_fullname' => SORT_ASC, 'pos.pos_title' => SORT_ASC],
-            'desc' => ['sysuser.sysuser_fullname' => SORT_DESC, 'pos.pos_title' => SORT_DESC],
+        $dataProvider->sort->attributes['sysuser_fullname'] = [
+            'asc' => ['sysuser_fullname' => SORT_ASC],
+            'desc' => ['sysuser_fullname' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['pos.pos_title'] = [
             'asc' => ['pos.pos_title' => SORT_ASC],
@@ -112,7 +112,8 @@ class OrderSearch extends Order {
 
         $query->andFilterWhere(['like', 'order_payment_type', $this->order_payment_type]);
 
-        $query->andFilterWhere(['like', 'sysuser.sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
+        //$query->andFilterWhere(['like', 'sysuser.sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
+        $query->andFilterWhere(['like', 'sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
         $query->andFilterWhere(['like', 'pos.pos_title', $this->getAttribute('pos.pos_title')]);
 
         return $dataProvider;

@@ -1,0 +1,1 @@
+ALTER TABLE `order` ADD COLUMN `sysuser_fullname` VARCHAR(512) NULL AFTER `sysuser_id`; 

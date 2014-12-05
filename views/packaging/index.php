@@ -39,13 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app','Packaging Price'),
             ],
             //'packaging_is_additional',
-            //[
-            //   'label'=>\Yii::t('app','Packaging ordering'),
-            //   'attribute' => 'packaging_ordering',
-            //   'content'=>function ($model, $key, $index, $column){
-            //                     return '<nobr>'.Html::textInput('packaging_ordering', $model->packaging_ordering, ['class'=>'packaging_ordering form-control','data-packaging-id'=>$model->packaging_id,'size'=>3]).'</nobr>';
-            //               }
-            //], 
+            [
+               'label'=>\Yii::t('app','Packaging ordering'),
+               'attribute' => 'packaging_ordering',
+               'content'=>function ($model, $key, $index, $column){
+                                 return '<nobr>'.Html::textInput('packaging_ordering', $model->packaging_ordering, ['class'=>'packaging_ordering form-control','data-packaging-id'=>$model->packaging_id,'size'=>3]).'</nobr>';
+                           }
+            ], 
         ],
     ]); ?>
 
@@ -53,31 +53,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?php
-//    $this->registerJs("
-//        function update_packaging_ordering(packaging_id, packaging_ordering){
-//            $.ajax({
-//                type: 'POST',
-//                cache: false,
-//                dataType:'json',
-//                url: '" . Url::toRoute(['/packaging/updateordering']) . "',
-//                data:{
-//                  packaging_id:packaging_id,
-//                  packaging_ordering:packaging_ordering
-//                },
-//                success: function (response) {
-//                }
-//            });
-//
-//        }
-//        function activateForm(){
-//            $('.packaging_ordering').change(function(event){
-//                var ele=$(event.target);
-//                var packaging_id=ele.attr('data-packaging-id');
-//                var packaging_ordering=ele.val();
-//                update_packaging_ordering(packaging_id, packaging_ordering);
-//            });
-//        }
-//        $(window).load(activateForm);    
-//    ");        
-//
+    $this->registerJs("
+        function update_packaging_ordering(packaging_id, packaging_ordering){
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                dataType:'json',
+                url: '" . Url::toRoute(['/packaging/updateordering']) . "',
+                data:{
+                  packaging_id:packaging_id,
+                  packaging_ordering:packaging_ordering
+                },
+                success: function (response) {
+                }
+            });
+        }
+        function activateForm(){
+            $('.packaging_ordering').change(function(event){
+                var ele=$(event.target);
+                var packaging_id=ele.attr('data-packaging-id');
+                var packaging_ordering=ele.val();
+                update_packaging_ordering(packaging_id, packaging_ordering);
+            });
+        }
+        $(window).load(activateForm);    
+    ");        
+
 ?>

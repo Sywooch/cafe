@@ -6,6 +6,8 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Report;
+use yii\data\ActiveDataProvider;
+use yii\data\Sort;
 
 /**
  * Description of ReportController
@@ -24,11 +26,11 @@ class ReportController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'seller'],
+                'only' => ['index', 'seller', 'product'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'seller'],
+                        'actions' => ['index', 'seller', 'product'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -43,12 +45,69 @@ class ReportController extends Controller {
         return $this->render('index', []);
     }
 
-    public function actionSeller(){
-        
-        $report=Report::sellerReport();
+    public function actionSeller() {
+
+        $report = Report::sellerReport();
         // print_r($report);
         return $this->render('seller', [
-            'report'=>$report
+                    'report' => $report
         ]);
     }
+
+    public function actionProduct() {
+
+        $provider = new ActiveDataProvider(
+                [
+            'query' => Report::productReport(),
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'product_id',
+                    'product_title',
+                    'total_packaging_product_quantity',
+                ],
+            ])
+
+        ]);
+        return $this->render('product', [
+                    'report' => $provider
+        ]);
+    }
+
+    public function actionPackaging() {
+        $provider = new ActiveDataProvider(
+                [
+            'query' => Report::packagingReport(),
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'packaging_id',
+                    'packaging_title',
+                    'packaging_number',
+                ],
+            ])
+        ]);
+        return $this->render('packaging', [
+                    'report' => $provider
+        ]);
+    }
+    public function actionPosincome() {
+        $query = Report::posIncomeReport();
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'pos_id',
+                    'pos_title',
+                    'total',
+                ],
+            ])
+        ]);
+        return $this->render('posincome', [
+            'report' => $provider,
+            'query'  => $query
+        ]);
+    }
+
 }
