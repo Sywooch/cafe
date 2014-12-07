@@ -180,6 +180,18 @@ return [
     'PackagingReport'=>'Популярность фасовок',
     'packaging_number'=>'Продано, шт',
     'PosIncomeReport'=>'Выручка по точкам реализации',
-    'totalIncome'=>'Выручка'
+    'totalIncome'=>'Выручка',
+    'SellerIncomeReport'=>'Выручка по продавцам',
+    'HourlyIncomeReport'=>'Выручка по часам',
+    'Hour'=>'Час',
+    'WeekdailyIncomeReport'=>'Выручка по дням недели',
+    'DailyIncomeReport'=>'Выручка по дням',
     
+    'Sun'=>'Вс',
+    'Mon'=>'Пн',
+    'Tue'=>'Вт',
+    'Wed'=>'Ср',
+    'Thu'=>"Чт",
+    'Fri'=>"Пт",
+    'Sat'=>"Сб",
 ];
