@@ -373,10 +373,9 @@ display:none;
 }
 .zakazScrollerDown, .zakazScrollerUp{
     display:block;
-    width:100%;
     height:7%;
     left:0;
-    background-color:#906248;
+    background-color:#336562;
     color:white;
     opacity:0.0;
     cursor: pointer;
@@ -384,12 +383,14 @@ display:none;
     overflow:hidden;
     background-position: center center;
     background-repeat: no-repeat;
+    border-radius:15px;
+    margin:3px 5px 3px 0;
 }
 
 .zakazScrollerDown{
-    background-image: url(../img/arrow-down.png);
+    background-image: url(../img/design5-arrow-down.png);
 } .zakazScrollerUp{
-    background-image: url(../img/arrow-up.png);
+    background-image: url(../img/design5-arrow-up.png);
 }
 
 
