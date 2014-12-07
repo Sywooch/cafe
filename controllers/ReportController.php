@@ -26,11 +26,11 @@ class ReportController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'seller', 'product'],
+                'only' => ['index', 'seller', 'product','packaging','posincome','sellerincome'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'seller', 'product'],
+                        'actions' => ['index', 'seller', 'product','packaging','posincome','sellerincome'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -109,5 +109,41 @@ class ReportController extends Controller {
             'query'  => $query
         ]);
     }
-
+    public function actionSellerincome() {
+        $query = Report::sellerIncomeReport();
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'seller_id',
+                    'seller_fullname',
+                    'total',
+                ],
+            ])
+        ]);
+        return $this->render('sellerincome', [
+            'report' => $provider,
+            'query'  => $query
+        ]);
+    }
+    public function actionHourlyincome() {
+        $stats = Report::incomeByHourReport();
+        return $this->render('hourlyincome', [
+            'stats' => $stats
+        ]);
+    }
+    
+    public function actionWeekdailyincome() {
+        $stats = Report::incomeByWeekday();
+        return $this->render('weekdailyincome', [
+            'stats' => $stats
+        ]);
+    }
+    public function actionDailyincome() {
+        $stats = Report::incomeDaily();
+        return $this->render('dailyincome', [
+            'stats' => $stats
+        ]);
+    }    
 }
