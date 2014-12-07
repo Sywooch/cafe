@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 use app\models\Report;
 
-$this->title = Yii::t('app', 'PosIncomeReport');
+$this->title = Yii::t('app', 'SellerIncomeReport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/report/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -70,7 +70,7 @@ if(!$orderSearch){
 
 <span class="col1">
     <form method="get" id="filterform">
-        <input type="hidden" name="r" value="report/posincome">
+        <input type="hidden" name="r" value="report/sellerincome">
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
@@ -252,7 +252,7 @@ if(!$orderSearch){
       $colors=Report::getColors();
       foreach($tmp as $ke=>$tm){
           $colorId=$ke%count($colors);
-          echo "data.push({ value: {$tm['total']},color:\"{$colors[$colorId][0]}\", highlight: \"{$colors[$colorId][1]}\", label: \"{$tm['pos_title']}\"});";
+          echo "data.push({ value: {$tm['total']},color:\"{$colors[$colorId][0]}\", highlight: \"{$colors[$colorId][1]}\", label: \"{$tm['sysuser_fullname']}\"});";
       }
     ?>
     </script>
@@ -285,12 +285,12 @@ if(!$orderSearch){
             //            ],
             //
            [
-                'attribute' => 'pos_id',
-                'label' => Yii::t('app','pos_id'),
+                'attribute' => 'sysuser_id',
+                'label' => Yii::t('app','sysuser_id'),
             ],
             [
-                'attribute' => 'pos_title',
-                'label' => Yii::t('app','pos_title'),
+                'attribute' => 'sysuser_fullname',
+                'label' => Yii::t('app','sysuser_fullname'),
             ],
             [
                 'attribute' => 'total',
