@@ -62,14 +62,14 @@ AppAsset::register($this);
             --><div class="calcRow"><span class="col1">Сдача: </span><span id="sdacha"></span></div><!-- 
         --></div><!-- 
         --><div class="oplata"><!-- 
-            --><div class="cash" id="cachPaid"><!-- 
+            --><div id="cachPaid"><div class="cash"><!-- 
                 --><!--  <img src=img/cash.png>
                 --><h5>Оплачен наличными</h5><!-- 
-            --></div><!--
-            --><div class="card" id="cardPaid"><!-- 
+            --></div></div><!--
+            --><div id="cardPaid"><div class="card"><!-- 
                 --><!-- <img src=img/card.png>
                 --><h5>Оплачен картой</h5><!-- 
-            --></div><!-- 
+            --></div></div><!-- 
         --></div><!-- 
         --><!--               
     --></div><!--

@@ -1,3 +1,16 @@
+
+@font-face {
+    font-family: "rur";
+    font-weight: normal;
+    font-style: normal;
+    src: url('rouble.eot');
+    src: url('rouble.eot?#iefix') format('embedded-opentype'),
+         url('rouble.woff') format('woff'),
+         url('rouble.ttf') format('truetype'),
+         url('rouble.svg#ALSRubl') format('svg');
+}
+
+
 html,
 body {
     height: 100%;
@@ -148,12 +161,18 @@ a:hover, a:link, a:active{
     min-height:40px;
 }
 
+
+
+
+
 .rur {
+ /*
   background-image: url("../img/rur.png");
   background-repeat: no-repeat;
   background-size: 0.5em 0.7em;
-  display: inline-block;
-  height: 0.7em;
   vertical-align: baseline;
-  width: 0.6em;
+  height: 1em;
+  width: 1em;
+  */
+  font: 100%/150% 'rur',sans-serif;
 }

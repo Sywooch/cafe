@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                return '<b>'.Html::a(' <span class="glyphicon glyphicon-import"></span> ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
                              },
                    'packaging'=>function ($url, $model, $key) {
-                               return '<b>'.Html::a(' <img src="img/ruble.gif" class="ruble-img" /> ', ['pos/packaging','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-packaging-prices')]).'</b>';
+                               return '<b>'.Html::a('<span class="glyphicon rur">c</span>', ['pos/packaging','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-packaging-prices')]).'</b>';
                              },
                 ]
             ],

@@ -9,7 +9,7 @@ return [
     'file_root_url'=>'/cafe/web/files',
     'icon_width'=>150,
     'icon_height'=>150,
-    'currency'=>'<span class="rur"></span>',//'руб',
+    'currency'=>'<span class="rur">a</span>',//'руб',
     "categoryskins"=>"food,coffee,tea,water,action,dobavki",
     'printerUrl'=>'http://localhost:9000/',
     'siteTitle'=>'Coffee Time'    
