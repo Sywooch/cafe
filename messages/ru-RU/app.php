@@ -185,7 +185,7 @@ return [
     'HourlyIncomeReport'=>'Выручка по часам',
     'Hour'=>'Час',
     'WeekdailyIncomeReport'=>'Выручка по дням недели',
-    'DailyIncomeReport'=>'Выручка по дням',
+    'DailyIncomeReport'=>'Выручка и прибыль по дням',
     
     'Sun'=>'Вс',
     'Mon'=>'Пн',
@@ -194,4 +194,7 @@ return [
     'Thu'=>"Чт",
     'Fri'=>"Пт",
     'Sat'=>"Сб",
+    'Income'=>'Выручка',
+    'Profit'=>'Прибыль'
+    
 ];

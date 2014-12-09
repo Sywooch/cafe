@@ -246,22 +246,41 @@ if(!$orderSearch){
 
     
     <canvas id="myChart" width="<?=(70+count($stats)*22)?>" height="400"></canvas>
+    <div id="legend"></div>
 
     <script type="application/javascript">
+    
     var data = {
         labels: ["<?=join('","',array_map(function($fr){return date('d.m.Y',strtotime($fr));},array_keys($stats)))?>"],
         datasets: [
             {
-                label: "---",
+                label: "<?=Yii::t('app','Income')?>",
                 fillColor: "#66FF00",
-                strokeColor: "#669900",
-                highlightFill: "#99FF66",
+                strokeColor: "#66FF00",
+                highlightFill: "#66FF00",
                 highlightStroke: "#66CC33",
                 data: [<?=join(',',array_values($stats))?>]
+            },
+            {
+                label: "<?=Yii::t('app','Profit')?>",
+                fillColor: "#99CCFF",
+                strokeColor: "#99CCFF",
+                highlightFill: "#99CCFF",
+                highlightStroke: "#CC00CC",
+                data: [<?=join(',',array_values($profit))?>]
             }
         ]
     };
     </script>
+    <style type="text/css">
+        #legend span{
+            display:inline-block;
+            width:15px;
+            margin-right:5px;
+            height: 15px;
+            vertical-align: absmiddle;
+        }
+    </style>
     <?php
     
     $this->registerJs("
@@ -271,10 +290,13 @@ if(!$orderSearch){
             // Get the context of the canvas element we want to select
             var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
             //var myNewChart = new Chart(ctx).Pie(data);
+            Chart.defaults.global.responsive = true;
+            Chart.defaults.global.scaleFontFamily=\"monospace\";
             var myBarChart = new Chart(ctx).Bar(data, {
                barStrokeWidth : 1,
                barValueSpacing : 3,
             });
+            $('#legend').html(myBarChart.generateLegend());
         });
 
         ");

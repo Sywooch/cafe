@@ -142,8 +142,10 @@ class ReportController extends Controller {
     }
     public function actionDailyincome() {
         $stats = Report::incomeDaily();
+        $profit= Report::profitDaily();
         return $this->render('dailyincome', [
-            'stats' => $stats
+            'stats' => $stats,
+            'profit'=> $profit
         ]);
     }    
 }
