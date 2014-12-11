@@ -289,7 +289,6 @@ if(!$orderSearch){
         $(document).ready(function(){
             // Get the context of the canvas element we want to select
             var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
-            //var myNewChart = new Chart(ctx).Pie(data);
             Chart.defaults.global.responsive = true;
             Chart.defaults.global.scaleFontFamily=\"monospace\";
             var myBarChart = new Chart(ctx).Bar(data, {

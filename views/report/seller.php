@@ -195,6 +195,28 @@ if(!$orderSearch){
 
             ");
         ?>
+        <?php
+        
+        $this->registerJsFile('./js/Chart.min.js');
+    
+        $this->registerJs("
+            $(document).ready(function(){
+                if(typeof(Storage) !== \"undefined\") {
+                    // Code for localStorage/sessionStorage.
+                    if(localStorage.getItem('#otherOptions')=='1'){
+                        $('#otherOptions').slideToggle('slow');
+                    }
+                    if(localStorage.getItem('#dateselector')=='1'){
+                        $('#dateselector').slideToggle('slow');
+                    }
+                } else {
+                    // Sorry! No Web Storage support..
+                }
+            });
+
+            ");
+        ?>
+
     </form>
 </span><!-- 
 --><span class="col2">
@@ -216,6 +238,20 @@ if(!$orderSearch){
     }
     ?>
     
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script type="application/javascript">
+        var data=[];
+    <?php
+      $tmp=$query->all();
+      $colors=Report::getColors();
+      foreach($tmp as $ke=>$tm){
+          $colorId=$ke%count($colors);
+          echo "data.push({ value: {$tm['total']},color:\"{$colors[$colorId][0]}\", highlight: \"{$colors[$colorId][1]}\", label: \"{$tm['sysuser_fullname']}\"});";
+      }
+    ?>
+    </script>
+
         <table class="table table-striped table-bordered">
             <tr><thead>
                 <th><?=Yii::t('app','sysuser_fullname')?></th>
@@ -239,4 +275,8 @@ if(!$orderSearch){
             ?>
             </tbody>
         </table>
+    
+    
+
+    
 </span>
