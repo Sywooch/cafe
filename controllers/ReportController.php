@@ -48,9 +48,22 @@ class ReportController extends Controller {
     public function actionSeller() {
 
         $report = Report::sellerReport();
+        $query = Report::sellerIncomeReport();
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'seller_id',
+                    'seller_fullname',
+                    'total',
+                ],
+            ])
+        ]);
         // print_r($report);
         return $this->render('seller', [
-                    'report' => $report
+            'report' => $report,
+            'provider'=>$provider
         ]);
     }
 
@@ -129,15 +142,19 @@ class ReportController extends Controller {
     }
     public function actionHourlyincome() {
         $stats = Report::incomeByHourReport();
+        $profit= Report::profitHourly();
         return $this->render('hourlyincome', [
-            'stats' => $stats
+            'stats' => $stats,
+            'profit'=>$profit
         ]);
     }
     
     public function actionWeekdailyincome() {
         $stats = Report::incomeByWeekday();
+        $profit= Report::profitWeekDaily();
         return $this->render('weekdailyincome', [
-            'stats' => $stats
+            'stats' => $stats,
+            'profit'=>$profit
         ]);
     }
     public function actionDailyincome() {
