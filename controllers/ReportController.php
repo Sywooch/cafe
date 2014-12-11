@@ -63,7 +63,8 @@ class ReportController extends Controller {
         // print_r($report);
         return $this->render('seller', [
             'report' => $report,
-            'provider'=>$provider
+            'provider'=>$provider,
+            'query'=>$query
         ]);
     }
 
