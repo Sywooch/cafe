@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\jui\DatePicker;
-
+use app\models\Report;
 
 $this->title = Yii::t('app', 'Sellers');
 //$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Products'), 'url' => ['index']];
@@ -200,21 +200,17 @@ if(!$orderSearch){
         $this->registerJsFile('./js/Chart.min.js');
     
         $this->registerJs("
+
+
             $(document).ready(function(){
-                if(typeof(Storage) !== \"undefined\") {
-                    // Code for localStorage/sessionStorage.
-                    if(localStorage.getItem('#otherOptions')=='1'){
-                        $('#otherOptions').slideToggle('slow');
-                    }
-                    if(localStorage.getItem('#dateselector')=='1'){
-                        $('#dateselector').slideToggle('slow');
-                    }
-                } else {
-                    // Sorry! No Web Storage support..
-                }
+                // Get the context of the canvas element we want to select
+                var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
+                var myNewChart = new Chart(ctx).Pie(data);
+
             });
 
             ");
+
         ?>
 
     </form>
