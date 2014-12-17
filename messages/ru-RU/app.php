@@ -195,6 +195,12 @@ return [
     'Fri'=>"Пт",
     'Sat'=>"Сб",
     'Income'=>'Выручка',
-    'Profit'=>'Прибыль'
-    
+    'Profit'=>'Прибыль',
+    'Return payment'=>'Возврат сегодняшнего заказа',
+    'Return'=>'Вернуть',
+    'Find order'=>'Найти заказ',
+    'OrderDaySequenceNumber'=>'Номер заказа',
+    'Choose packaging to return'=>'Выберите, что именно возвращает покупатель',
+    'items'=>'шт.',
+    'order_notes'=>'Примечания'
 ];
