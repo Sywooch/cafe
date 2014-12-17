@@ -24,7 +24,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="width light"><!-- 
+<div class="width light" id="sellerPage"><!-- 
     --><div class="leftcolumn"><!-- 
      --><div class="bordercolumn"><div id="cornertop"></div><div id="cornerbottom"></div></div><!--
      --><div class="tipy" id="categories"><!--
@@ -58,8 +58,10 @@ AppAsset::register($this);
            --><h4><span class="col1">Итого: </span><span id="orderTotal"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
         --></div><!-- 
         --><div class="raschet"><!-- 
-            --><h4>Сдача:</h4><div class="calcRow"><span class="col1">Получено: </span><input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></div><!-- 
-            --><div class="calcRow"><span class="col1">Сдача: </span><span id="sdacha"></span></div><!-- 
+            --><h4>Сдача:</h4><!-- 
+            --><div class="calcRow calcFirstRow"><span class="calcCell">Получено</span><span class="calcCell">Сдача</span></div><!-- 
+            --><div class="calcRow" id="calcRow"></div><!-- 
+            --><div class="calcRow"><span class="calcCell"><input type=text value="" id="gotCache">&nbsp;<?=Yii::$app->params['currency']?></span><span class="calcCell"><span id="sdacha"></span></span></div><!-- 
         --></div><!-- 
         --><div class="oplata"><!-- 
             --><div id="cachPaid"><div class="cash"><!-- 
@@ -80,6 +82,7 @@ AppAsset::register($this);
 <?=Html::a('Стартовая страница',['site/index'])?><br>
 
 </span>
+<div id="popupDialog"></div>
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
 <script src="js/sell.js" type="text/javascript"></script>

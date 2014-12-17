@@ -62,7 +62,7 @@ var currency='<?=Yii::$app->params['currency']?>';
 var printerUrl='<?=($pos?$pos->pos_printer_url:'')?>';
 var sysuser_lastname='<?=preg_replace("/[ ,].*$/","",$sysuser->sysuser_fullname)?>';
 var org_title='<?=Yii::$app->params['siteTitle']?>';
-
+var bill=[<?=Yii::$app->params['bill']?>];
 function processTemplate(data){
     <?=($pos?parseTemplate($pos->pos_printer_template):'')?>
 }
