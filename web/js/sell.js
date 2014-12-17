@@ -10,7 +10,6 @@ function showMessage() {
     }
 }
 
-
 function loadPackaging() {
     jQuery.ajax('index.php?r=sell/packaging&pos_id=' + pos_id + '&t=' + Math.random(), {
         dataType: 'json',
@@ -94,7 +93,6 @@ function categoryClicked(event) {
     drawBasicPackaging(window.packagingData);
 }
 
-
 function packagingClickedDisabled() {
     alert('Не хватает составляющих, чтобы продать продукт.');
 }
@@ -157,9 +155,21 @@ function gotCacheChanged() {
     var orderTotal = $('#orderTotal').text();
     var sdacha = gotCache - orderTotal;
     if (sdacha < 0) {
-        $('#sdacha').empty().html('Покупатель должен дать больше');
+        $('#sdacha').empty().html('0');
     } else {
         $('#sdacha').empty().html(sdacha + ' ' + currency);
+    }
+    $('.calcVal').each(sdachaTabl);
+}
+
+function sdachaTabl(ind, el){
+    var elm=$(el);
+    var orderTotal = parseFloat($('#orderTotal').text());
+    var billSgn=parseFloat(elm.attr('data-val'));
+    if(billSgn>orderTotal){
+        elm.html((billSgn-orderTotal)+'&nbsp;'+currency);
+    }else{
+        elm.html('0&nbsp;'+currency);
     }
 }
 
@@ -808,7 +818,7 @@ function adjustSizes() {
     var categoryHeight = 127;
     var statistikaHeight = 40;
     var btnOplataHeight = 150;
-    var calcHeight = 90;
+    var calcHeight = 160;
     var itogoHeight = 40;
     var zakazScrollHeight = 20;
     var zakazTopMargin = 3;
@@ -878,6 +888,30 @@ function adjustSizes() {
 
 
 
+function popupDialog(selector, title) {
+    var w = $(window).width();
+    var h = $(window).height();
+    var width = (w < 800 ? Math.round(w * 0.9) : 780);
+    $(selector).dialog({
+        //position: ["center", "top"],
+        position:{ my: "center top", at: "center top", of: document.getElementById('sellerPage') },
+        title: title,
+        modal: true,
+        draggable:false,
+        show: 'slide',
+        width: width + 'px',
+        //close:popupDialogClosed,
+        create: function (event, ui) {
+            $("body").css({overflow: 'hidden'});
+        },
+        beforeClose: function (event, ui) {
+            $("body").css({overflow: 'inherit'});
+        }
+    });
+    //$('#popupDialogContent').attr('src', url);
+    $("#popupDialog").css('height', Math.round(h * 0.8 - 2) + 'px');
+    $('div.ui-dialog').css('height', (h*0.8) + 'px');
+}
 
 
 
@@ -908,13 +942,24 @@ $(window).load(function () {
         }
     });
 
+
+    // --------------- extra links - begin -------------------------------------
     var lnk = $('<a href="javascript:void(\'Товар получен\')">Товар получен</a>');
     lnk.click(function () {
         $.get("index.php?r=supply/accept&pos_id=" + pos_id, function (data) {
             alert("ОК");
         });
     });
+    
     $('#extraLinks').append(lnk);
+    lnk = $('<div><a href="javascript:void(\'Возврат\')">Возврат</a></div>');
+    lnk.click(function () {
+        //alert("index.php?r=supply/accept&pos_id=" + pos_id);
+        popupDialog('#popupDialog','Возврат');
+        $('#popupDialog').load("index.php?r=sell/return&pos_id=" + pos_id);
+    });
+    $('#extraLinks').append(lnk);
+    // --------------- extra links - end ---------------------------------------
 
 
     $('#zakazScrollUp').click(zakazScrollUpClick);
@@ -964,6 +1009,16 @@ $(window).load(function () {
         window.orderData.discount_id = $(this).val();
         updateOrderTotal();
     });
+
+
+    // Таблица сдачи c разных купюр
+    var calcRows=$('#calcRow');
+    for(var bl=0; bl<bill.length; bl++){
+        calcRows.append($('<span class="calcCell">'+bill[bl]+'&nbsp;'+currency+'</span>'));
+        calcRows.append($('<span class="calcCell calcVal" data-val="'+bill[bl]+'">0&nbsp;'+currency+'</span>'));
+    }
+    
+
 
 
     adjustSizes();
