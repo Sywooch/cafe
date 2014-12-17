@@ -45,7 +45,8 @@ class Order extends \yii\db\ActiveRecord
             [['order_datetime'], 'safe'],
             [['order_total', 'order_discount','order_seller_comission'], 'number'],
             [['order_payment_type'], 'string', 'max' => 32],
-            [['order_hash'], 'string', 'max' => 64]
+            [['order_hash'], 'string', 'max' => 64],
+            [['order_notes'], 'string', 'max' => 1024],
         ];
     }
     /**
@@ -66,6 +67,7 @@ class Order extends \yii\db\ActiveRecord
             'order_hash' => Yii::t('app', 'Order Hash'),
             'discount_title'=>Yii::t('app', 'Discount Title'),
             'order_seller_comission'=>Yii::t('app', 'Seller Comission'),
+            'order_notes'=>Yii::t('app', 'order_notes'),
         ];
     }
 

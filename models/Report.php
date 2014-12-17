@@ -42,7 +42,7 @@ class Report extends Model {
         $sql = "SELECT su.sysuser_id,se.seller_id, su.sysuser_fullname, 
                      SUM(o.order_total) AS order_total, 
                      COUNT(o.order_id) AS order_count,
-                     AVG(o.order_total) AS order_average,
+                     AVG(if(o.order_total>0,o.order_total,0)) AS order_average,
                      SUM(IF(o.order_seller_comission=0, se.seller_commission_fee*0.01*o.order_total,o.order_seller_comission)) AS order_seller_comission 
               FROM sysuser su 
                    INNER JOIN seller se USING(sysuser_id)

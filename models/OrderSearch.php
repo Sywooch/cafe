@@ -170,7 +170,7 @@ class OrderSearch extends Order {
 
         //query database
         $sql='
-            SELECT SUM(order_total) as order_total_sum, count(order_id) as order_num, AVG(order_total) as order_total_avg
+            SELECT SUM(order_total) as order_total_sum, count(order_id) as order_num, AVG(if(order_total>0,order_total,0)) as order_total_avg
             FROM `order`
                   inner join pos on `order`.pos_id=pos.pos_id
                   inner join sysuser on `order`.sysuser_id=sysuser.sysuser_id
