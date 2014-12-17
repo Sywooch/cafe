@@ -552,9 +552,32 @@ margin:10px;
     border:2px solid #336562;
     border-radius:10px;
 }
-.raschet h4{margin: 5px 0 4px 7px;}
 .raschet h4 span{margin:10px 0 0px 75px;}
 .raschet h4 input{margin:10px 0 0 50px;width: 90px;}
+
+.raschet h4{margin: 5px 0 4px 7px;display:inline-block; float:left;}
+
+
+
+.calcRow {
+  margin-left: 100px;
+}
+.calcFirstRow{
+      margin-top: 5px;
+}
+.calcCell{
+    display:inline-block;
+    width:49.9%;
+    vertical-align:top;
+}
+#gotCache{
+    width:70px;
+}
+
+
+
+
+
 
 .oplata{
     width:100%;
@@ -693,14 +716,6 @@ z-index:10;
 
 
 
-
-
-.calcRow{
-    margin-left:8px;
-}
-#gotCache{
-    width:70px;
-}
 .col1{
     display:inline-block;
     width:100px;
