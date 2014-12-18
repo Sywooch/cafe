@@ -132,7 +132,9 @@ class Order extends \yii\db\ActiveRecord
         
         $pos_id=(int)$pos_id;
         
-        $sql="SELECT COUNT(*) AS nOrders FROM `order` WHERE pos_id={$pos_id} AND order_datetime BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59';";
+        //$sql="SELECT COUNT(*) AS nOrders FROM `order` WHERE pos_id={$pos_id} AND order_datetime BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59';";
+        //
+        $sql="SELECT MAX(order_day_sequence_number) AS nOrders FROM `order` WHERE pos_id={$pos_id} AND order_datetime BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59';";
         $nOrders=\Yii::$app->db->createCommand($sql, [])->queryOne();
         return (int)$nOrders['nOrders'];
     }
