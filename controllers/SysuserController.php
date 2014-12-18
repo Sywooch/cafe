@@ -74,7 +74,7 @@ class SysuserController extends Controller {
             return $this->redirect(['view', 'id' => $model->sysuser_id]);
         } else {
             return $this->render('create', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
