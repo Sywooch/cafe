@@ -19,7 +19,9 @@ AppAsset::register($this);
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/custom.css" type="text/css">
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" />
-    <link href="css/jquery-ui/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css"/>
+    <!-- link href="css/jquery-ui/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css"/ -->
+    <link href="css/jquery-ui/jquery-ui-1.11.2.custom/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+
     <?= $content ?>
 </head>
 <body>
