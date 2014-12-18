@@ -192,6 +192,7 @@ function newOrder() {
     $('#sdacha').empty().html(0);
     $('#orderTotal').html(0);
     $('#discountSelector').val('');
+    $('.calcVal').html('-');
     // get new zakaz number
     jQuery.ajax('index.php?r=sell/ordernumber&pos_id=' + pos_id + '&t=' + Math.random(), {
         dataType: 'json',
@@ -580,6 +581,7 @@ function paid(paymentTypeName) {
         window.orderData.order_payment_type = paymentTypeName;
 
         var post = {
+                url: 'index.php?r=sell/createorder&pos_id=' + pos_id,
                 order: {
                     order_day_sequence_number: window.orderData.order_day_sequence_number,
                     order_payment_type: paymentTypeName,
@@ -588,7 +590,9 @@ function paid(paymentTypeName) {
                 }
             };
 
-        jQuery.ajax('index.php?r=sell/createorder&pos_id=' + pos_id, {
+        
+        
+        jQuery.ajax(post.url, {
             //dataType:'json',
             type: "POST",
             data: post,
@@ -600,12 +604,24 @@ function paid(paymentTypeName) {
                     printReceipt();
                 } catch (err) {
                     //alert('print_error');
-                    console.log(err);
+                    if(console && console.log){
+                        console.log(err);
+                    }
                 }
                 loadPackaging();
-                newOrder();
+                // notify queue
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                // if error is "http request timeout"
+                // 
+                // place order in queue
+                var orderJsonString=JSON.stringify(post);
+                //console.log(orderJsonString);
+                
             }
         });
+        
+        newOrder();
     };
 }
 
