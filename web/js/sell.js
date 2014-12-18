@@ -609,6 +609,7 @@ function paid(paymentTypeName) {
                     }
                 }
                 loadPackaging();
+                newOrder();
                 // notify queue
             },
             error:function(xhr, ajaxOptions, thrownError){
@@ -621,7 +622,7 @@ function paid(paymentTypeName) {
             }
         });
         
-        newOrder();
+        
     };
 }
 
