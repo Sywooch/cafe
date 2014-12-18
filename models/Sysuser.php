@@ -52,7 +52,9 @@ class Sysuser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['sysuser_fullname'], 'string', 'max' => 512],
             [['sysuser_login', 'sysuser_telephone', 'sysuser_token'], 'string', 'max' => 64],
             [['sysuser_password'], 'string', 'max' => 128],
-            [['sysuser_active'],'boolean']
+            [['sysuser_active'],'boolean'],
+            [['sysuser_login'], 'unique'],
+            [['sysuser_login'], 'required'],
         ];
     }
 
