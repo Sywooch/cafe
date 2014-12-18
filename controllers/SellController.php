@@ -199,10 +199,10 @@ class SellController extends \yii\web\Controller {
         $order_datetime = date('Y-m-d H:i:s');
 
         // check order_day_sequence_number
-        $order_day_sequence_number = Order::countOrders($pos_id, $order_datetime) + 1;
-        if ($order_day_sequence_number != $orderData['order_day_sequence_number']) {
-            return "{'status':'error', 'message':'" . Yii::t('app', 'Duplicate Order') . "}";
-        }
+        //$order_day_sequence_number = Order::countOrders($pos_id, $order_datetime) + 1;
+        //if ($order_day_sequence_number != $orderData['order_day_sequence_number']) {
+        //    return "{'status':'error', 'message':'" . Yii::t('app', 'Duplicate Order') . "}";
+        //}
 
 
 
