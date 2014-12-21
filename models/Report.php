@@ -153,14 +153,17 @@ class Report extends Model {
         return $query;
     }
 
-    public static function posIncomeReport() {
+    public static function posIncomeReport($orderSearch=false) {
         //SELECT pos.pos_id, pos.pos_title, SUM(o.order_total) AS total
         //FROM `order` o INNER JOIN pos ON o.pos_id=pos.pos_id
         //GROUP BY pos.pos_id
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
+        
         $query = new Query;
-        $query->select('pos.pos_id, pos.pos_title, SUM(o.order_total) AS total')
+        $query->select('pos.pos_id, pos.pos_title, SUM(o.order_total) AS total, count(o.order_id) as n_orders')
                 ->from('`order` o')
                 ->innerJoin('pos', 'o.pos_id=pos.pos_id')
                 ->groupBy(['pos.pos_id'])
