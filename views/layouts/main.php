@@ -46,7 +46,7 @@ AppAsset::register($this);
                 $items[]=[
                     'label' => Yii::t('app','Reports'), 
                     'items'=>[
-                        ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index']],
+                        ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index','sort'=>'-order_id']],
                         ['label'=>Yii::t('app','Sellers'), 'url'=>['/report/seller']],
                         ['label'=>Yii::t('app','ProductReport'), 'url'=>['/report/product']],
                         ['label'=>Yii::t('app','PackagingReport'), 'url'=>['/report/packaging']],
