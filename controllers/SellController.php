@@ -68,7 +68,7 @@ class SellController extends \yii\web\Controller {
                         ])->one();
                 if (!$seller) {
                     // seller cannot access other's POS
-                    throw new NotFoundHttpException('The requested page does not exist.');
+                    throw new NotFoundHttpException(Yii::t('app','There is not POS attached to seller'));
                 }
             } else {
                 // user is not seller nor admin
@@ -89,7 +89,7 @@ class SellController extends \yii\web\Controller {
                     return $this->redirect(['posselector']);
                 } else {
                     // throw error
-                    throw new NotFoundHttpException('The requested page does not exist.');
+                    throw new NotFoundHttpException(\Yii::t('app','There is not POS attached to seller'));
                 }
             } elseif ($cnt == 1) {
                 if (isset($sellers[0])) {
@@ -196,7 +196,18 @@ class SellController extends \yii\web\Controller {
 
         $orderData = \Yii::$app->request->post('order');
 
-        $order_datetime = date('Y-m-d H:i:s');
+        if(isset($orderData['order_datetime'])){
+            $timestamp=strtotime($orderData['order_datetime']);
+            if($timestamp!==false){
+                $order_datetime = date('Y-m-d H:i:s',$timestamp);
+            }else{
+                $order_datetime = date('Y-m-d H:i:s');
+            }
+        }else{
+            $order_datetime = date('Y-m-d H:i:s');
+        }
+        
+        
 
         // check order_day_sequence_number
         //$order_day_sequence_number = Order::countOrders($pos_id, $order_datetime) + 1;
