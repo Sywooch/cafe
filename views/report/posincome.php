@@ -246,7 +246,7 @@ if(!$orderSearch){
     <canvas id="myChart" width="400" height="400"></canvas>
 
     <script type="application/javascript">
-        var data=[];
+    var data=[];
     <?php
       $tmp=$query->all();
       $colors=Report::getColors();
@@ -257,18 +257,14 @@ if(!$orderSearch){
     ?>
     </script>
     <?php
-    
     $this->registerJs("
-        
-
         $(document).ready(function(){
             // Get the context of the canvas element we want to select
             var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
             var myNewChart = new Chart(ctx).Pie(data);
 
         });
-
-        ");
+    ");
     ?>
 
     
@@ -297,6 +293,13 @@ if(!$orderSearch){
                 'label' => Yii::t('app','totalIncome'),
                 'content'=>function ($model, $key, $index, $column){
                                 return round($model['total'],5).' '.Yii::$app->params['currency'];
+                           }
+            ],
+            [
+                'attribute' => 'n_orders',
+                'label' => Yii::t('app','n_orders'),
+                'content'=>function ($model, $key, $index, $column){
+                                return $model['n_orders'];
                            }
             ],
 

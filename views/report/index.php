@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Choose report type');
 
 <h1><?= Html::encode($this->title) ?></h1>
 <ul>
-<li><?=Html::a( Yii::t('app','Orders'), ['/order/index'], [] )?></li>
+<li><?=Html::a( Yii::t('app','Orders'), ['/order/index','sort'=>'-order_id'], [] )?></li>
 <li><?=Html::a( Yii::t('app','Sellers'), ['/report/seller'], [] )?></li>
 <li><?=Html::a( Yii::t('app','ProductReport'), ['/report/product'], [] )?></li>
 <li><?=Html::a( Yii::t('app','PackagingReport'), ['/report/packaging'], [] )?></li>
