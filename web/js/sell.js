@@ -3,6 +3,8 @@ window.packagingData = {};
 window.orderData = {};
 window.orderUpdateEnabled = true;
 window.dy = -1;
+window.orderQueue=[];
+
 
 function showMessage() {
     if (confirm("Заказ уже обработан.\nСоздать новый заказ?")) {
@@ -194,15 +196,26 @@ function newOrder() {
     $('#discountSelector').val('');
     $('.calcVal').html('-');
     // get new zakaz number
-    jQuery.ajax('index.php?r=sell/ordernumber&pos_id=' + pos_id + '&t=' + Math.random(), {
-        dataType: 'json',
-        success: function (data) {
-            $('#zakazId').empty().html(data.id);
-            window.orderData = {order_day_sequence_number: data.id};
-            window.orderUpdateEnabled = true;
+    //jQuery.ajax('index.php?r=sell/ordernumber&pos_id=' + pos_id + '&t=' + Math.random(), {
+    //    dataType: 'json',
+    //    success: function (data) {
+    //        $('#zakazId').empty().html(data.id);
+    //        window.orderData = {order_day_sequence_number: data.id};
+    //        window.orderUpdateEnabled = true;
+    //    }
+    //});
+    if(window.orderData.order_day_sequence_number){
+        try{
+           data_id=parseInt(window.orderData.order_day_sequence_number)+1;
+        } catch (err){
+            data_id=1;
         }
-    });
-
+    }else{
+        data_id=1;
+    }
+    $('#zakazId').empty().html(data_id);
+    window.orderData = {order_day_sequence_number: data_id};
+    window.orderUpdateEnabled = true;
 }
 
 function packagingClicked(event) {
@@ -576,7 +589,8 @@ function paid(paymentTypeName) {
 
         // block buttons
         window.orderUpdateEnabled = false;
-        $("#dialog").dialog("open");
+        //$("#dialog").dialog("open");
+
 
         window.orderData.order_payment_type = paymentTypeName;
 
@@ -586,45 +600,83 @@ function paid(paymentTypeName) {
                     order_day_sequence_number: window.orderData.order_day_sequence_number,
                     order_payment_type: paymentTypeName,
                     discount_id: window.orderData.discount_id,
+                    order_total: window.orderData.order_total,
+                    order_datetime:(new Date()).toUTCString(),
                     order_packaging: order_packaging
                 }
             };
 
+        // add post data to queue
+        window.orderQueue.push(post);
+
+        // notify listener
+        $(window).trigger( "orderCreated",true);
         
-        
-        jQuery.ajax(post.url, {
-            //dataType:'json',
-            type: "POST",
-            data: post,
-            success: function (data) {
-                // console.log(data);
-                getStats();
-                $("#dialog").dialog("close");
-                try {
-                    printReceipt();
-                } catch (err) {
-                    //alert('print_error');
-                    if(console && console.log){
-                        console.log(err);
-                    }
-                }
-                loadPackaging();
-                newOrder();
-                // notify queue
-            },
-            error:function(xhr, ajaxOptions, thrownError){
-                // if error is "http request timeout"
-                // 
-                // place order in queue
-                var orderJsonString=JSON.stringify(post);
-                //console.log(orderJsonString);
-                
+        try {
+            printReceipt(window.orderData);
+        } catch (err) {
+            //alert('print_error');
+            if(console && console.log){
+                console.log(err);
             }
-        });
-        
-        
+        }
+        newOrder();
+        $("#dialog").dialog("close");
     };
 }
+
+
+function onOrderCreated(event,verbose){
+    
+    if(window.orderQueue.length===0){
+        return;
+    }
+
+    var post=window.orderQueue[0];
+    if(console && console.log){
+        console.log(post);
+    }
+    // window.orderQueue.push(post);
+
+    jQuery.ajax(post.url, {
+        //dataType:'json',
+        type: "POST",
+        data: post,
+        success: function (data) {
+            // console.log(data);
+            if(verbose)
+            $.toast({ 
+                    position : 'mid-center',
+                    text : "<b>Заказ сохранён на сервере</b>", 
+                    showHideTransition : 'slide'  // It can be plain, fade or slide
+            });
+            getStats();
+            loadPackaging();
+            window.orderQueue.shift();
+            // save new window.orderQueue in local storage
+            window.localStorage.setItem('windowOrderQueue', JSON.stringify(window.orderQueue));
+            if(window.orderQueue.length>0){
+                $(window).trigger( "orderCreated", verbose);
+            }
+        },
+        error:function(xhr, ajaxOptions, thrownError){
+            // show error message
+            if(verbose)
+            $.toast({ 
+                position : 'mid-center',
+                text : "<b>Не удаётся сохранить заказ<br/>на сервере</b>", 
+                bgColor : 'red',
+                showHideTransition : 'slide'  // It can be plain, fade or slide
+            });
+            if(console && console.log){
+                console.log(xhr, ajaxOptions, thrownError);
+            }
+        }
+    });
+}
+
+
+
 
 function zakazScrollDownClick() {
     if (!$('#zakazScrollDown').hasClass('active'))
@@ -638,7 +690,7 @@ function zakazScrollDownClick() {
         $('#zakazScrollUp').addClass('active');
     });
 }
-;
+
 
 function zakazScrollUpClick() {
     if (!$('#zakazScrollUp').hasClass('active'))
@@ -652,7 +704,7 @@ function zakazScrollUpClick() {
         $('#zakazScrollDown').addClass('active');
     });
 }
-;
+
 
 
 function reactiveteScroller() {
@@ -669,19 +721,19 @@ function reactiveteScroller() {
 }
 
 
-function printReceipt() {
+function printReceipt(windowOrderData) {
 
     if (!printerUrl) {
         return;
     }
 
     var orderData = {};
-    orderData.order_day_sequence_number = window.orderData.order_day_sequence_number;
+    orderData.order_day_sequence_number = windowOrderData.order_day_sequence_number;
     orderData.sysuser_lastname = sysuser_lastname;
-    orderData.order_total = window.orderData.order_total;
-    //orderData.discount_title=window.orderData.order_total;
+    orderData.order_total = windowOrderData.order_total;
+    //orderData.discount_title=windowOrderData.order_total;
 
-    switch (window.orderData.order_payment_type) {
+    switch (windowOrderData.order_payment_type) {
         case 'cash':
             orderData.order_payment_type = 'Наличные';
             break;
@@ -714,16 +766,16 @@ function printReceipt() {
     }
     orderData.order_datetime = day + '.' + mon + '.' + year + ' ' + hrs + ':' + mnt;
 
-    //console.log(window.orderData);
+    //console.log(windowOrderData);
     orderData.packaging = {};
-    for (var packaging_id in window.orderData) {
+    for (var packaging_id in windowOrderData) {
         if (isNaN(packaging_id)) {
             continue;
         }
         orderData.packaging[packaging_id] = {
-            order_packaging_number: window.orderData[packaging_id].count,
-            packaging_price: window.orderData[packaging_id].packaging.packaging_price,
-            packaging_title: window.orderData[packaging_id].packaging.packaging_title
+            order_packaging_number: windowOrderData[packaging_id].count,
+            packaging_price: windowOrderData[packaging_id].packaging.packaging_price,
+            packaging_title: windowOrderData[packaging_id].packaging.packaging_title
         }
     }
 
@@ -902,7 +954,13 @@ function adjustSizes() {
 }
 
 
-
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
 
 
 function popupDialog(selector, title) {
@@ -935,11 +993,45 @@ function popupDialog(selector, title) {
 var extraLinksCount = 0;
 
 $(window).load(function () {
+    
+    
     loadPackaging();
+
+    // load new window.orderQueue from local storage
+    if(supports_html5_storage()){
+        var windowOrderQueue = window.localStorage.getItem('windowOrderQueue');
+        if(windowOrderQueue){
+            try {
+                window.orderQueue=JSON.parse(windowOrderQueue);;
+            } catch (err) {
+                if(console && console.log){
+                    console.log(err);
+                }
+            }
+        }else{
+            window.orderQueue=[];
+        }
+    }else{
+        window.orderQueue=[];
+    }
+
+    $(window).on( "orderCreated", onOrderCreated);
+
     $('#newOrder').click(newOrder);
     $('#gotCache').keyup(gotCacheChanged);
     getStats();
+    
     newOrder();
+
+    jQuery.ajax('index.php?r=sell/ordernumber&pos_id=' + pos_id + '&t=' + Math.random(), {
+        dataType: 'json',
+        success: function (data) {
+            $('#zakazId').empty().html(data.id);
+            window.orderData = {order_day_sequence_number: data.id};
+            window.orderUpdateEnabled = true;
+        }
+    });
+
     $('#cachPaid').click(paid('cash'));
     $('#cardPaid').click(paid('card'));
 
@@ -1036,8 +1128,5 @@ $(window).load(function () {
     }
     
 
-
-
     adjustSizes();
 });
-
