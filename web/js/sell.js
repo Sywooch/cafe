@@ -1129,4 +1129,8 @@ $(window).load(function () {
     
 
     adjustSizes();
+    
+    window.setInterval(function(){
+        $(window).trigger( "orderCreated", false);
+    }, 60000);
 });
