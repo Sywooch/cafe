@@ -202,5 +202,7 @@ return [
     'OrderDaySequenceNumber'=>'Номер заказа',
     'Choose packaging to return'=>'Выберите, что именно возвращает покупатель',
     'items'=>'шт.',
-    'order_notes'=>'Примечания'
+    'order_notes'=>'Примечания',
+    'There is not POS attached to seller'=>'Продавцу не назначена точка реализации.',
+    'n_orders'=>'Заказов'
 ];
