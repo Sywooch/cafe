@@ -87,7 +87,6 @@ AppAsset::register($this);
 <div id="popupDialog"></div>
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
-<script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.toast.js" type="text/javascript"></script>
 <script src="js/sell.js" type="text/javascript"></script>
 

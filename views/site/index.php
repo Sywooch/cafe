@@ -15,6 +15,7 @@ if(Yii::$app && Yii::$app->user && ($sysuser = \Yii::$app->user->getIdentity()) 
     </div>
     
     <?php
+    /*
     $roles = \Yii::$app->authManager->getRolesByUser($sysuser->sysuser_id);
     if (isset($roles['admin'])) {
     ?>
@@ -93,7 +94,7 @@ if(Yii::$app && Yii::$app->user && ($sysuser = \Yii::$app->user->getIdentity()) 
 
     </div>
     <?php
-    }
+    }*/
     ?>
 <?php
 }else{

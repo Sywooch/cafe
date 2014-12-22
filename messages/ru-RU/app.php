@@ -204,5 +204,7 @@ return [
     'items'=>'шт.',
     'order_notes'=>'Примечания',
     'There is not POS attached to seller'=>'Продавцу не назначена точка реализации.',
-    'n_orders'=>'Заказов'
+    'n_orders'=>'Заказов',
+    'Reorder Packagings'=>'Упорядочить фасовки',
+    'Drag to Reorder Packagings'=>'Перетаскивайте строки, чтобы упорядочить фасовки'
 ];

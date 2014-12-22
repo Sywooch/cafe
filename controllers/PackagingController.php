@@ -26,11 +26,11 @@ class PackagingController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete', 'updateordering'],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'updateordering','reorder','batchupdateordering'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'updateordering'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'updateordering','reorder','batchupdateordering'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -52,6 +52,26 @@ class PackagingController extends Controller {
         ]);
     }
 
+    
+    public function actionReorder() {
+        
+        $data = Packaging::find()->orderBy('packaging_ordering ASC')->all();
+        return $this->render('reorder', [
+               'data' => $data,
+        ]);
+        
+        //$query = Packaging::find()->orderBy('packaging_ordering ASC');
+        //
+        //$dataProvider = new SqlDataProvider([
+        //    'sql' => $query,
+        //    'pagination'=>false,
+        //]);
+        //return $this->render('reorder', [
+        //       'dataProvider' => $dataProvider,
+        //]);
+    }
+
+    
     /**
      * Displays a single Packaging model.
      * @param string $id
@@ -166,6 +186,21 @@ class PackagingController extends Controller {
         return 'OK';
     }
 
+    
+    public function actionBatchupdateordering() {
+        
+        $ids=array_map(function($v){return (int)trim($v);},explode(',',\Yii::$app->request->post('ids')));
+        
+        foreach($ids as $packaging_ordering => $packaging_id){
+            echo "$packaging_ordering => $packaging_id\n";
+            $model = $this->findModel($packaging_id);
+            $model->packaging_ordering = $packaging_ordering+1;
+            $model->update();            
+        }
+        return 'OK';
+    }
+
+    
     /**
      * Finds the Packaging model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

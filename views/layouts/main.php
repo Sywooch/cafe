@@ -45,18 +45,18 @@ AppAsset::register($this);
                 //$items[]=['label' => Yii::t('app','Orders'), 'url' => ['/order/index','sort'=>'-order_datetime']];
                 $items[]=[
                     'label' => Yii::t('app','Reports'), 
-                    'items'=>[
-                        ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index','sort'=>'-order_id']],
-                        ['label'=>Yii::t('app','Sellers'), 'url'=>['/report/seller']],
-                        ['label'=>Yii::t('app','ProductReport'), 'url'=>['/report/product']],
-                        ['label'=>Yii::t('app','PackagingReport'), 'url'=>['/report/packaging']],
-                        ['label'=>Yii::t('app','PosIncomeReport'), 'url'=>['/report/posincome']],
-                        ['label'=>Yii::t('app','SellerIncomeReport'), 'url'=>['/report/sellerincome']],
-                        ['label'=>Yii::t('app', 'HourlyIncomeReport'), 'url'=>['/report/hourlyincome']],
-                        ['label'=>Yii::t('app', 'WeekdailyIncomeReport'), 'url'=>['/report/weekdailyincome']],
-                        ['label'=>Yii::t('app', 'DailyIncomeReport'), 'url'=>['/report/dailyincome']],
-                    ]
-                    //'url' => ['/report/index']
+                    //'items'=>[
+                    //    ['label'=>Yii::t('app','Orders'), 'url'=>['/order/index','sort'=>'-order_id']],
+                    //    ['label'=>Yii::t('app','Sellers'), 'url'=>['/report/seller']],
+                    //    ['label'=>Yii::t('app','ProductReport'), 'url'=>['/report/product']],
+                    //    ['label'=>Yii::t('app','PackagingReport'), 'url'=>['/report/packaging']],
+                    //    ['label'=>Yii::t('app','PosIncomeReport'), 'url'=>['/report/posincome']],
+                    //    ['label'=>Yii::t('app','SellerIncomeReport'), 'url'=>['/report/sellerincome']],
+                    //    ['label'=>Yii::t('app', 'HourlyIncomeReport'), 'url'=>['/report/hourlyincome']],
+                    //    ['label'=>Yii::t('app', 'WeekdailyIncomeReport'), 'url'=>['/report/weekdailyincome']],
+                    //    ['label'=>Yii::t('app', 'DailyIncomeReport'), 'url'=>['/report/dailyincome']],
+                    //]
+                    'url' => ['/report/index']
                 ];
                 
                 

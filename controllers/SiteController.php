@@ -52,31 +52,24 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $orderSearch=Array ( 
-            'order_id' =>'',
-            'pos.pos_title' => '', 
-            'order_datetime_min' =>date('Y-m-d 00:00:00'), 
-            'order_datetime_max' =>date('Y-m-d 23:59:59'),
-            'sysuser.sysuser_fullname' =>'',
-            'packaging_title'=>''
-        ) ;
+        //$orderSearch=Array ( 
+        //    'order_id' =>'',
+        //    'pos.pos_title' => '', 
+        //    'order_datetime_min' =>date('Y-m-d 00:00:00'), 
+        //    'order_datetime_max' =>date('Y-m-d 23:59:59'),
+        //    'sysuser.sysuser_fullname' =>'',
+        //    'packaging_title'=>''
+        //) ;
 
-        $query = Report::posIncomeReport($orderSearch);
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => ['pageSize' => 20,],
-            //'sort' => new Sort([
-            //    'attributes' => [
-            //        'pos_id',
-            //        'pos_title',
-            //        'total',
-            //    ],
-            //])
-        ]);
+        //$query = Report::posIncomeReport($orderSearch);
+        //$provider = new ActiveDataProvider([
+        //    'query' => $query,
+        //    'pagination' => ['pageSize' => 20,],
+        //]);
 
         return $this->render('index',[
-            'report' => $provider,
-            'query'  => $query
+            //'report' => $provider,
+            //'query'  => $query
         ]);
     }
 
