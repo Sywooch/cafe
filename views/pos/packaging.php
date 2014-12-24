@@ -16,35 +16,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    
+    <?=Yii::t('app','Filter')?>:<input type="text" class="form-control" id="tablefilter" style="width:400px;">
+    <div id="packTable">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],
-            //            [
-            //                'class' => 'yii\grid\ActionColumn',
-            //                'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
-            //                'buttons'=>[
-            //                   'products'=>function ($url, $model, $key) {
-            //                               return '<b>'.Html::a(' 3 ', ['pos/products','pos_id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-list')]).'</b>';
-            //                             },
-            //                   'supply'=>function ($url, $model, $key) {
-            //                               return '<b>'.Html::a(' П ', ['pos/supply','id'=>$model->pos_id],['title'=>Yii::t('app', 'Pos-product-supply')]).'</b>';
-            //                             },
-            //                                     
-            //                ]
-            //            ],
-            //['attribute' => 'pos_id','filterOptions'=>['class'=>'numFilter'],],
-            //'pos_title',
-            //'pos_address',
-            //'pos_timetable',
             [
                'label'=>\Yii::t('app','packaging_id'),
                'content'=>function ($model, $key, $index, $column){
                                 return $model['packaging_id'];
                            }
             ], 
-            ['attribute' => 'packaging_title','label'=>\Yii::t('app','Packaging Title')],
+            [
+                'attribute' => 'packaging_title',
+                'label'=>\Yii::t('app','Packaging Title'),
+            ],
             [
                'label'=>\Yii::t('app','Packaging Price'),
                'content'=>function ($model, $key, $index, $column){
@@ -59,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ], 
         ],
     ]); ?>
-
+    </div>
 <style>    
     .pos_packaging_price{
         width:auto;
@@ -98,6 +86,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 var pos_id=ele.attr('data-pos-id');
                 var pos_packaging_price=ele.val();
                 update_pos_price(packaging_id, pos_id, pos_packaging_price);
+            });
+            $('#tablefilter').keyup(function(){
+               var filter=$('#tablefilter').val().toLowerCase();
+               $('#packTable tbody tr').each(function(key, val){
+                 var row=$(val);
+                 var txt=row.text().toLowerCase();
+                 if(txt.indexOf(filter)>=0){
+                    row.show();
+                 }else{
+                    row.hide();
+                 }
+               });
             });
         }
         $(window).load(activateForm);    
