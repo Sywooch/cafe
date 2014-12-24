@@ -287,9 +287,10 @@ if(!$orderSearch){
         
 
         $(document).ready(function(){
+            $('#myChart').attr('width',$('.col2').innerWidth());
             // Get the context of the canvas element we want to select
             var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
-            Chart.defaults.global.responsive = true;
+            //Chart.defaults.global.responsive = true;
             Chart.defaults.global.scaleFontFamily=\"monospace\";
             var myBarChart = new Chart(ctx).Bar(data, {
                barStrokeWidth : 1,

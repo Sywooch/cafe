@@ -251,7 +251,13 @@ if(!$orderSearch){
     <script type="application/javascript">
     
     var data = {
-        labels: ["<?=join('","',array_map(function($fr){return date('d.m.Y',strtotime($fr));},array_keys($stats)))?>"],
+        labels: [<?php
+                 $delim='';
+                 foreach($stats as $key=>$val){
+                     echo $delim.'"'.date('d.m.Y',strtotime($key)).'"';
+                     $delim=',';
+                 }
+                ?>],
         datasets: [
             {
                 label: "<?=Yii::t('app','Income')?>",
@@ -287,9 +293,12 @@ if(!$orderSearch){
         
 
         $(document).ready(function(){
+        
+
+            $('#myChart').attr('width',$('.col2').innerWidth());
             // Get the context of the canvas element we want to select
             var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
-            Chart.defaults.global.responsive = true;
+            // Chart.defaults.global.responsive = true;
             Chart.defaults.global.scaleFontFamily=\"monospace\";
             var myBarChart = new Chart(ctx).Bar(data, {
                barStrokeWidth : 1,
