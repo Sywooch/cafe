@@ -63,7 +63,8 @@ if(!$orderSearch){
         'order_datetime_min' =>'', 
         'order_datetime_max' =>'',
         'sysuser.sysuser_fullname' =>'',
-        'packaging_title'=>''
+        'packaging_title'=>'',
+        'category'=>''
     ) ;
 }
 
@@ -109,12 +110,19 @@ if(!$orderSearch){
         <br/>
         <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
         <div id="otherOptions" style="display:none;">
+            <?php
+               $categoryMap=[''=>Yii::t('app','All categories')];
+               $tmp=ArrayHelper::map(\Yii::$app->db->createCommand("select distinct category_id, category_title from `category`", [])->queryAll(),'category_id','category_title');
+               foreach($tmp as $k=>$v){
+                   $categoryMap[$k]=$v;
+               }
+            ?>
+            <span class="filter-element width90"><label><?=Yii::t('app','Packaging Category')?></label><?=Html::dropDownList('OrderSearch[category]', $orderSearch['category'], $categoryMap, ['class'=>'form-control'] )?></span><br/>
             <span class="filter-element width90"><label><?=Yii::t('app','packaging_title')?></label><?=Html::textInput( 'OrderSearch[packaging_title]', $orderSearch['packaging_title'], ['class'=>'form-control width100'] )?></span><br/>
             <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('OrderSearch[pos.pos_title]', $orderSearch['pos.pos_title'], array_merge([''=>Yii::t('app','All POSs')],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct pos_title from `pos`", [])->queryAll(),'pos_title','pos_title')), ['class'=>'form-control width100'] )?></span><br/>
             <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('OrderSearch[sysuser.sysuser_fullname]', $orderSearch['sysuser.sysuser_fullname'], array_merge([''=>Yii::t('app','All sellers')],ArrayHelper::map(\Yii::$app->db->createCommand("select distinct sysuser_fullname from `sysuser`", [])->queryAll(),'sysuser_fullname','sysuser_fullname')), ['class'=>'form-control'] )?></span><br/>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
-
         <script type="application/javascript">
         function toggleSelector(selector){
             if(typeof(Storage) !== "undefined") {
@@ -259,6 +267,10 @@ if(!$orderSearch){
             [
                 'attribute' => 'packaging_title',
                 'label' => Yii::t('app','packaging_title'),
+            ],
+            [
+                'attribute' => 'category_title',
+                'label' => Yii::t('app','Packaging Category'),
             ],
             [
                 'attribute' => 'packaging_number',

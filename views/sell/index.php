@@ -58,6 +58,7 @@ return rows.join(\"\\n\");
 var pos_id=<?=($pos?$pos->pos_id:0)?>;
 var sysuser_id=<?=$sysuser->sysuser_id?>;
 var seller_id=<?=($seller?$seller->seller_id:0)?>;
+var sellerCanReturnPayment=<?=Yii::$app->params['sellerCanReturnPayment']?'true':'false'?>;
 var currency='<?=Yii::$app->params['currency']?>';
 var printerUrl='<?=($pos?$pos->pos_printer_url:'')?>';
 var sysuser_lastname='<?=preg_replace("/[ ,].*$/","",$sysuser->sysuser_fullname)?>';

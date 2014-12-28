@@ -34,6 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'packaging_icon',
             'packaging_title',
             [
+               'label'=>\Yii::t('app','Packaging Category'),
+               'attribute'=>'category.category_title',
+               'filter' => true,
+               'format' => 'text',
+            ], 
+            [
                 'attribute' => 'packaging_price',
                 'filterOptions'=>['style'=>'width:100px;'],
                 'content'=>function ($model, $key, $index, $column){

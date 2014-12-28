@@ -1059,15 +1059,17 @@ $(window).load(function () {
             alert("ОК");
         });
     });
+    $('#extraLinks').append(lnk);
     
-    $('#extraLinks').append(lnk);
-    lnk = $('<div><a href="javascript:void(\'Возврат\')">Возврат</a></div>');
-    lnk.click(function () {
-        //alert("index.php?r=supply/accept&pos_id=" + pos_id);
-        popupDialog('#popupDialog','Возврат');
-        $('#popupDialog').load("index.php?r=sell/return&pos_id=" + pos_id);
-    });
-    $('#extraLinks').append(lnk);
+    if(sellerCanReturnPayment){
+        lnk = $('<div><a href="javascript:void(\'Возврат\')">Возврат</a></div>');
+        lnk.click(function () {
+            //alert("index.php?r=supply/accept&pos_id=" + pos_id);
+            popupDialog('#popupDialog','Возврат');
+            $('#popupDialog').load("index.php?r=sell/return&pos_id=" + pos_id);
+        });
+        $('#extraLinks').append(lnk);        
+    }
     // --------------- extra links - end ---------------------------------------
 
 

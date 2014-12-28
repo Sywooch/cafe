@@ -18,10 +18,15 @@ class PackagingSearch extends Packaging
     public function rules()
     {
         return [
-            [['packaging_id'], 'integer'],
+            [['packaging_id','category_id'], 'integer'],
             [['packaging_icon', 'packaging_title'], 'safe'],
             [['packaging_price'], 'number'],
+            [['category.category_title'], 'safe'],
         ];
+    }
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['category.category_title']);
     }
 
     /**
@@ -43,11 +48,14 @@ class PackagingSearch extends Packaging
     public function search($params)
     {
         $query = Packaging::find();
-
+        $query->joinWith(['category']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        $dataProvider->sort->attributes['category.category_title'] = [
+            'asc' => ['category.category_title' => SORT_ASC],
+            'desc' => ['category.category_title' => SORT_DESC],
+        ];
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -59,7 +67,7 @@ class PackagingSearch extends Packaging
 
         $query->andFilterWhere(['like', 'packaging_icon', $this->packaging_icon])
             ->andFilterWhere(['like', 'packaging_title', $this->packaging_title]);
-
+        $query->andFilterWhere(['like', 'category.category_title', $this->getAttribute('category.category_title')]);
         return $dataProvider;
     }
 }

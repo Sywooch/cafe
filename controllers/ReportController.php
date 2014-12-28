@@ -89,9 +89,14 @@ class ReportController extends Controller {
     }
 
     public function actionPackaging() {
+        // posted data
+        $orderSearch = \Yii::$app->request->get('OrderSearch');
+
+        // get categories
+        
         $provider = new ActiveDataProvider(
                 [
-            'query' => Report::packagingReport(),
+            'query' => Report::packagingReport($orderSearch),
             'pagination' => ['pageSize' => 20,],
             'sort' => new Sort([
                 'attributes' => [

@@ -207,5 +207,6 @@ return [
     'n_orders'=>'Заказов',
     'Reorder Packagings'=>'Упорядочить фасовки',
     'Drag to Reorder Packagings'=>'Перетаскивайте строки, чтобы упорядочить фасовки',
-    'Filter'=>'Поиск по названию'
+    'Filter'=>'Поиск по названию',
+    'All categories'=>'Все категории'
 ];

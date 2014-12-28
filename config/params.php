@@ -13,5 +13,6 @@ return [
     "categoryskins"=>"food,coffee,tea,water,action,dobavki",
     'printerUrl'=>'http://localhost:9000/',
     'siteTitle'=>'Coffee Time',
-    'bill'=>'100,500,1000,5000' // какие бывают купюры
+    'bill'=>'100,500,1000,5000', // какие бывают купюры
+    'sellerCanReturnPayment'=>true
 ];

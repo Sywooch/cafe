@@ -109,19 +109,19 @@ class Report extends Model {
         return $query;
     }
 
-    public static function packagingReport() {
+    public static function packagingReport($orderSearch) {
 
-        // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
 
         // SELECT order_packaging.packaging_id, order_packaging.packaging_title, SUM(order_packaging_number) AS packaging_number
         // FROM `order` o INNER JOIN order_packaging ON (o.order_id=order_packaging.order_id)
 
         $query = new Query;
-        $query->select('order_packaging.packaging_id, order_packaging.packaging_title, SUM(order_packaging_number) AS packaging_number')
+        $query->select('order_packaging.packaging_id, category.category_title, order_packaging.packaging_title, SUM(order_packaging_number) AS packaging_number')
                 ->from('`order` o')
                 ->innerJoin('pos', 'o.pos_id=pos.pos_id')
                 ->innerJoin('order_packaging', 'o.order_id=order_packaging.order_id')
+                ->innerJoin('packaging', 'order_packaging.packaging_id=packaging.packaging_id')
+                ->innerJoin('category', 'category.category_id=packaging.category_id')
                 ->groupBy(['order_packaging.packaging_id'])
         ;
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
@@ -148,6 +148,9 @@ class Report extends Model {
 
         if (isset($orderSearch['packaging_title']) && strlen($orderSearch['packaging_title']) > 0) {
             $query->andWhere(" LOCATE (:packaging_title_value,order_packaging.packaging_title) ", ['packaging_title_value' => $orderSearch['packaging_title']]);
+        }
+        if (isset($orderSearch['category']) && strlen($orderSearch['category']) > 0) {
+            $query->andWhere(" packaging.category_id=:category_id_value ", ['category_id_value' => $orderSearch['category']]);
         }
 
         return $query;
