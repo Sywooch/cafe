@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Category;
 
 /**
  * This is the model class for table "pos".
@@ -123,6 +124,12 @@ class Pos extends \yii\db\ActiveRecord {
         //
         $sql = "SELECT * FROM category WHERE category_id IN(" . join(',', $category_ids) . ") ORDER BY category_ordering ASC";
         $categories = \Yii::$app->db->createCommand($sql, [])->queryAll();
+        $cnt=count($categories);
+        for($i=0; $i<$cnt; $i++){
+            $categorymodel = Category::findOne($categories[$i]['category_id']);
+            $categories[$i]['category_icon']=$categorymodel->getImageUrl(\Yii::$app->params['icon_width'].'x'.\Yii::$app->params['icon_height']);
+        }
+        // print_r($categories);exit();
 
         return [
             'packagingBasic' => $dataBasic,

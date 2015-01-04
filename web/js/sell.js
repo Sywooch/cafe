@@ -55,6 +55,12 @@ function drawCategories(data) {
     $('#categories').append($('<div class="tipcontainer logo"><div class="tip">&nbsp;</div></div>'));
     for (i = 0, cnt = data.category.length; i < cnt; i++) {
         var element = domOneCategory(data.category[i]);
+        //console.log(i+' '+data.category[i].category_icon.length);
+        if(data.category[i].category_icon.length>0){
+            element.find('.tip').css({backgroundImage:'url('+data.category[i].category_icon+')'});
+            // console.log(data.category[i].category_icon);
+        }
+
         if (activeCategoryId == data.category[i].category_id) {
             element.addClass('active');
             var skin = element.attr('data-category_skin');

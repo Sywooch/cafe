@@ -34,5 +34,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'category_ordering'
         ],
     ]) ?>
+    
+    <?php
+    
+    $category_icon_url=$model->getImageUrl(\Yii::$app->params['icon_width'].'x'.\Yii::$app->params['icon_height']);
+    if(strlen($category_icon_url)>0){
+        echo '<label class="control-label">' . Yii::t('app', 'category_icon_file') . '</label>';
+        ?>
+        <div class="file-preview">
+            <div class="file-preview-thumbnails">
+                <div class="file-preview-frame">
+                    <img style="width:auto;height:<?=\Yii::$app->params['icon_height']?>px;" class="file-preview-image" src="<?=$category_icon_url?>">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <?php
+    }
+    ?>
+
 
 </div>

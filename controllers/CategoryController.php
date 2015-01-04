@@ -95,6 +95,23 @@ class CategoryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $file = \yii\web\UploadedFile::getInstanceByName('category_icon_file');
+            // print_r($file);
+            if($file){
+                $iconfilename='category'.$model->category_id.'.'.$file->getExtension();
+                //echo $iconfilename;
+                if($file->size>0 && $file->saveAs(Yii::$app->params['file_root_dir'].'/'.$iconfilename)){
+                    $img=$model->getImage();
+                    if($img){
+                        $model->removeImage($img);
+                    }
+                    $model->attachImage(Yii::$app->params['file_root_dir'].'/'.$iconfilename);
+                    // $model->category_icon=$iconfilename;
+                    unlink(Yii::$app->params['file_root_dir'].'/'.$iconfilename);
+                    $model->save();                
+                }
+            }
             return $this->redirect(['view', 'id' => $model->category_id]);
         } else {
             return $this->render('update', [
@@ -103,6 +120,18 @@ class CategoryController extends Controller
         }
     }
 
+    
+    public function actionDeleteimage($id)
+    {
+        $model = $this->findModel($id);
+        $img=$model->getImage();
+        if($img){
+            $model->removeImage($img);
+        }
+        return $this->redirect(['update', 'id' => $model->category_id]);
+    }
+
+    
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

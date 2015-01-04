@@ -208,5 +208,8 @@ return [
     'Reorder Packagings'=>'Упорядочить фасовки',
     'Drag to Reorder Packagings'=>'Перетаскивайте строки, чтобы упорядочить фасовки',
     'Filter'=>'Поиск по названию',
-    'All categories'=>'Все категории'
+    'All categories'=>'Все категории',
+    'Category Icon'=>'Иконка категории',
+    'category_icon_file'=>'Иконка категории',
+    'category_icon_delete'=>'Удалить иконку'
 ];
