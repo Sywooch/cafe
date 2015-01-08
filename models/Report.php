@@ -723,6 +723,63 @@ class Report extends Model {
     }
     
     
+
+    
+    
+    public static function countOrdersHourly() {
+
+        // posted data
+        $orderSearch = Yii::$app->request->get('OrderSearch');
+
+        $t = Array();
+        for ($i = 0; $i < 24; $i++) {
+            $t[$i] = 0;
+        }
+
+        $query = new Query;
+        $query->select('HOUR(o.order_datetime) AS dt, count(o.`order_id`) AS total')
+                ->from('`order` o')
+                ->innerJoin('pos', 'o.pos_id=pos.pos_id')
+                ->innerJoin('sysuser', 'o.sysuser_id=sysuser.sysuser_id')
+                ->groupBy(['dt'])
+        ;
+        if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_min']);
+            if ($timestamp !== false) {
+                $min_date = date('Y-m-d 00:00:00', $timestamp);
+                $query->andWhere(" o.order_datetime>=:min_date ", ['min_date' => $min_date]);
+            }
+        }
+        if (isset($orderSearch['order_datetime_max']) && strlen($orderSearch['order_datetime_max']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_max']);
+            if ($timestamp !== false) {
+                $max_date = date('Y-m-d 23:59:59', $timestamp);
+                $query->andWhere(" o.order_datetime<=:max_date ", ['max_date' => $max_date]);
+            }
+        }
+        //        if (isset($orderSearch['order_payment_type']) && strlen($orderSearch['order_payment_type']) > 0) {
+        //            $query->andWhere(" o.order_payment_type=':order_payment_type' ",['order_payment_type'=>$orderSearch['order_payment_type']] );
+        //        }
+
+        if (isset($orderSearch['pos.pos_title']) && strlen($orderSearch['pos.pos_title']) > 0) {
+            $query->andWhere(" pos.pos_title=:pos_title_value ", ['pos_title_value' => $orderSearch['pos.pos_title']]);
+        }
+
+        if (isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname']) > 0) {
+            $query->andWhere(" LOCATE (:sysuser_fullname_value,o.sysuser_fullname) ", ['sysuser_fullname_value' => $orderSearch['sysuser.sysuser_fullname']]);
+        }
+
+        $result = $query->all();
+        foreach ($result as $res) {
+            $t[$res['dt']] = $res['total'];
+        }
+
+        return $t;
+    }
+    
+
+    
+    
     
     public static function getColors() {
         return

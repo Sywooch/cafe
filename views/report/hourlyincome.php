@@ -245,8 +245,11 @@ if(!$orderSearch){
     ?>
 
     
-    <canvas id="myChart" width="720" height="400"></canvas>
-    <div id="legend"></div>
+    <canvas id="myChart1" width="720" height="300"></canvas>
+    <div id="legend1"></div>
+    <br>
+    <canvas id="myChart2" width="720" height="300"></canvas>
+    <div id="legend2"></div>
     <style type="text/css">
         #legend span{
             display:inline-block;
@@ -259,7 +262,7 @@ if(!$orderSearch){
 
 
     <script type="application/javascript">
-    var data = {
+    var data1 = {
         labels: [<?='"'.join('","',array_keys($stats)).'"'?>],
         datasets: [
             {
@@ -269,34 +272,55 @@ if(!$orderSearch){
                 highlightFill: "#66FF00",
                 highlightStroke: "#66CC33",
                 data: [<?=join(',',array_values($stats))?>]
-            },
+            }
+            //,
+            //{
+            //    label: "<?=Yii::t('app','Profit')?>",
+            //    fillColor: "#99CCFF",
+            //    strokeColor: "#99CCFF",
+            //    highlightFill: "#99CCFF",
+            //    highlightStroke: "#CC00CC",
+            //    data: [<?=join(',',array_values($profit))?>]
+            //}
+        ]
+    };
+    var data2 = {
+        labels: [<?='"'.join('","',array_keys($count)).'"'?>],
+        datasets: [
             {
-                label: "<?=Yii::t('app','Profit')?>",
+                label: "<?=Yii::t('app','Order Count')?>",
                 fillColor: "#99CCFF",
                 strokeColor: "#99CCFF",
                 highlightFill: "#99CCFF",
                 highlightStroke: "#CC00CC",
-                data: [<?=join(',',array_values($profit))?>]
+                data: [<?=join(',',array_values($count))?>]
             }
         ]
-    };
-    </script>
+    };    </script>
     <?php
     
     $this->registerJs("
         
 
         $(document).ready(function(){
-            $('#myChart').attr('width',$('.col2').innerWidth());
-            // Get the context of the canvas element we want to select
-            var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
-            //Chart.defaults.global.responsive = true;
             Chart.defaults.global.scaleFontFamily=\"monospace\";
-            var myBarChart = new Chart(ctx).Bar(data, {
+            
+            $('#myChart1').attr('width',$('.col2').innerWidth());
+            var ctx1 = document.getElementById(\"myChart1\").getContext(\"2d\");
+            var myBarChart1 = new Chart(ctx1).Bar(data1, {
                barStrokeWidth : 1,
                barValueSpacing : 3,
             });
-            $('#legend').html(myBarChart.generateLegend());
+            $('#legend1').html(myBarChart1.generateLegend());
+            
+
+            $('#myChart2').attr('width',$('.col2').innerWidth());
+            var ctx2 = document.getElementById(\"myChart2\").getContext(\"2d\");
+            var myBarChart2 = new Chart(ctx2).Bar(data2, {
+               barStrokeWidth : 1,
+               barValueSpacing : 3,
+            });
+            $('#legend2').html(myBarChart2.generateLegend());
         });
 
         ");

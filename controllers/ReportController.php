@@ -147,11 +147,10 @@ class ReportController extends Controller {
         ]);
     }
     public function actionHourlyincome() {
-        $stats = Report::incomeByHourReport();
-        $profit= Report::profitHourly();
         return $this->render('hourlyincome', [
-            'stats' => $stats,
-            'profit'=>$profit
+            'stats' => Report::incomeByHourReport(),
+            'profit'=>Report::profitHourly(),
+            'count'=>Report::countOrdersHourly(),
         ]);
     }
     

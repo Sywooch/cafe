@@ -182,7 +182,7 @@ return [
     'PosIncomeReport'=>'Выручка по точкам реализации',
     'totalIncome'=>'Выручка',
     'SellerIncomeReport'=>'Выручка по продавцам',
-    'HourlyIncomeReport'=>'Выручка и прибыль по часам',
+    'HourlyIncomeReport'=>'Выручка и количество заказов по часам',
     'Hour'=>'Час',
     'WeekdailyIncomeReport'=>'Выручка и прибыль по дням недели',
     'DailyIncomeReport'=>'Выручка и прибыль по дням',
