@@ -1,0 +1,1 @@
+ALTER TABLE `pos_packaging` ADD COLUMN `pos_packaging_visible` TINYINT(1) DEFAULT 1 NOT NULL AFTER `pos_packaging_price`; 
