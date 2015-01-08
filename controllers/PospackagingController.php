@@ -48,6 +48,26 @@ class PospackagingController extends \yii\web\Controller {
         }
         return 'OK';
     }
+    
+    public function actionUpdatevisibility() {
+        $packaging_id = \Yii::$app->request->post('packaging_id');
+        $pos_id = \Yii::$app->request->post('pos_id');
+        $pos_packaging_visible = \Yii::$app->request->post('pos_packaging_visible');
+
+        $model = $this->findModel($packaging_id, $pos_id);
+        if ($model !== null) {
+            $model->pos_packaging_visible = $pos_packaging_visible;
+            $model->update();
+        } else {
+            $model = new PosPackaging();
+            $model->pos_id = $pos_id;
+            $model->packaging_id = $packaging_id;
+            $model->pos_packaging_visible = $pos_packaging_visible;
+            $model->save();
+        }
+        return 'OK';
+    }
+
     protected function findModel($packaging_id, $pos_id) {
         $model = PosPackaging::find()->where(['packaging_id' => ((int) $packaging_id), 'pos_id' => ((int) $pos_id)])->one();
         //if ($model !== null) {
