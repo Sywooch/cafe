@@ -32,7 +32,8 @@ class PosPackaging extends \yii\db\ActiveRecord
         return [
             [['pos_id', 'packaging_id'], 'required'],
             [['pos_id', 'packaging_id'], 'integer'],
-            [['pos_packaging_price'], 'number']
+            [['pos_packaging_price'], 'number'],
+            [['pos_packaging_visible'], 'boolean'],
         ];
     }
 
@@ -45,6 +46,7 @@ class PosPackaging extends \yii\db\ActiveRecord
             'pos_id' => Yii::t('app', 'Pos ID'),
             'packaging_id' => Yii::t('app', 'Packaging ID'),
             'pos_packaging_price' => Yii::t('app', 'Pos Packaging Price'),
+            'pos_packaging_visible'=>Yii::t('app', 'pos_packaging_visible'),
         ];
     }
 

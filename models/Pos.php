@@ -103,6 +103,7 @@ class Pos extends \yii\db\ActiveRecord {
                    LEFT JOIN pos_packaging
                    ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_packaging.pos_id={$pos_id})
               WHERE packaging.packaging_is_visible
+                    AND ( pos_packaging.pos_packaging_visible OR pos_packaging.pos_packaging_visible is null )
               GROUP BY packaging.packaging_id
               ORDER BY packaging.packaging_ordering ASC
               ";
@@ -143,7 +144,8 @@ class Pos extends \yii\db\ActiveRecord {
 
         // get all available packaging
         $sql = "SELECT packaging.packaging_id, packaging.packaging_title,
-                       packaging.packaging_price,pos_packaging.pos_packaging_price
+                       packaging.packaging_price,pos_packaging.pos_packaging_price,
+                       ( pos_packaging.pos_packaging_visible OR pos_packaging.pos_packaging_visible is null ) as pos_packaging_visible
                 FROM packaging
                    LEFT JOIN pos_packaging
                    ON (pos_packaging.packaging_id=packaging.packaging_id AND pos_packaging.pos_id={$pos_id})
