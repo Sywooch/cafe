@@ -211,5 +211,6 @@ return [
     'All categories'=>'Все категории',
     'Category Icon'=>'Иконка категории',
     'category_icon_file'=>'Иконка категории',
-    'category_icon_delete'=>'Удалить иконку'
+    'category_icon_delete'=>'Удалить иконку',
+    'pos_packaging_visible'=>'Показывать'
 ];
