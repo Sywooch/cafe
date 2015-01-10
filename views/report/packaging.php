@@ -280,9 +280,22 @@ if(!$orderSearch){
                 //                           }
             ],
 
+            [
+                'attribute' => 'packaging_number',
+                'label' => Yii::t('app','packaging_number'),
+                'content'=>function ($model, $key, $index, $column) use($maxCount){
+                    $width=3+round(300*$model['packaging_number']/($maxCount>0?$maxCount:1));
+                    return '<div class="diacol" style="width:'.$width.'px"></div>';
+                }
+            ],
 
 
         ],
     ]); ?>
-
+<style type="text/css">
+    .diacol{
+        height:20px   ;
+        background-color:#bbbbff;
+    }
+</style>
 </span>

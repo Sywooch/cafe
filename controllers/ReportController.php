@@ -106,8 +106,11 @@ class ReportController extends Controller {
                 ],
             ])
         ]);
+        
+        
         return $this->render('packaging', [
-                    'report' => $provider
+            'report' => $provider,
+            'maxCount'=>Report::packagingReportCount($orderSearch)
         ]);
     }
     public function actionPosincome() {

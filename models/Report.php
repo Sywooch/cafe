@@ -109,6 +109,17 @@ class Report extends Model {
         return $query;
     }
 
+    
+    public static function packagingReportCount($orderSearch) {
+        $query=self::packagingReport($orderSearch);
+        $query->select('sum(order_packaging_number) AS packaging_number');
+        $query->groupBy([]);
+        $cnt=$query->one();
+        //print_r($cnt);
+        return $cnt['packaging_number'];
+    }
+    
+    
     public static function packagingReport($orderSearch) {
 
 
