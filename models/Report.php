@@ -39,17 +39,25 @@ class Report extends Model {
         } else {
             $where = '';
         }
-        $sql = "SELECT su.sysuser_id,se.seller_id, su.sysuser_fullname, 
+        //        $sql = "SELECT su.sysuser_id,se.seller_id, su.sysuser_fullname, 
+        //                     SUM(o.order_total) AS order_total, 
+        //                     COUNT(o.order_id) AS order_count,
+        //                     AVG(if(o.order_total>0,o.order_total,0)) AS order_average,
+        //                     SUM(IF(o.order_seller_comission=0, se.seller_commission_fee*0.01*o.order_total,o.order_seller_comission)) AS order_seller_comission 
+        //              FROM sysuser su 
+        //                   INNER JOIN seller se USING(sysuser_id)
+        //                   LEFT JOIN `order` o USING(sysuser_id)
+        //              $where
+        //              GROUP BY su.sysuser_id
+        //              ORDER BY su.sysuser_fullname";
+        $sql = "SELECT o.sysuser_id,o.seller_id, o.sysuser_fullname, 
                      SUM(o.order_total) AS order_total, 
                      COUNT(o.order_id) AS order_count,
-                     AVG(if(o.order_total>0,o.order_total,0)) AS order_average,
-                     SUM(IF(o.order_seller_comission=0, se.seller_commission_fee*0.01*o.order_total,o.order_seller_comission)) AS order_seller_comission 
-              FROM sysuser su 
-                   INNER JOIN seller se USING(sysuser_id)
-                   LEFT JOIN `order` o USING(sysuser_id)
+                     AVG(if(o.order_total>0,o.order_total,0)) AS order_average
+              FROM `order` o
               $where
-              GROUP BY su.sysuser_id
-              ORDER BY su.sysuser_fullname";
+              GROUP BY o.sysuser_id
+              ORDER BY o.sysuser_fullname";
         $data = \Yii::$app->db->createCommand($sql, [])->queryAll();
         return $data;
     }
@@ -104,6 +112,10 @@ class Report extends Model {
 
         if (isset($orderSearch['product_title']) && strlen($orderSearch['product_title']) > 0) {
             $query->andWhere(" LOCATE (:product_title_value,product.product_title) ", ['product_title_value' => $orderSearch['product_title']]);
+        }
+
+        if (isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname']) > 0) {
+            $query->andWhere(" LOCATE (:sysuser_fullname_value,o.sysuser_fullname) ", ['sysuser_fullname_value' => $orderSearch['sysuser.sysuser_fullname']]);
         }
 
         return $query;
@@ -164,6 +176,11 @@ class Report extends Model {
             $query->andWhere(" packaging.category_id=:category_id_value ", ['category_id_value' => $orderSearch['category']]);
         }
 
+        if (isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname']) > 0) {
+            $query->andWhere(" LOCATE (:sysuser_fullname_value,o.sysuser_fullname) ", ['sysuser_fullname_value' => $orderSearch['sysuser.sysuser_fullname']]);
+        }
+
+
         return $query;
     }
 
@@ -214,10 +231,14 @@ class Report extends Model {
         // posted data
         $orderSearch = Yii::$app->request->get('OrderSearch');
         $query = new Query;
-        $query->select('sysuser.sysuser_id, sysuser.sysuser_fullname, SUM(o.order_total) AS total')
+        //$query->select('sysuser.sysuser_id, sysuser.sysuser_fullname, SUM(o.order_total) AS total')
+        //        ->from('`order` o')
+        //        ->innerJoin('sysuser', 'o.sysuser_id=sysuser.sysuser_id')
+        //        ->groupBy(['sysuser.sysuser_id'])
+        //;
+        $query->select('o.sysuser_id, max(o.sysuser_fullname) as sysuser_fullname, SUM(o.order_total) AS total')
                 ->from('`order` o')
-                ->innerJoin('sysuser', 'o.sysuser_id=sysuser.sysuser_id')
-                ->groupBy(['sysuser.sysuser_id'])
+                ->groupBy(['o.sysuser_id'])
         ;
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
             $timestamp = strtotime($orderSearch['order_datetime_min']);
@@ -239,6 +260,7 @@ class Report extends Model {
         //if (isset($orderSearch['packaging_title']) && strlen($orderSearch['packaging_title']) > 0) {
         //    $query->andWhere(" LOCATE (:packaging_title_value,order_packaging.packaging_title) ",['packaging_title_value'=>$orderSearch['packaging_title']] );
         //}
+        
         return $query;
     }
 
@@ -397,10 +419,15 @@ class Report extends Model {
 
         // select 
         $query = new Query;
+        //$query->select('DATE(o.order_datetime) AS dt, SUM(o.order_total) AS total')
+        //        ->from('`order` o')
+        //        ->innerJoin('pos', 'o.pos_id=pos.pos_id')
+        //        ->innerJoin('sysuser', 'o.sysuser_id=sysuser.sysuser_id')
+        //        ->groupBy(['dt'])
+        //;
         $query->select('DATE(o.order_datetime) AS dt, SUM(o.order_total) AS total')
                 ->from('`order` o')
                 ->innerJoin('pos', 'o.pos_id=pos.pos_id')
-                ->innerJoin('sysuser', 'o.sysuser_id=sysuser.sysuser_id')
                 ->groupBy(['dt'])
         ;
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {

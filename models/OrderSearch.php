@@ -48,7 +48,7 @@ class OrderSearch extends Order {
 
         //var_dump($params);
         $query = Order::find();
-        $query->joinWith(['sysuser']);
+        //$query->joinWith(['sysuser']);
         $query->joinWith(['pos']);
 
         $dataProvider = new ActiveDataProvider([
@@ -113,7 +113,12 @@ class OrderSearch extends Order {
         $query->andFilterWhere(['like', 'order_payment_type', $this->order_payment_type]);
 
         //$query->andFilterWhere(['like', 'sysuser.sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
-        $query->andFilterWhere(['like', 'sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
+        //$query->andFilterWhere(['like', 'sysuser_fullname', $this->getAttribute('sysuser.sysuser_fullname')]);
+        
+        if (isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname']) > 0) {
+            $query->andFilterWhere(['like', 'sysuser_fullname', $orderSearch['sysuser.sysuser_fullname']]);
+        }
+        
         $query->andFilterWhere(['like', 'pos.pos_title', $this->getAttribute('pos.pos_title')]);
 
         return $dataProvider;

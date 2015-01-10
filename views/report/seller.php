@@ -254,7 +254,7 @@ if(!$orderSearch){
                 <th><?=Yii::t('app','Order Total')?></th>
                 <th><?=Yii::t('app','Order Count')?></th>
                 <th><?=Yii::t('app','Order Average')?></th>
-                <th><?=Yii::t('app','Seller Comission')?></th></thead></tr>
+                <?php /*<th><=Yii::t('app','Seller Comission')></th></thead></tr> */?>
                 <tbody>
             <?php
             foreach($report as $row){
@@ -264,7 +264,7 @@ if(!$orderSearch){
                     <td><?=((double)$row['order_total']).' '.Yii::$app->params['currency']?></td>
                     <td><?=$row['order_count']?></td>
                     <td><?=round($row['order_average'],2).' '.Yii::$app->params['currency']?></td>
-                    <td><?=round($row['order_seller_comission'],2).' '.Yii::$app->params['currency']?></td>
+                    <?php /*<td><=round($row['order_seller_comission'],2).' '.Yii::$app->params['currency']></td> */?>
                 </tr>
                 <?php
             }
