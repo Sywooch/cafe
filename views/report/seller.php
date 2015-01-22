@@ -234,7 +234,7 @@ if(!$orderSearch){
     }
     ?>
     
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <span style="float:left;margin-right:20px;display:inline-block;"><b><?=Yii::t('app','Order Total')?></b><br><canvas id="myChart" width="250" height="250" ></canvas></span>
 
     <script type="application/javascript">
         var data=[];

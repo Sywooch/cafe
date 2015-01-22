@@ -928,6 +928,9 @@ function adjustSizes() {
     $('.itogo').css({height: itogoHeight + 'px', bottom: (btnOplataHeight + calcHeight) + 'px'});
 
     $('.discounts').css({height: discountHeight + 'px', bottom: (itogoHeight + btnOplataHeight + calcHeight) + 'px'});
+    var discountsWidth=$('.discounts').width();
+    var discountsLabelWidth=$('.discounts').find('.col1').first().width();
+    $('#discountSelector').css('width',(discountsWidth-discountsLabelWidth)+'px');
 
 
     $('#zakazScrollUp').css({height: zakazScrollHeight + 'px'});
@@ -955,7 +958,7 @@ function adjustSizes() {
 
     $('.button_stat').css('width', statistikaHeight + 'px');
 
-    var textStatWidth = $('.statistika').width() - statistikaHeight  -(zigzagWidth - 3 * zakazBorderWidth + 1);
+    var textStatWidth = $('.statistika').width() - statistikaHeight  -(zigzagWidth - 3 * zakazBorderWidth + 1)-10;
     $('.text_stat').css({width: (textStatWidth) + 'px',height:statistikaHeight+'px'});
 }
 

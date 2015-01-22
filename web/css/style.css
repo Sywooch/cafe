@@ -48,7 +48,7 @@ img {border:none}
 
 
 input[type="text"] {
-    border: solid 1px #9dac24;
+    border: solid 1px #b62352;
     font-size: 10pt;
     font-family: 'Tahoma','Verdana', sans-serif;
 }
@@ -206,7 +206,7 @@ textarea {
     background-repeat:no-repeat;
     background-position:top center;
     background-size:contain;
-    border-bottom: 10px solid rgb(51, 101, 98);
+    border-bottom: 10px solid #990033;
 }
 
 
@@ -262,7 +262,7 @@ display:none;
     display:block;
     /*background:#f3f5ce;*/
     /*border: solid 2px #fffec5;*/
-    border: solid 2px #336562;
+    border: solid 2px #990033;
     border-radius:10px;
     margin:8px 5px 0 5px;
     line-height:120%;
@@ -271,7 +271,7 @@ display:none;
     overflow: hidden;
 }
 .produkt:hover{
-    border: solid 2px rgb(132, 190, 188);
+    border: solid 2px #E64580;
 }
 .produkt img{
     max-width:106px;
@@ -288,8 +288,8 @@ display:none;
     text-align: left;
     vertical-align: top;
     width: 100%;
-    /*background-color: #c5977d;*/
-    /*font-family: 'Domkrat';*/
+    overflow: hidden;
+    white-space: nowrap;
 }
 .button_stat{
     width:6%;
@@ -307,10 +307,10 @@ display:none;
 }
 .button_stat:hover{
     /*background-color:#906248;*/
-    background-color:rgb(132, 190, 188);
+    background-color:#A31947;
 }
 .text_stat {
-  border: 1px solid #31625F;
+  border: 1px solid #990033;
   border-radius: 5px;
   display: inline-block;
   /*height: 40px;*/
@@ -358,9 +358,7 @@ display:none;
     position:relative;
 }
 .zakaz h2{
-    /*max-height:10%;*/
-    /*background-image: url('../img/pattern4.png');*/
-    border-bottom: 10px solid #336562;
+    border-bottom: 10px solid #990033;
     margin:0px;
     padding:15px 0;
 }
@@ -375,7 +373,7 @@ display:none;
     display:block;
     height:7%;
     left:0;
-    background-color:#336562;
+    background-color:#990033;
     color:white;
     opacity:0.0;
     cursor: pointer;
@@ -506,6 +504,7 @@ margin:10px;
     position:absolute;
     left:0px;
     width:100%;
+    white-space:nowrap;
 }
 
 .discounts h4{
@@ -535,7 +534,7 @@ margin:10px;
     margin-left:0px;
 }
 .itogo span{
-    color:#88a201;
+    color:#990033;
 }
 .raschet{
     width:99%;
@@ -549,13 +548,13 @@ margin:10px;
     height:15%;
     bottom:21%;
     left:0px;
-    border:2px solid #336562;
+    border:2px solid #990033;
     border-radius:10px;
 }
 .raschet h4 span{margin:10px 0 0px 75px;}
 .raschet h4 input{margin:10px 0 0 50px;width: 90px;}
 
-.raschet h4{margin: 5px 0 4px 7px;display:inline-block; float:left;}
+.raschet h4{color:#990033;margin: 5px 0 4px 7px;display:inline-block; float:left;}
 
 
 
@@ -600,7 +599,7 @@ margin:10px;
 }
 
 .cash {
-  background-color: #336562;
+  background-color: #990033;
   border-radius: 10px;
   cursor: pointer;
   margin-right: 1%;
@@ -625,7 +624,7 @@ margin:10px;
 .card{
     vertical-align:top;
     text-align:center;
-    background-color:#336562;
+    background-color:#990033;
     cursor:pointer;
     display:inline-block;
     width:98%;
@@ -728,7 +727,7 @@ z-index:10;
     left:20px;
     bottom:7%;
     padding:20px;
-    background-color:rgb(132, 190, 188);
+    background-color:#A31947;
     border-radius:10px;
 }
 
@@ -740,6 +739,7 @@ z-index:10;
 
 #extraLinks a{
     font-family:Verdana,​Tahoma,​sans-serif;
+    color:white;
 }
 
 
@@ -751,7 +751,7 @@ z-index:10;
 
 .logo .tip {
   background-image: url("../img/design5-logo.png");
-  background-position: 22px 9px;
+  background-position: 15px 9px;
   background-size: 80%;
   cursor:default;
 }
@@ -759,8 +759,8 @@ z-index:10;
 
 
 #cornertop{
-    border-left:10px solid #336562; 
-    border-top:10px solid #336562;
+    border-left:10px solid #990033; 
+    border-top:10px solid #990033;
     height:400px;
     margin-left:10px;
     border-radius:15px 0 0 0;
@@ -768,8 +768,8 @@ z-index:10;
 }
 
 #cornerbottom{
-    border-right:10px solid #336562; 
-    border-bottom:10px solid #336562;    
+    border-right:10px solid #990033; 
+    border-bottom:10px solid #990033;    
     border-radius:0px 0 15px 0;
     margin-right:10px;
     height:0px;
@@ -783,13 +783,14 @@ z-index:10;
 
 
 .tea .tip{
-    background-color:#84BEBC;/*#ffca1a;*/
+    background-color:#b62352;
+    color:white;
     background-image:url(../img/design5-tea.png);
     background-size:80px 80px;
 }
 .tea.active .tip,
 .tea:hover .tip{
-    background-color:#31625F;/*#ffbd01*/
+    background-color:#990033;
 }
 .tea.active .tip h5,
 .tea:hover .tip h5{
@@ -805,13 +806,14 @@ z-index:10;
 
 
 .coffee .tip{
-    background-color:#84BEBC;/*#ff9048*/
+    background-color:#b62352;
     background-image:url(../img/design5-coffee.png);
     background-size:80px 80px;
+    color:white;
 }
 .coffee.active .tip,
 .coffee:hover .tip{
-    background-color:#31625F;/*#ff7000;*/
+    background-color:#990033;
 }
 .coffee.active .tip h5,
 .coffee:hover .tip h5{
@@ -826,13 +828,14 @@ z-index:10;
 
 
 .food .tip{
-    background-color:#84BEBC;/*#55b293;*/
+    background-color:#b62352;
     background-image:url(../img/design5-food.png);
     background-size:80px 80px;
+    color:white;
 }
 .food.active .tip,
 .food:hover .tip{
-    background-color:#31625F;/*#0aaa8e;*/
+    background-color:#990033;
 }
 .food.active .tip h5,
 .food:hover .tip h5{
@@ -851,13 +854,14 @@ z-index:10;
 
 
 .dobavki .tip{
-    background-color:#84BEBC;/*#a5c500;*/
+    background-color:#b62352;
     background-image:url(../img/design5-dobavki.png);
     background-size:80px 80px;
+    color:white;
 }
 .dobavki.active .tip,
 .dobavki:hover .tip{
-    background-color:#31625F;/*#88a201;*/
+    background-color:#990033;
 }
 .dobavki.active .tip h5,
 .dobavki:hover .tip h5{
@@ -872,13 +876,14 @@ z-index:10;
 
 
 .water .tip{
-    background-color:#84BEBC;/*#b4daf8;*/
+    background-color:#b62352;
     background-image:url(../img/design5-water.png);
     background-size:80px 80px;
+    color:white;
 }
 .water.active .tip,
 .water:hover .tip{
-    background-color:#31625F;/*#d8ecfb;*/
+    background-color:#990033;
 }
 .water.active .tip h5,
 .water:hover .tip h5{
@@ -894,13 +899,14 @@ z-index:10;
 
 
 .action .tip{
-    background-color:#84BEBC;/*#ef9f94;*/
+    background-color:#b62352;
     background-image:url(../img/design5-actions.png);
     background-size:80px 80px;
+    color:white;
 }
 .action.active .tip,
 .action:hover .tip{
-    background-color:#31625F;/*#efb5ad;*/
+    background-color:#990033;
 }
 .action.active .tip h5,
 .action:hover .tip h5{
@@ -917,8 +923,13 @@ z-index:10;
 
 #discountSelector{
     background-color:white;
-    border:2px solid #336562;
+    border:2px solid #990033;
     border-radius:4px;
 }
 
 
+
+
+.tip h5{
+   color:white;
+}

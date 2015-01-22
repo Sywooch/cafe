@@ -68,8 +68,17 @@ if(!$orderSearch){
 ?>
 
 <span class="col1">
+    
+    <p>
+    <b><?=Yii::t('app','Similar reports')?></b>
+    <div><b><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/report/hourlyincome'], ['class'=>'filter-element'] )?></b></div>
+    <div><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/report/weekdailyincome'], ['class'=>'filter-element'] )?></div>
+    <div><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/report/dailyincome'], ['class'=>'filter-element'] )?></div>
+    </p>
+
     <form method="get" id="filterform">
         <input type="hidden" name="r" value="report/hourlyincome">
+        <b><?=Yii::t('app','Time interval')?></b>
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>

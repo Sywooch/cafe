@@ -212,5 +212,7 @@ return [
     'Category Icon'=>'Иконка категории',
     'category_icon_file'=>'Иконка категории',
     'category_icon_delete'=>'Удалить иконку',
-    'pos_packaging_visible'=>'Показывать'
+    'pos_packaging_visible'=>'Показывать',
+    'Similar reports'=>'Похожие отчёты',
+    'Time interval'=>'Интервал времени'
 ];

@@ -68,16 +68,23 @@ if(!$orderSearch){
 ?>
 
 <span class="col1">
+    <p>
+    <b><?=Yii::t('app','Similar reports')?></b>
+    <div><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/report/hourlyincome'], ['class'=>'filter-element'] )?></div>
+    <div><b><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/report/weekdailyincome'], ['class'=>'filter-element'] )?></b></div>
+    <div><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/report/dailyincome'], ['class'=>'filter-element'] )?></div>
+    </p>
     <form method="get" id="filterform">
         <input type="hidden" name="r" value="report/weekdailyincome">
+        <b><?=Yii::t('app','Time interval')?></b>
         <div>
         <!-- <label><?=Yii::t('app','Order report')?></label> -->
         <!-- <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a> -->
         <!-- <a class="filter-element width90" href="javascript:void(yesterday())"><?=Yii::t('app','yesterday').' '.date('d.m.Y',time()-3600*24)?></a> -->
         <!-- <a class="filter-element width90" href="javascript:void(thisweek())"><?=Yii::t('app','thisweek')?></a> -->
-            <a class="filter-element width90" href="javascript:void(lastweek())"><?=Yii::t('app','lastweek')?></a>
-            <a class="filter-element width90" href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a>
-            <a class="filter-element width90" href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a>
+            <a class="filter-element width90 lastweek" href="javascript:void(lastweek())"><?=Yii::t('app','lastweek')?></a>
+            <a class="filter-element width90 thismonth" href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a>
+            <a class="filter-element width90 lastmonth" href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a>
         </div>
         <a class="filter-element width90" href="javascript:void(toggleSelector('#dateselector'))"><?=Yii::t('app','Order Datetime Set')?></a>
         <div id="dateselector" style="display:none;">
