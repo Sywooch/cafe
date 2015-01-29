@@ -125,7 +125,7 @@ class SellController extends \yii\web\Controller {
             $sellers = Seller::find()->where(['sysuser_id' => ((int) $sysuser->sysuser_id)])->all();
             $posList = [];
             foreach ($sellers as $seller) {
-                $posList[] = $seller->getPos();
+                $posList[] = $seller->getPos()->one();
             }
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
