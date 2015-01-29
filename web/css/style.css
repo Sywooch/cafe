@@ -320,21 +320,21 @@ display:none;
 }
 
 .text_stat_1{
-    width:45%;
+    /*width:45%;*/
     margin-left:2%;
     vertical-align:top;
     display:inline-block;
     margin-top:10px;
 }
 .text_stat_2{
-    width:22%;
+    /*width:22%;*/
     margin-left:2%;
     vertical-align:top;
     display:inline-block;
     margin-top:10px;
 }
 .text_stat_3{
-    width:22%;
+    /*width:22%;*/
     margin-left:2%;
     vertical-align:top;
     display:inline-block;
