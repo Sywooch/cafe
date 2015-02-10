@@ -21,3 +21,15 @@ ALTER TABLE `seller` ADD COLUMN `seller_wage` DOUBLE NULL AFTER `seller_commissi
 ALTER TABLE `seller` 
     ADD COLUMN `seller_worktime_start` TIME NULL AFTER `seller_wage`, 
     ADD COLUMN `seller_worktime_finish` TIME NULL AFTER `seller_worktime_start`; 
+
+CREATE TABLE `workingtime` (
+  `seller_id` bigint(20) NOT NULL,
+  `workingtime_date` date NOT NULL,
+  `workingtime_seconds` int(11) DEFAULT NULL,
+  `workingtime_hourly_wage` double DEFAULT NULL,
+  `workingtime_wage` double DEFAULT NULL,
+  PRIMARY KEY (`seller_id`,`workingtime_date`),
+  KEY `sel` (`seller_id`),
+  KEY `datt` (`workingtime_date`),
+  CONSTRAINT `se` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
