@@ -145,7 +145,7 @@ class Workingtime extends \yii\db\ActiveRecord {
      */
     public static function calculateSellerDayWorkingtime($seller_id, $log_date) {
         //$timezone = new \DateTimeZone(\Yii::$app->params['timezone']);
-        echo "calculateSellerDayWorkingtime($seller_id, $log_date)<br>";
+        //echo "calculateSellerDayWorkingtime($seller_id, $log_date)<br>";
         
         
         // load seller record
