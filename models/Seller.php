@@ -34,7 +34,8 @@ class Seller extends \yii\db\ActiveRecord
     {
         return [
             [['sysuser_id', 'pos_id'], 'integer'],
-            [['seller_salary', 'seller_commission_fee'], 'number']
+            [['seller_worktime_start', 'seller_worktime_finish'], 'safe'],
+            [['seller_salary', 'seller_commission_fee','seller_wage'], 'number']
         ];
     }
 
@@ -49,6 +50,9 @@ class Seller extends \yii\db\ActiveRecord
             'pos_id' => Yii::t('app', 'Pos'),
             'seller_salary' => Yii::t('app', 'Seller Salary'),
             'seller_commission_fee' => Yii::t('app', 'Seller Commission Fee'),
+            'seller_wage'=>Yii::t('app', 'Seller Wage'),
+            'seller_worktime_start'=>Yii::t('app', 'seller_worktime_start'),
+            'seller_worktime_finish'=>Yii::t('app', 'seller_worktime_finish')
         ];
     }
 

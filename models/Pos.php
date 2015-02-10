@@ -34,6 +34,7 @@ class Pos extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['pos_title', 'pos_address', 'pos_timetable', 'pos_printer_url'], 'string', 'max' => 1024],
+            [['pos_worktime_start', 'pos_worktime_finish'], 'safe'],
             [['pos_printer_template'], 'string']
         ];
     }
@@ -49,6 +50,8 @@ class Pos extends \yii\db\ActiveRecord {
             'pos_timetable' => Yii::t('app', 'pos_timetable'),
             'pos_printer_url' => Yii::t('app', 'pos_printer_url'),
             'pos_printer_template' => Yii::t('app', 'pos_printer_template'),
+            'pos_worktime_start' => Yii::t('app', 'pos_worktime_start'),
+            'pos_worktime_finish' => Yii::t('app', 'pos_worktime_finish'),
         ];
     }
 
@@ -156,5 +159,8 @@ class Pos extends \yii\db\ActiveRecord {
         return $sql;
     }
 
+    public function getLastSellerActions(){
+        return Log::getCurrentPosSeller((int) $this->pos_id);
+    }
     
 }

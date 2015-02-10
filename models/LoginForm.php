@@ -82,6 +82,9 @@ class LoginForm extends Model
         if ($this->_user === false) {
             $this->_user = Sysuser::findByUsername($this->username);
         }
+        if($this->_user && !$this->_user->sysuser_active){
+           $this->_user=false; 
+        }
 
         return $this->_user;
     }
