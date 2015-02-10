@@ -35,7 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'pos_id',
             'pos_title',
             'pos_address',
-            'pos_timetable',
+            //'pos_timetable',
+            'pos_worktime_start',
+            'pos_worktime_finish',
             'pos_printer_url',
             [
                 'attribute'=>'pos_printer_template',

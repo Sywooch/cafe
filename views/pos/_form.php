@@ -16,8 +16,10 @@ use yii\web\View;
 
     <?= $form->field($model, 'pos_address')->textInput(['maxlength' => 1024]) ?>
 
-    <?= $form->field($model, 'pos_timetable')->textInput(['maxlength' => 1024]) ?>
-
+    <?php /* $form->field($model, 'pos_timetable')->textInput(['maxlength' => 1024]) */?>
+    <?= $form->field($model, 'pos_worktime_start')->textInput(['maxlength' => 1024]) ?>
+    <?= $form->field($model, 'pos_worktime_finish')->textInput(['maxlength' => 1024]) ?>
+    
     <?= $form->field($model, 'pos_printer_url')->textInput(['maxlength' => 1024]) ?>
     
     <?= $form->field($model, 'pos_printer_template')->textarea(['id'=>'pos_printer_template']) ?>

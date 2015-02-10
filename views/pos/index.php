@@ -42,11 +42,43 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'pos_id','filterOptions'=>['class'=>'numFilter'],],
             'pos_title',
             'pos_address',
-            'pos_timetable',
+            [
+                'label'=>Yii::t('app', 'pos_timetable'),
+                'content'=>function ($model, $key, $index, $column){
+                                return preg_replace("/:\\d{2}\$/",'',$model->pos_worktime_start)." - ".preg_replace("/:\\d{2}\$/",'',$model->pos_worktime_finish);
+                           }
+            ], 
+            [
+                'label'=>Yii::t('app', 'pos_sellers'),
+                'content'=>function ($model, $key, $index, $column){
+                                $lst=$model->getLastSellerActions();
+                                // var_dump($lst);
+                                $sellers='';
+                                $date_format=Yii::t('app', 'date_format');
+                                $lower=time()-\Yii::$app->params['workingtime_timeout'];//10800; // 3 hours;
+                                foreach($lst as $ls){
+                                    $tstm=strtotime($ls['log_datetime']);
+                                    $dtti=date($date_format, $tstm);
+                                    if($tstm > $lower){
+                                        $sellers.="<div>{$dtti} {$ls['log_action']} <b>{$ls['sysuser_fullname']}, {$ls['sysuser_login']};</b></div>\n";
+                                    }else{
+                                        $sellers.="<div class='long-time-ago'>{$dtti} {$ls['log_action']} <b>{$ls['sysuser_fullname']}, {$ls['sysuser_login']};</b></div>\n";
+                                    }
+                                    
+                                }
+                                //return preg_replace("/:\\d{2}\$/",'',$model->pos_worktime_start)." - ".preg_replace("/:\\d{2}\$/",'',$model->pos_worktime_finish);
+                                return $sellers;
+                           }
+            ], 
+
+            //'pos_timetable',
+            //'pos_worktime_start',
+            //'pos_worktime_finish',
 
         ],
     ]); ?>
 <style type="text/css">
     img.ruble-img { height: 1.4ex; margin-bottom: 2px;}
+    .long-time-ago{color:silver;}
 </style>
 </div>
