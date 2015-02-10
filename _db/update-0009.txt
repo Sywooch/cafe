@@ -1,0 +1,23 @@
+CREATE TABLE `log` (
+  `log_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `sysuser_id` bigint(20) DEFAULT NULL,
+  `log_action` varchar(32) DEFAULT NULL,
+  `log_datetime` datetime DEFAULT NULL,
+  `log_date` date DEFAULT NULL,
+  `log_data` blob,
+  PRIMARY KEY (`log_id`),
+  KEY `slrid` (`sysuser_id`),
+  KEY `act` (`log_action`),
+  KEY `dtt` (`log_datetime`),
+  KEY `dt` (`log_date`),
+  CONSTRAINT `usrisd` FOREIGN KEY (`sysuser_id`) REFERENCES `sysuser` (`sysuser_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `pos`
+ ADD COLUMN `pos_worktime_start` TIME NULL AFTER `pos_printer_template`,
+ ADD COLUMN `pos_worktime_finish` TIME NULL AFTER `pos_worktime_start`; 
+
+ALTER TABLE `seller` ADD COLUMN `seller_wage` DOUBLE NULL AFTER `seller_commission_fee`;
+ALTER TABLE `seller` 
+    ADD COLUMN `seller_worktime_start` TIME NULL AFTER `seller_wage`, 
+    ADD COLUMN `seller_worktime_finish` TIME NULL AFTER `seller_worktime_start`; 
