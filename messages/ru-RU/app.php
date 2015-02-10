@@ -151,7 +151,7 @@ return [
     'Reports'=>'Отчёты',
     'Choose report type'=>'Отчёты',
     'Seller Comission'=>'Комиссионные',
-    'Order Count'=>'Количество заказов',
+    'Order Count'=>'Заказов',
     'Order Average'=>'Средняя сумма',
     'Packaging ordering'=>'Номер по порядку',
     'Packaging is visible'=>'Разрешить продажу',
@@ -214,5 +214,14 @@ return [
     'category_icon_delete'=>'Удалить иконку',
     'pos_packaging_visible'=>'Показывать',
     'Similar reports'=>'Похожие отчёты',
-    'Time interval'=>'Интервал времени'
+    'Time interval'=>'Интервал времени',
+    'pos_worktime_start'=>'Время начала работы',
+    'pos_worktime_finish'=>'Время окончания работы',
+    'Seller Wage'=>'Почасовая оплата ('.\Yii::$app->params['currency'].')',
+    'seller_worktime_start'=>'Время начала работы ( если по индивидуальному графику )',
+    'seller_worktime_finish'=>'Время окончания работы ( если по индивидуальному графику )',
+    'pos_sellers'=>'Продавцы (время, действие, имя)',
+    'date_format'=>'d.m.Y H:i:s',
+    'Workingtime'=>'Время работы, ч',
+    'Wage'=>'Почасовая оплата'
 ];
