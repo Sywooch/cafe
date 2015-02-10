@@ -22,6 +22,11 @@ use app\models\Pos;
 
     <?= $form->field($model, 'seller_commission_fee')->textInput() ?>
 
+    <?= $form->field($model, 'seller_wage')->textInput() ?>
+    
+    <?= $form->field($model, 'seller_worktime_start')->textInput() ?>
+    
+    <?= $form->field($model, 'seller_worktime_finish')->textInput() ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

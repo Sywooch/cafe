@@ -37,6 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'pos.pos_title',
             'seller_salary',
             'seller_commission_fee',
+            'seller_wage',
+            'seller_worktime_start',
+            'seller_worktime_finish'
         ],
     ]) ?>
 
