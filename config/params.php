@@ -14,5 +14,7 @@ return [
     'printerUrl'=>'http://localhost:9000/',
     'siteTitle'=>'Coffee Time',
     'bill'=>'100,500,1000,5000', // какие бывают купюры
-    'sellerCanReturnPayment'=>true
+    'sellerCanReturnPayment'=>true,
+    'workingtime_timeout'=> ( 3*3600 ), // 3 часа после последнего действия = ушел с работы
+    // 'timezone'=>'Europe/Zaporozhye',// 'timezone'=>'Europe/Moscow'
 ];
