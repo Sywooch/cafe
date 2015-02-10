@@ -11,11 +11,11 @@ use app\models\ContactForm;
 use yii\data\ActiveDataProvider;
 use app\models\Report;
 use yii\data\Sort;
+use app\models\Log;
 
-class SiteController extends Controller
-{
-    public function behaviors()
-    {
+class SiteController extends Controller {
+
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -31,14 +31,13 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    //'logout' => ['post'],
                 ],
             ],
         ];
     }
 
-    public function actions()
-    {
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -50,8 +49,7 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
+    public function actionIndex() {
         //$orderSearch=Array ( 
         //    'order_id' =>'',
         //    'pos.pos_title' => '', 
@@ -60,44 +58,66 @@ class SiteController extends Controller
         //    'sysuser.sysuser_fullname' =>'',
         //    'packaging_title'=>''
         //) ;
-
         //$query = Report::posIncomeReport($orderSearch);
         //$provider = new ActiveDataProvider([
         //    'query' => $query,
         //    'pagination' => ['pageSize' => 20,],
         //]);
 
-        return $this->render('index',[
-            //'report' => $provider,
-            //'query'  => $query
+        return $this->render('index', [
+                        //'report' => $provider,
+                        //'query'  => $query
         ]);
     }
 
-    public function actionLogin()
-    {
+    public function actionLogin() {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            $sysuser = \Yii::$app->user->getIdentity();
+
+            // save login event to log
+            $model = new Log();
+            $model->sysuser_id = $sysuser->sysuser_id;
+            $model->log_action = 'login';
+            $model->log_data = '';
+            $model->log_date = date('Y-m-d');
+            $model->log_datetime = date('Y-m-d H:i:s');
+            $model->save();
+
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout() {
+
+        if (!\Yii::$app->user->isGuest) {
+            $sysuser = \Yii::$app->user->getIdentity();
+            // save login event to log
+            $model = new Log();
+            $model->sysuser_id = $sysuser->sysuser_id;
+            $model->log_action = 'logout';
+            $model->log_data = '';
+            $model->log_date = date('Y-m-d');
+            $model->log_datetime = date('Y-m-d H:i:s');
+            $model->save();
+        }
+
+
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    public function actionContact()
-    {
+    public function actionContact() {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -105,13 +125,13 @@ class SiteController extends Controller
             return $this->refresh();
         } else {
             return $this->render('contact', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
 
-    public function actionAbout()
-    {
+    public function actionAbout() {
         return $this->render('about');
     }
+
 }

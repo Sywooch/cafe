@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use app\models\Report;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
+use app\models\Workingtime;
 
 /**
  * Description of ReportController
@@ -47,6 +48,11 @@ class ReportController extends Controller {
 
     public function actionSeller() {
 
+        
+        Workingtime::calculateAllWorkingTimes();
+        // exit('5555');
+        $workingtime=Report::sellerWorkingtimeReport();
+
         $report = Report::sellerReport();
         $query = Report::sellerIncomeReport();
         $provider = new ActiveDataProvider([
@@ -60,11 +66,14 @@ class ReportController extends Controller {
                 ],
             ])
         ]);
+        
+        //print_r($workingtime);
         // print_r($report);
         return $this->render('seller', [
             'report' => $report,
             'provider'=>$provider,
-            'query'=>$query
+            'query'=>$query,
+            'workingtime'=>$workingtime
         ]);
     }
 

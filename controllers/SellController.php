@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use himiklab\thumbnail\EasyThumbnailImage;
+use app\models\Log;
 
 class SellController extends \yii\web\Controller {
 
@@ -109,6 +110,15 @@ class SellController extends \yii\web\Controller {
         // list of discounts
         $discounts = Discount::find()->all();
 
+        // save login event to log
+        $logmodel = new Log();
+        $logmodel->sysuser_id = $sysuser->sysuser_id;
+        $logmodel->log_action = 'sellpage';
+        $logmodel->log_data = "";
+        $logmodel->log_date = date('Y-m-d');
+        $logmodel->log_datetime = date('Y-m-d H:i:s');
+        $logmodel->save();
+        
         return $this->render('index', ['pos' => $pos, 'sysuser' => $sysuser, 'seller' => $seller, 'discounts' => $discounts]);
     }
 
@@ -308,6 +318,17 @@ class SellController extends \yii\web\Controller {
                 $posProduct->save();
             }
         }
+        
+        
+        // save login event to log
+        $logmodel = new Log();
+        $logmodel->sysuser_id = $sysuser->sysuser_id;
+        $logmodel->log_action = 'sell';
+        $logmodel->log_data = "order_id={$order_id}\norder_total={$order_total}\norder_payment_type={$orderData['order_payment_type']}";
+        $logmodel->log_date = date('Y-m-d');
+        $logmodel->log_datetime = date('Y-m-d H:i:s');
+        $logmodel->save();
+
         //return $order;
     }
 
