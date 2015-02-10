@@ -22,7 +22,10 @@ use app\models\Pos;
 
     <?= $form->field($model, 'seller_commission_fee')->textInput() ?>
 
-    <?= $form->field($model, 'seller_wage')->textInput() ?>
+    <?php 
+        $labels=$model->attributeLabels();
+        echo $form->field($model, 'seller_wage')->textInput()->label($labels['seller_wage']);
+    ?>
     
     <?= $form->field($model, 'seller_worktime_start')->textInput() ?>
     
