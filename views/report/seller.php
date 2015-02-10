@@ -254,6 +254,8 @@ if(!$orderSearch){
                 <th><?=Yii::t('app','Order Total')?></th>
                 <th><?=Yii::t('app','Order Count')?></th>
                 <th><?=Yii::t('app','Order Average')?></th>
+                <th><?=Yii::t('app','Workingtime')?></th>
+                <th><?=Yii::t('app','Wage')?></th>
                 <?php /*<th><=Yii::t('app','Seller Comission')></th></thead></tr> */?>
                 <tbody>
             <?php
@@ -261,9 +263,17 @@ if(!$orderSearch){
                 ?>
                 <tr>
                     <td><?=$row['sysuser_fullname']?></td>
-                    <td><?=((double)$row['order_total']).' '.Yii::$app->params['currency']?></td>
+                    <td><?=((double)$row['order_total']).'&nbsp;'.Yii::$app->params['currency']?></td>
                     <td><?=$row['order_count']?></td>
-                    <td><?=round($row['order_average'],2).' '.Yii::$app->params['currency']?></td>
+                    <td><?=round($row['order_average'],2).'&nbsp;'.Yii::$app->params['currency']?></td>
+                    <td><?php
+                         $hrs=(isset($workingtime[$row['seller_id']])?$workingtime[$row['seller_id']]['workingtime_hours']:0);
+                         $ihrs=floor($hrs);
+                         $rhrs=$hrs-$ihrs;
+                         echo "{$ihrs}:".floor(60*$rhrs);
+                        ?>
+                    </td>
+                    <td><?=round(isset($workingtime[$row['seller_id']])?$workingtime[$row['seller_id']]['workingtime_wage']:0,2).'&nbsp;'.Yii::$app->params['currency']?></td>
                     <?php /*<td><=round($row['order_seller_comission'],2).' '.Yii::$app->params['currency']></td> */?>
                 </tr>
                 <?php

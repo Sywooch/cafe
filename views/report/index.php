@@ -18,10 +18,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Choose report type');
   <li><?=Html::a( Yii::t('app', 'SellerIncomeReport'), ['/report/sellerincome'], [] )?></li>
 
   */?>
+<li><?=Html::a( Yii::t('app', 'Sellers'), ['/report/seller'], [] )?></li>
 <li><?=Html::a( Yii::t('app','ProductReport'), ['/report/product'], [] )?></li>
 <li><?=Html::a( Yii::t('app','PackagingReport'), ['/report/packaging'], [] )?></li>
 <li><?=Html::a( Yii::t('app', 'PosIncomeReport'), ['/report/posincome'], [] )?></li>
-<li><?=Html::a( Yii::t('app', 'SellerIncomeReport'), ['/report/seller'], [] )?></li>
 <li><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/report/hourlyincome'], [] )?></li>
 <li><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/report/weekdailyincome'], [] )?></li>
 <li><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/report/dailyincome'], [] )?></li>
