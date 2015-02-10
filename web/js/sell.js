@@ -1070,6 +1070,8 @@ $(window).load(function () {
     });
     $('#extraLinks').append(lnk);
     
+    
+    
     if(sellerCanReturnPayment){
         lnk = $('<div><a href="javascript:void(\'Возврат\')">Возврат</a></div>');
         lnk.click(function () {
@@ -1079,7 +1081,14 @@ $(window).load(function () {
         });
         $('#extraLinks').append(lnk);        
     }
+    
+    lnk = $('<a href="index.php?r=site%2Flogout">Выйти</a>');
+    $('#extraLinks').append(lnk);
+    
     // --------------- extra links - end ---------------------------------------
+
+
+
 
 
     $('#zakazScrollUp').click(zakazScrollUpClick);
