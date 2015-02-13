@@ -8,3 +8,137 @@ and open the template in the editor.
     Author     : dobro
 */
 
+
+.tipy{
+     overflow-x: auto;
+     white-space:nowrap;
+}
+.tipcontainer{
+    white-space:auto;
+    height:93%;
+}
+@media screen and (min-width : 981px) and (max-width : 1024px){
+    .tipcontainer{
+        width:16.66%;
+    }
+    .produkt_block{
+        width:16.66%;
+    }
+}
+
+@media screen and (min-width : 800px) and (max-width : 980px){
+    body{
+        font-size:10pt;
+    }
+    .tipcontainer{
+        width:19.99%;
+    }
+    .produkt_block{
+        width:19.99%;
+    }
+    #gotCache {
+       width: 34px;
+    }
+    .cash h5, .card h5{
+        font-size:10pt;
+    }
+    .stroka_zakaza .nazvanie{
+        width:40%;
+    }
+    .calcRow{
+        margin-left: 80px;
+    }
+    .raschet h4{
+        font-size:10pt;
+    }
+    .col1{
+        width:80px;
+    }
+}
+
+
+@media screen and (min-width : 640px) and (max-width : 799px){
+    body{
+        font-size:10pt;
+    }
+    .tipcontainer{
+        width:24.9%;
+    }
+    .produkt_block{
+        width:24.9%;
+    }
+    #gotCache {
+       width: 34px;
+    }
+    .cash h5, .card h5{
+        font-size:10pt;
+    }
+    .stroka_zakaza .nazvanie{
+        width:40%;
+    }
+    .calcRow{
+        margin-left: 55px;
+    }
+    .calcFirstRow {
+      margin-top: 3px;
+    }
+    .raschet h4{
+        font-size:10pt;
+    }
+    .col1{
+        width:80px;
+    }
+    .discounts h4,
+    .itogo h4{
+        font-size:10pt;
+    }
+    
+    .bordercolumn{
+        width:6%;
+    }
+    .tovary,
+    .tipy{
+        width:94%;
+    }
+    
+}
+
+@media screen and (max-height : 600px){
+    .card,
+    .cash{
+        background-image:none;
+    }
+    .cash h5, .card h5{
+        margin-top:4px;
+    }
+    .calcCell{
+        line-height:100%;
+    }
+    .raschet h4{
+        margin-top:1px;
+    }
+    .new{
+        width:25px;
+        background-size: 20px 20px;
+        top:1px;
+    }    
+    .zakaz h2{
+        padding:5px 0;
+    }
+    .discounts h4,
+    .itogo h4{
+        font-size:10pt;
+    }
+    .itogo h4{
+        margin:0px;
+    }
+    #calcRow{
+        display:none;
+    }
+    .raschet h4{
+        display:none;
+    }
+    .calcRow {
+      margin-left: 10px;
+    }
+}
