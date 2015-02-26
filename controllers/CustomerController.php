@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\db\Query;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -142,11 +143,17 @@ class CustomerController extends Controller
     
     
     public function actionSearch($tel){
-        $query = Customer::find();
-        $query->andWhere(" locate( :telephone, customerMobile) ", ['telephone' => $tel]);
+        //$query = Customer::find();
+        $query = new Query;
+        $query->select('c.customerId, c.customerMobile, c.customerName, c.customerNotes, SUM(o.order_total) AS total')
+                ->from('customer c')
+                ->leftJoin('`order` o', 'o.customerId=c.customerId')
+                ->groupBy(['c.customerId'])
+        ;
+        $query->andWhere(" locate( :telephone, c.customerMobile) ", ['telephone' => $tel]);
         $query->limit(11);
         $result = [];
-        $result['list'] = $query->asArray()->all();
+        $result['list'] = $query->all();//
         if(isset($result['list'][11])){
             $result['etc']=1;
             unset($result['list'][11]);
