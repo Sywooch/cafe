@@ -27,7 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
      */?>
-
+    <?php
+      $customer=$model->getCustomer()->one();
+      //print_r($customer);
+      $customerView='';
+      if($customer){
+          $customerView=$customer->customerMobile .'; '.$customer->customerName;
+      }
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -53,7 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
                'format'=>'html',
             ],
             'order_payment_type',
-            //'order_hash',
+            //'customerId',
+            [
+               'label' => Yii::t('app', 'customerId'),
+               'value' => $customerView,
+               'format'=>'html',
+            ],
         ],
     ]) ?>
 
