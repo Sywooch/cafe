@@ -1,0 +1,9 @@
+CREATE TABLE `customer` (
+  `customerId` int(11) NOT NULL AUTO_INCREMENT,
+  `customerMobile` varchar(127) DEFAULT NULL,
+  `customerName` varchar(255) DEFAULT NULL,
+  `customerNotes` text,
+  PRIMARY KEY (`customerId`),
+  UNIQUE KEY `mob` (`customerMobile`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+ALTER TABLE `order` ADD COLUMN `customerId` INT NULL AFTER `order_notes`;
