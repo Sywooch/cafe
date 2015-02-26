@@ -979,6 +979,7 @@ z-index:10;
 }
 #popupDialog{
     overflow-y:scroll;
+    display:none;
 }
 
 .customerOrder .packaging{
