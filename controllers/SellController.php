@@ -293,7 +293,8 @@ class SellController extends \yii\web\Controller {
                 $order->order_total-=$order->order_discount;
             }
         }
-
+        $order->customerId = (int)$orderData['customerId'];
+        
         $order->order_hash = Order::createOrderHash($order->pos_id, $order->seller_id, $order->order_datetime, $order->order_total, $order->order_discount);
 
         $order->save();

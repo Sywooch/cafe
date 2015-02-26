@@ -27,11 +27,11 @@ class ReportController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'seller', 'product','packaging','posincome','sellerincome'],
+                'only' => ['index', 'seller', 'product','packaging','posincome','sellerincome','onecustomer','customerincome'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'seller', 'product','packaging','posincome','sellerincome'],
+                        'actions' => ['index', 'seller', 'product','packaging','posincome','sellerincome','onecustomer','customerincome'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -182,4 +182,46 @@ class ReportController extends Controller {
             'profit'=> $profit
         ]);
     }    
+    
+    
+    public function actionCustomerincome() {
+        $query = Report::customerIncomeReport();
+        $data = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'customerMobile',
+                    'customerName',
+                    'total',
+                ],
+            ])
+        ]);
+        return $this->render('customerincome', [
+            'data' => $data,
+        ]);
+    }    
+    
+    
+    public function actionOnecustomer($customerId){
+        
+        $data=Report::onecustomerReport($customerId);
+        $dataprovider = new ActiveDataProvider([
+            'query' => $data['query'],
+            'pagination' => ['pageSize' => 20,],
+            'sort' => new Sort([
+                'attributes' => [
+                    'order_id',
+                    'order_datetime',
+                    'order_total',
+                    'discount_title',
+                    'order_discount',
+                ],
+            ])
+        ]);
+        return $this->render('onecustomer', [
+            'dataprovider' => $dataprovider,
+            'customer'=>$data['customer']
+        ]);
+    }
 }
