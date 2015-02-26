@@ -933,3 +933,77 @@ z-index:10;
 .tip h5{
    color:white;
 }
+
+.customer{
+    position:absolute;
+    width:100%;
+}
+.customer h4{
+    margin:0px;
+}
+.customer col1{
+    vertical-align:middle;
+}
+.clientTel{
+    display:inline-block;
+    vertical-align:middle;
+}
+.clientTelBtn{
+    display:inline-block;
+    vertical-align:middle;
+    width:38px;
+    height:38px;
+    text-align:center;
+    border-radius:19px;
+    background-color:rgb(153, 0, 51);
+    color:white;
+    cursor:pointer;
+    position:absolute;
+    right:3px;
+}
+.clientTelBtn:hover{
+    opacity:0.8;
+}
+
+#customerName,
+#customerNotes,
+#customerMobile{
+    width:100%;
+}
+#searchResultsBlock h3{
+    margin-left:0px;
+}
+
+#customerOrders{
+    margin-top:20px;
+}
+#popupDialog{
+    overflow-y:scroll;
+}
+
+.customerOrder .packaging{
+    margin-left:20px;
+}
+
+.customerOrder{
+    margin-bottom:20px;
+}
+
+.ui-widget-content a.showCustomer{
+    text-decoration:none;
+    font-size:80%;
+    color:white;
+    background-color:#57807D;
+    display:inline-block;
+    border-radius:3px;
+    padding:0px 5px;
+}
+
+.ui-widget-content a.showCustomer:hover{
+    opacity:0.8;
+}
+
+.packagingPrice{
+    display:inline-block;
+    width:3em;
+}
