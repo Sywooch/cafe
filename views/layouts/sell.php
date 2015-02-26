@@ -55,6 +55,9 @@ AppAsset::register($this);
         --><div class="discounts"><!-- 
            --><h4><span class="col1">Скидка: </span></h4><!-- 
         --></div><!-- 
+        --><div class="customer"><!-- 
+           --><h4><span class="col1">Клиент: </span><span class="clientTel" id="clientTel">&nbsp;</span><span class="clientTelBtn" id="clientTelBtn">...</span></h4><!-- 
+        --></div><!-- 
         --><div class="itogo"><!-- 
            --><div class="new" id="newOrder">!</div><!--
            --><h4><span class="col1">Итого: </span><span id="orderTotal"></span>&nbsp;<?=Yii::$app->params['currency']?></h4><!-- 
