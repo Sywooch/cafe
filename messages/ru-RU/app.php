@@ -223,5 +223,13 @@ return [
     'pos_sellers'=>'Продавцы (время, действие, имя)',
     'date_format'=>'d.m.Y H:i:s',
     'Workingtime'=>'Время работы, ч',
-    'Wage'=>'Почасовая оплата'
+    'Wage'=>'Почасовая оплата',
+    'Customers'=>'Клиенты',
+    'Customer ID'=>'Код',
+    'Customer Mobile'=>'Мобильный телефон',
+    'Customer Name'=>'Имя клиента',
+    'Customer Notes'=>'Примечания',
+    'customerId'=>'Клиент',
+    'CustomerIncomeReport'=>'Клиенты',
+    'OneCustomerReport'=>'Информация о клиенте'
 ];
