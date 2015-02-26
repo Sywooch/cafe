@@ -822,6 +822,79 @@ class Report extends Model {
     }
     
 
+
+    public static function customerIncomeReport() {
+
+        // posted data
+        $orderSearch = Yii::$app->request->get('OrderSearch');
+        $query = new Query;
+
+        $query->select('c.customerId, c.customerMobile, c.customerName, SUM(o.order_total) AS total')
+                ->from('customer c')
+                ->leftJoin('`order` o', 'o.customerId=c.customerId')
+                ->groupBy(['c.customerId'])
+        ;
+        
+        if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_min']);
+            if ($timestamp !== false) {
+                $min_date = date('Y-m-d 00:00:00', $timestamp);
+                $query->andWhere(" o.order_datetime>=:min_date ", ['min_date' => $min_date]);
+            }
+        }
+        if (isset($orderSearch['order_datetime_max']) && strlen($orderSearch['order_datetime_max']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_max']);
+            if ($timestamp !== false) {
+                $max_date = date('Y-m-d 23:59:59', $timestamp);
+                $query->andWhere(" o.order_datetime<=:max_date ", ['max_date' => $max_date]);
+            }
+        }
+        
+        if (isset($orderSearch['customerMobile']) && strlen($orderSearch['customerMobile']) > 0) {
+            $query->andWhere(" LOCATE(:customerMobileSubstring, c.customerMobile) ", ['customerMobileSubstring' => $orderSearch['customerMobile']]);
+        }
+        if (isset($orderSearch['customerName']) && strlen($orderSearch['customerName']) > 0) {
+            $query->andWhere(" LOCATE(:customerNameSubstring, c.customerName) ", ['customerNameSubstring' => $orderSearch['customerName']]);
+        }
+        
+        return $query;
+    }
+    
+    
+
+    public static function onecustomerReport($customerId) {
+
+        // get customer info
+        $customer = Customer::findOne($customerId);
+        
+        
+        // query to select all customer's orders
+        
+        // posted data
+        $orderSearch = Yii::$app->request->get('OrderSearch');
+        
+        $query = new Query;
+        
+        $query->select('o.*')->from('`order` o') ;
+        
+        $query->andFilterWhere(['customerId' => $customerId, ]);
+        
+        if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_min']);
+            if ($timestamp !== false) {
+                $min_date = date('Y-m-d 00:00:00', $timestamp);
+                $query->andWhere(" o.order_datetime>=:min_date ", ['min_date' => $min_date]);
+            }
+        }
+        if (isset($orderSearch['order_datetime_max']) && strlen($orderSearch['order_datetime_max']) > 0) {
+            $timestamp = strtotime($orderSearch['order_datetime_max']);
+            if ($timestamp !== false) {
+                $max_date = date('Y-m-d 23:59:59', $timestamp);
+                $query->andWhere(" o.order_datetime<=:max_date ", ['max_date' => $max_date]);
+            }
+        }
+        return ['customer'=>$customer,'query'=>$query];
+    }
     
     
     

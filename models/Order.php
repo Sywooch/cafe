@@ -41,7 +41,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['pos_id', 'seller_id', 'sysuser_id'], 'required'],
-            [['pos_id', 'seller_id', 'sysuser_id', 'order_day_sequence_number'], 'integer'],
+            [['pos_id', 'seller_id', 'sysuser_id', 'order_day_sequence_number','customerId'], 'integer'],
             [['order_datetime'], 'safe'],
             [['order_total', 'order_discount','order_seller_comission'], 'number'],
             [['order_payment_type'], 'string', 'max' => 32],
@@ -68,6 +68,7 @@ class Order extends \yii\db\ActiveRecord
             'discount_title'=>Yii::t('app', 'Discount Title'),
             'order_seller_comission'=>Yii::t('app', 'Seller Comission'),
             'order_notes'=>Yii::t('app', 'order_notes'),
+            'customerId'=>Yii::t('app', 'customerId'),
         ];
     }
 
@@ -117,7 +118,13 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Packaging::className(), ['packaging_id' => 'packaging_id'])->viaTable('order_packaging', ['order_id' => 'order_id']);
     }
     
-    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['customerId' => 'customerId']);
+    }
     public static function countOrders($pos_id,$date=false){
         if($date===false){
             $date=date('Y-m-d');
