@@ -200,6 +200,7 @@ function newOrder() {
     $('#sdacha').empty().html(0);
     $('#orderTotal').html(0);
     $('#discountSelector').val('');
+    $('#clientTel').empty();
     $('.calcVal').html('-');
     // get new zakaz number
     //jQuery.ajax('index.php?r=sell/ordernumber&pos_id=' + pos_id + '&t=' + Math.random(), {
@@ -608,7 +609,8 @@ function paid(paymentTypeName) {
                     discount_id: window.orderData.discount_id,
                     order_total: window.orderData.order_total,
                     order_datetime:(new Date()).toUTCString(),
-                    order_packaging: order_packaging
+                    order_packaging: order_packaging,
+                    customerId: (window.orderData.customerId?window.orderData.customerId:0)
                 }
             };
 
@@ -899,13 +901,14 @@ function adjustSizes() {
     window.zakazTopMargin = window.zakazTopMargin ? window.zakazTopMargin : 3;
     window.discountHeight = window.discountHeight ? window.discountHeight : 40;
     window.zakazBorderWidth = window.zakazBorderWidth ? window.zakazBorderWidth : 10;
+    window.customerHeight = window.customerHeight ? window.customerHeight : 40;
 
     var wh = $(window).height();
     //alert(wh);
 
 
     $('#categories').css({height: window.categoryHeight + 'px', marginBottom: 0});
-    $('.statistika').css('height', window.statistikaHeight + 'px')
+    $('.statistika').css('height', window.statistikaHeight + 'px');
 
     var tovaryListHeight = wh - window.categoryHeight - window.statistikaHeight - window.zakazBorderWidth;
     $('#tovaryList').css('height', tovaryListHeight + 'px');
@@ -924,10 +927,17 @@ function adjustSizes() {
     //$('.raschet').css({height:calcHeight+'px',bottom: (newBtnHeight+btnOplateHeight)+'px'});
     $('.raschet').css({height: (window.calcHeight-7) + 'px', bottom: (window.btnOplataHeight+7) + 'px'});
 
-    //$('.itogo').css({height:itogoHeight+'px',bottom: (newBtnHeight+btnOplateHeight+calcHeight)+'px'});
     $('.itogo').css({height: window.itogoHeight + 'px', bottom: (window.btnOplataHeight + window.calcHeight) + 'px'});
 
-    $('.discounts').css({height: window.discountHeight + 'px', bottom: (window.itogoHeight + window.btnOplataHeight + window.calcHeight) + 'px'});
+    $('.customer').css({height: window.customerHeight + 'px', bottom: ( window.itogoHeight + window.btnOplataHeight + window.calcHeight ) + 'px'});
+    var customerWidth=$('.customer').width();
+    var customerLabelWidth=$('.customer').find('.col1').first().width();
+    var customerBtnWidth=$('#clientTelBtn').width();
+    $('#clientTel').css('width',(customerWidth-customerLabelWidth-customerBtnWidth-2)+'px');
+
+
+
+    $('.discounts').css({height: window.discountHeight + 'px', bottom: (window.customerHeight + window.itogoHeight + window.btnOplataHeight + window.calcHeight) + 'px'});
     var discountsWidth=$('.discounts').width();
     var discountsLabelWidth=$('.discounts').find('.col1').first().width();
     $('#discountSelector').css('width',(discountsWidth-discountsLabelWidth)+'px');
@@ -936,7 +946,7 @@ function adjustSizes() {
     $('#zakazScrollUp').css({height: window.zakazScrollHeight + 'px'});
     $('#zakazScrollDown').css({height: window.zakazScrollHeight + 'px'});
 
-    var zakazHeight = wh - window.discountHeight - window.itogoHeight - window.calcHeight - window.btnOplataHeight;
+    var zakazHeight = wh - window.customerHeight - window.discountHeight - window.itogoHeight - window.calcHeight - window.btnOplataHeight;
     $('.zakaz').css({height: zakazHeight + 'px'});
 
     var zakazH2Height = window.zakazBorderWidth + 1 * $('.zakaz h2').first().outerHeight();
@@ -1001,6 +1011,201 @@ function popupDialog(selector, title) {
 
 var extraLinksCount = 0;
 
+var clientSearchTimeout=false;
+// open dialog & search form
+function searchClient(){
+    popupDialog('#popupDialog','Клиент');
+    var input=$('<input type=text id=clientSearchForm>');
+    input.keyup(delayedSearch);
+    var feon = $('<div align=center>Номер&nbsp;телефона:&nbsp;</div>');
+    feon.append(input);
+    $('#popupDialog').empty().append(feon);
+}
+function delayedSearch(){
+    if(clientSearchTimeout){
+        clearTimeout(clientSearchTimeout);
+    }
+    clientSearchTimeout = setTimeout(doClientSearch,1000);
+}
+
+function doClientSearch(){
+
+    jQuery.ajax('index.php', {
+        dataType:'json',
+        type: "GET",
+        data: {tel:$('#clientSearchForm').val(), r:'customer/search'},
+        success: showClientdata
+    });
+}
+function showClientdata(data){
+    var searchResultsBlock=$('#searchResultsBlock');
+    if(searchResultsBlock.length === 0){
+        searchResultsBlock = $('<div id="searchResultsBlock"></div>');
+        $('#popupDialog').append(searchResultsBlock);
+    }
+    
+    $html='';
+    if(data.list.length>1){
+        // show list of customers
+        var lst=data.list;
+        var html='<h3>Найдены клиенты</h3>';
+        for(var i=0; i<lst.length; i++){
+            html+='<div class="clientRow">';
+            html+='<a title="Информация о клиенте" class=showCustomer href="javascript:void(showCustomer(\''+lst[i].customerMobile+'\'))">i</a>';
+            html+='&nbsp;&nbsp;&nbsp;<a href="javascript:void(selectCustomer(\''+lst[i].customerId+'\',\''+lst[i].customerMobile+'\',\''+lst[i].customerName+'\'))">'+lst[i].customerMobile+', '+lst[i].customerName+'</a>';
+            html+='</div>';
+        }
+        if(data.etc === "1"){
+            // show "there is too many results"
+        }
+        searchResultsBlock.empty();
+        searchResultsBlock.html(html);
+    }
+    if(data.list.length === 1){
+        // show one customer and his orders
+        searchResultsBlock.empty();
+        
+        searchResultsBlock.append($('<h3>Клиент</h3>'));
+        
+        // button to choose customer
+        
+        
+        var customerId = $('<input id="customerId" type="hidden" value="'+data.list[0].customerId+'">');
+        searchResultsBlock.append(customerId);
+        
+        searchResultsBlock.append($('<div>Мобильный телефон</div>'));
+        var customerMobile = $('<input id="customerMobile">');
+        searchResultsBlock.append(customerMobile);
+        customerMobile.val(data.list[0].customerMobile);
+        
+        searchResultsBlock.append($('<div>Имя</div>'));
+        var customerName = $('<input id="customerName">');
+        searchResultsBlock.append(customerName);
+        customerName.val(data.list[0].customerName);
+        
+        searchResultsBlock.append($('<div>Примечания</div>'));
+        var customerNotes = $('<textarea id="customerNotes"></textarea>');
+        searchResultsBlock.append(customerNotes);
+        customerNotes.val(data.list[0].customerNotes);
+        
+        searchResultsBlock.append($('<div><input id="choosecustomerbtn" type="button" value="Выбрать"><input id="addcustomerbtn" type="button" value="Сохранить"></div>'));
+        $('#addcustomerbtn').click(updateCustomer);
+        $('#choosecustomerbtn').click(chooseCustomer);
+
+
+        //
+        var customerOrders = $('<div id="customerOrders"></div>');
+        searchResultsBlock.append(customerOrders);
+        var lst=data.orders;
+        var html='';
+        for(var i=0; i<lst.length; i++){
+            // lst[i].
+            //    'order_datetime'=> ($tm->order_datetime),
+            //    'order_total'=>($tm->order_total),
+            //    'order_discount'=>($tm->order_discount),
+            //    'order_payment_type'=>($tm->order_payment_type),
+            //    'discount_title'=>($tm->discount_title),
+            //    order_currency
+            // packaging
+            html+="<div class='customerOrder'>";
+            html+="<div class='order'>";
+            html+="<span class='orderDate'>"+lst[i].order_datetime+"</span>";
+            html+="<span class='orderTotal'>&nbsp;&nbsp;&nbsp;"+lst[i].order_total+"&nbsp;"+lst[i].order_currency+"</span>&nbsp;&nbsp;&nbsp;";
+            if(lst[i].discount_title){
+               html+="<span class='orderDiscount'>"+lst[i].order_discount+"&nbsp;"+lst[i].order_currency+" ("+lst[i].discount_title+")</span>";             
+            }
+            html+="</div>";
+            var pkg=lst[i].packaging;
+            if(pkg){
+                for(var ip=0; ip<pkg.length; ip++){
+                    html+="<div class='packaging'>";
+                        //'packaging_id' => $r->packaging_id,
+                        //'packaging_title'=> $r->packaging_title,
+                        //'packaging_price'=>  $r->packaging_price
+                        html+="<span class='packagingPrice'>"+pkg[ip].packaging_price+"&nbsp;"+lst[i].order_currency+"</span>&nbsp;&nbsp;&nbsp;";
+                        html+="<span class='packagingTitle'>"+pkg[ip].packaging_title+"</span>";
+                    html+="</div>";
+                }
+            }
+            html+="</div>";
+
+        }
+        if(lst.length===0){
+            html="Заказы клиента не найдены";
+        }
+        customerOrders.html(html);
+        
+    }
+    
+    if(data.list.length === 0){
+        // show form to add customer
+        
+        searchResultsBlock.empty();
+        
+        searchResultsBlock.append($('<h3>Добавить клиента</h3>'));
+        
+        searchResultsBlock.append($('<div>Мобильный телефон</div>'));
+        var customerMobile = $('<input id="customerMobile">');
+        searchResultsBlock.append(customerMobile);
+        
+        searchResultsBlock.append($('<div>Имя</div>'));
+        var customerName = $('<input id="customerName">');
+        searchResultsBlock.append(customerName);
+        
+        searchResultsBlock.append($('<div>Примечания</div>'));
+        var customerNotes = $('<textarea id="customerNotes"></textarea>');
+        searchResultsBlock.append(customerNotes);
+        
+        searchResultsBlock.append($('<div><input id="addcustomerbtn" type="button" value="Сохранить">'));
+        $('#addcustomerbtn').click(addCustomer);
+    }
+    
+    
+}
+
+function selectCustomer(customerId,customerMobile,customerName){
+   $('#clientTel').html(customerMobile);
+   window.orderData.customerId=customerId;
+   $('#popupDialog').dialog("close");    
+}
+
+function showCustomer(tel){
+    $('#clientSearchForm').val(tel);
+    doClientSearch();
+}
+function chooseCustomer(){
+   var customerMobile=$('#customerMobile').val();
+   $('#clientTel').html(customerMobile);
+   window.orderData.customerId=$('#customerId').val();
+   $('#popupDialog').dialog("close");
+}
+
+function addCustomer(){
+    var customerMobile=$('#customerMobile').val();
+    var customerName=$('#customerName').val();
+    var customerNotes=$('#customerNotes').val();
+
+    jQuery.ajax('index.php?r=customer/create', {
+        dataType:'json',
+        type: "POST",
+        data: {"Customer[customerMobile]":customerMobile, "Customer[customerName]":customerName,"Customer[customerNotes]":customerNotes},
+        success: doClientSearch
+    });
+}
+function updateCustomer(){
+    var customerMobile=$('#customerMobile').val();
+    var customerName=$('#customerName').val();
+    var customerNotes=$('#customerNotes').val();
+
+    jQuery.ajax('index.php?r=customer/update', {
+        dataType:'json',
+        type: "POST",
+        data: {"Customer[customerMobile]":customerMobile, "Customer[customerName]":customerName,"Customer[customerNotes]":customerNotes},
+        success: doClientSearch
+    });    
+}
+
+
 $(window).load(function () {
     
     var wh = $(window).height();
@@ -1012,6 +1217,7 @@ $(window).load(function () {
     window.zakazScrollHeight = 20;
     window.zakazTopMargin = 3;
     window.discountHeight = 40;
+    window.customerHeight = 40;
     window.zakazBorderWidth = 10;
     if(wh<=600){
         window.btnOplataHeight = 40;
@@ -1164,6 +1370,8 @@ $(window).load(function () {
         calcRows.append($('<span class="calcCell calcVal" data-val="'+bill[bl]+'">0&nbsp;'+currency+'</span>'));
     }
     
+    
+    $('#clientTelBtn').click(searchClient);
 
     adjustSizes();
     
