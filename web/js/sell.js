@@ -1052,11 +1052,13 @@ function showClientdata(data){
         for(var i=0; i<lst.length; i++){
             html+='<div class="clientRow">';
             html+='<a title="Информация о клиенте" class=showCustomer href="javascript:void(showCustomer(\''+lst[i].customerMobile+'\'))">i</a>';
+            html+='<span class="packagingPrice" style="width:5em;">&nbsp;&nbsp;'+(lst[i].total?(lst[i].total+'&nbsp;'+currency):'')+'</span>';
             html+='&nbsp;&nbsp;&nbsp;<a href="javascript:void(selectCustomer(\''+lst[i].customerId+'\',\''+lst[i].customerMobile+'\',\''+lst[i].customerName+'\'))">'+lst[i].customerMobile+', '+lst[i].customerName+'</a>';
             html+='</div>';
         }
         if(data.etc === "1"){
             // show "there is too many results"
+            html+='<div>Надено больше 10 записей, уточните критерий поиска</div>';
         }
         searchResultsBlock.empty();
         searchResultsBlock.html(html);
@@ -1069,7 +1071,9 @@ function showClientdata(data){
         
         // button to choose customer
         
-        
+        var html='<div>Сумма заказов: <span class="packagingPrice" style="width:5em;">&nbsp;&nbsp;'+(data.list[0].total?(data.list[0].total):'0')+'&nbsp;'+currency+'</span></div>';
+        searchResultsBlock.append($(html));
+
         var customerId = $('<input id="customerId" type="hidden" value="'+data.list[0].customerId+'">');
         searchResultsBlock.append(customerId);
         
