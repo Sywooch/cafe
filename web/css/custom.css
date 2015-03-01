@@ -31,10 +31,10 @@ and open the template in the editor.
         font-size:10pt;
     }
     .tipcontainer{
-        width:19.99%;
+        width:24.9%;
     }
     .produkt_block{
-        width:19.99%;
+        width:24.9%;
     }
     #gotCache {
        width: 34px;
@@ -54,6 +54,17 @@ and open the template in the editor.
     .col1{
         width:80px;
     }
+    .discounts h4,
+    .itogo h4{
+        font-size:10pt;
+    }
+    .customer h4{
+        font-size:10pt;
+    }
+    .clientTelBtn{
+        padding-top:10px;
+    }
+
 }
 
 
@@ -77,20 +88,28 @@ and open the template in the editor.
         width:40%;
     }
     .calcRow{
-        margin-left: 55px;
+        margin-left: 5px;
     }
     .calcFirstRow {
       margin-top: 3px;
     }
     .raschet h4{
         font-size:10pt;
+        display:none;
     }
     .col1{
         width:80px;
     }
+    
     .discounts h4,
     .itogo h4{
         font-size:10pt;
+    }
+    .customer h4{
+        font-size:10pt;
+    }
+    .clientTelBtn{
+        padding-top:10px;
     }
     
     .bordercolumn{
@@ -102,6 +121,85 @@ and open the template in the editor.
     }
     
 }
+
+
+
+
+
+
+
+
+@media screen and (min-width : 590px) and (max-width : 639px){
+    body{
+        font-size:10pt;
+    }
+    
+    .leftcolumn{
+        width:60%;
+    }
+    .rightcolumn{
+        width:40%;
+    }
+    .tipcontainer{
+        width:49.9%;
+    }
+    .produkt_block{
+        width:49.9%;
+    }
+    #gotCache {
+       width: 50px;
+    }
+    .cash h5, .card h5{
+        font-size:10pt;
+    }
+    .stroka_zakaza .nazvanie{
+        width:37%;
+    }
+    .stroka_zakaza .cena{
+        width:23%;
+    }
+    .calcRow{
+        margin-left: 5px;
+    }
+    .calcFirstRow {
+      margin-top: 3px;
+    }
+    .raschet h4{
+        font-size:10pt;
+        display:none;
+    }
+    .col1{
+        width:80px;
+    }
+    
+    .discounts h4,
+    .itogo h4{
+        font-size:10pt;
+    }
+    .customer h4{
+        font-size:10pt;
+    }
+    .clientTelBtn{
+        padding-top:10px;
+    }
+    
+    .bordercolumn{
+        width:7%;
+    }
+    .tovary,
+    .tipy{
+        width:93%;
+    }
+    
+    #todayOrdersTxt{
+        display:none;
+    }
+    #todayOrdersSumTxt{
+        display:none;
+    }
+}
+
+
 
 @media screen and (max-height : 600px){
     .card,
@@ -125,6 +223,7 @@ and open the template in the editor.
     .zakaz h2{
         padding:5px 0;
     }
+    .customer h4,
     .discounts h4,
     .itogo h4{
         font-size:10pt;
@@ -140,5 +239,11 @@ and open the template in the editor.
     }
     .calcRow {
       margin-left: 10px;
+    }
+    .clientTelBtn{
+        border-radius: 10px;
+        width:20px;
+        height:20px;
+        right: 5px;
     }
 }
