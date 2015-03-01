@@ -39,8 +39,8 @@ AppAsset::register($this);
             --><div class="button_stat" id="button_stat"></div><!--
 		--><div class="text_stat"><!-- 
                     --><div class="text_stat_1" id="sellerName">-</div><!--
-                    --><div class="text_stat_2">Сегодня: заказов: <span id="ordersCount">-</span></div><!--
-                    --><div class="text_stat_3">на сумму: <span id="ordersTotal">-</span>&nbsp;<?=Yii::$app->params['currency']?>,</div><!--
+                    --><div class="text_stat_2"><span id="todayOrdersTxt">Сегодня: заказов: </span><span id="ordersCount">-</span></div><!--
+                    --><div class="text_stat_3"><span id="todayOrdersSumTxt">на сумму: </span><span id="ordersTotal">-</span>&nbsp;<?=Yii::$app->params['currency']?>,</div><!--
                     --><!-- <div class="text_stat_4">комиссионные: <span id="sellerCommissionFee">-</span>&nbsp;<?=Yii::$app->params['currency']?>.</div> --><!--
 		--></div><!-- 
         --></div><!-- 
