@@ -1224,10 +1224,11 @@ $(window).load(function () {
     window.customerHeight = 40;
     window.zakazBorderWidth = 10;
     if(wh<=600){
-        window.btnOplataHeight = 40;
+        window.btnOplataHeight = 50;
         window.itogoHeight = 22;
-        window.discountHeight=27;
-        window.calcHeight = 55;
+        window.customerHeight = 25;
+        window.discountHeight=30;
+        window.calcHeight = 60;
     }
     
     
