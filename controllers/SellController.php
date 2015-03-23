@@ -217,7 +217,26 @@ class SellController extends \yii\web\Controller {
             $order_datetime = date('Y-m-d H:i:s');
         }
         
-        
+        // check if order ($order_datetime, sysuser_id, pos_id) is unique 
+        $orderquery = Order::find();
+        $orderquery->andFilterWhere([
+            'sysuser_id' => $sysuser->sysuser_id,
+            'pos_id' => $pos_id,
+            'order_datetime'=>$order_datetime
+        ]);
+        $ordertmp = $orderquery->all();
+        if(count($ordertmp)>0){
+            // save login event to log
+            $logmodel = new Log();
+            $logmodel->sysuser_id = $sysuser->sysuser_id;
+            $logmodel->log_action = 'sell';
+            $logmodel->log_data = "duplicate_order\norder_datetime={$order_datetime}\nsysuser_id={$sysuser->sysuser_id}\npos_id={$pos_id}\n".  json_encode($orderData);
+            $logmodel->log_date = date('Y-m-d');
+            $logmodel->log_datetime = date('Y-m-d H:i:s');
+            $logmodel->save();
+
+            return;
+        }
 
         // check order_day_sequence_number
         //$order_day_sequence_number = Order::countOrders($pos_id, $order_datetime) + 1;
@@ -325,7 +344,7 @@ class SellController extends \yii\web\Controller {
         $logmodel = new Log();
         $logmodel->sysuser_id = $sysuser->sysuser_id;
         $logmodel->log_action = 'sell';
-        $logmodel->log_data = "order_id={$order_id}\norder_total={$order_total}\norder_payment_type={$orderData['order_payment_type']}";
+        $logmodel->log_data = "order_id={$order_id}\norder_total={$order_total}\norder_payment_type={$orderData['order_payment_type']}\n".  json_encode($orderData);
         $logmodel->log_date = date('Y-m-d');
         $logmodel->log_datetime = date('Y-m-d H:i:s');
         $logmodel->save();

@@ -213,7 +213,7 @@ function newOrder() {
     //});
     if(window.orderData.order_day_sequence_number){
         try{
-           data_id=parseInt(window.orderData.order_day_sequence_number)+1;
+            data_id=parseInt(window.orderData.order_day_sequence_number);//+1;
         } catch (err){
             data_id=1;
         }
@@ -578,6 +578,9 @@ function paid(paymentTypeName) {
             showMessage();
             return;
         }
+        // block buttons
+        window.orderUpdateEnabled = false;
+        //$("#dialog").dialog("open");
 
         var order_packaging = {};
         var nItems = 0;
@@ -592,12 +595,6 @@ function paid(paymentTypeName) {
         if (nItems == 0) {
             return;
         }
-
-
-        // block buttons
-        window.orderUpdateEnabled = false;
-        //$("#dialog").dialog("open");
-
 
         window.orderData.order_payment_type = paymentTypeName;
 
@@ -616,9 +613,16 @@ function paid(paymentTypeName) {
 
         // add post data to queue
         window.orderQueue.push(post);
+        //if(console && console.log){
+        //    console.log('window.orderQueue',window.orderQueue);
+        //}
 
         // notify listener
         $(window).trigger( "orderCreated",true);
+
+        window.orderData.order_day_sequence_number++;
+        newOrder();
+        $("#dialog").dialog("close");
         
         try {
             printReceipt(window.orderData);
@@ -628,8 +632,6 @@ function paid(paymentTypeName) {
                 console.log(err);
             }
         }
-        newOrder();
-        $("#dialog").dialog("close");
     };
 }
 
@@ -1151,6 +1153,7 @@ function showClientdata(data){
         searchResultsBlock.append($('<div>Мобильный телефон</div>'));
         var customerMobile = $('<input id="customerMobile">');
         searchResultsBlock.append(customerMobile);
+        customerMobile.attr('value',$('#clientSearchForm').val());
         
         searchResultsBlock.append($('<div>Имя</div>'));
         var customerName = $('<input id="customerName">');
@@ -1239,7 +1242,7 @@ $(window).load(function () {
         var windowOrderQueue = window.localStorage.getItem('windowOrderQueue');
         if(windowOrderQueue){
             try {
-                window.orderQueue=JSON.parse(windowOrderQueue);;
+                window.orderQueue=JSON.parse(windowOrderQueue);
             } catch (err) {
                 if(console && console.log){
                     console.log(err);
