@@ -937,9 +937,8 @@ z-index:10;
 .customer{
     position:absolute;
     width:100%;
-}
-.customer h4{
     margin:0px;
+    font-size:140%;
 }
 .customer .col1{
     vertical-align:middle;
