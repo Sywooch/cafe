@@ -10,6 +10,7 @@ use app\models\OrderPackaging;
 use app\models\Seller;
 use app\models\Sysuser;
 use app\models\Discount;
+use app\models\Customer;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -42,6 +43,9 @@ class SellController extends \yii\web\Controller {
 
     public function actionIndex() {
         $this->layout = "sell";
+        if(isset(\Yii::$app->params['sell_page_layout'])){
+            $this->layout = \Yii::$app->params['sell_page_layout'];
+        }
 
         // check pos_id
         $pos_id = (int) \Yii::$app->request->get('pos_id');
@@ -312,7 +316,38 @@ class SellController extends \yii\web\Controller {
                 $order->order_total-=$order->order_discount;
             }
         }
-        $order->customerId = (int)$orderData['customerId'];
+        
+        
+        
+        
+        $customerId=0;
+        $customer = Customer::findOne((int)$orderData['customerId']);
+        if($customer){
+            $customerId=$customer->customerId;
+        }
+        if($customerId == 0){
+            $customerquery = Customer::find();
+            $customerquery->andFilterWhere(['customerMobile' => $orderData['customerTel'] ]);
+            $customer = $customerquery->one();
+            if($customer){
+                $customerId=$customer->customerId;
+            }
+        }
+        if($customerId == 0 && $orderData['customerTel']){
+            $model = new Customer();
+            $model->customerMobile=$orderData['customerTel'];
+            $model->save();
+            $customerquery = Customer::find();
+            $customerquery->andFilterWhere(['customerMobile' => $orderData['customerTel'] ]);
+            $customer = $customerquery->one();
+            if($customer){
+                $customerId=$customer->customerId;
+            }            
+        }
+        $order->customerId = $customerId;
+
+        
+        
         
         $order->order_hash = Order::createOrderHash($order->pos_id, $order->seller_id, $order->order_datetime, $order->order_total, $order->order_discount);
 
