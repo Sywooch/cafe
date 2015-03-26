@@ -56,7 +56,7 @@ AppAsset::register($this);
            --><h4><span class="col1">Скидка: </span></h4><!-- 
         --></div><!-- 
         --><div class="customer"><!-- 
-           --><h4><span class="col1">Клиент: </span><span class="clientTel" id="clientTel">&nbsp;</span><span class="clientTelBtn" id="clientTelBtn">...</span></h4><!-- 
+           --><span class="col1">Клиент: </span><span class="clientTel"><input type="text" id="clientTel"></span><span class="clientTelBtn" id="clientTelBtn">...</span><!-- 
         --></div><!-- 
         --><div class="itogo"><!-- 
            --><div class="new" id="newOrder">!</div><!--
@@ -92,6 +92,7 @@ AppAsset::register($this);
 <script src="js/jquery.mousewheel.min.js"></script>
 <script src="js/jquery.toast.js" type="text/javascript"></script>
 <script src="js/sell.js" type="text/javascript"></script>
+<script src="js/custom.js" type="text/javascript"></script>
 
 
     
