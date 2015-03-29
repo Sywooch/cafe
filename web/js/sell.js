@@ -165,7 +165,7 @@ function gotCacheChanged() {
     if (sdacha < 0) {
         $('#sdacha').empty().html('0');
     } else {
-        $('#sdacha').empty().html(sdacha + ' ' + currency);
+        $('#sdacha').empty().html(sdacha + '' + currency);
     }
     $('.calcVal').each(sdachaTabl);
 }
@@ -175,7 +175,7 @@ function sdachaTabl(ind, el) {
     var orderTotal = parseFloat($('#orderTotal').text());
     var billSgn = parseFloat(elm.attr('data-val'));
     if (billSgn > orderTotal) {
-        elm.html((billSgn - orderTotal) + '&nbsp;' + currency);
+        elm.html((billSgn - orderTotal) + '' + currency);
     } else {
         elm.html('0&nbsp;' + currency);
     }
@@ -1460,8 +1460,8 @@ $(window).load(function () {
     // Таблица сдачи c разных купюр
     var calcRows = $('#calcRow');
     for (var bl = 0; bl < bill.length; bl++) {
-        calcRows.append($('<span class="calcCell">' + bill[bl] + '&nbsp;' + currency + '</span>'));
-        calcRows.append($('<span class="calcCell calcVal" data-val="' + bill[bl] + '">0&nbsp;' + currency + '</span>'));
+        calcRows.append($('<span class="calcCell">' + bill[bl] + '' + currency + '</span>'));
+        calcRows.append($('<span class="calcCell calcVal" data-val="' + bill[bl] + '">0' + currency + '</span>'));
     }
 
 
