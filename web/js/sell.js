@@ -1286,7 +1286,10 @@ function addCustomer() {
         dataType: 'json',
         type: "POST",
         data: {"Customer[customerMobile]": customerMobile, "Customer[customerName]": customerName, "Customer[customerNotes]": customerNotes},
-        success: doClientSearch
+        success: function(){
+            // doClientSearch();
+            selectCustomer(0, customerMobile, '');
+        }
     });
 }
 
