@@ -56,7 +56,7 @@ AppAsset::register($this);
            --><h4><span class="col1">Скидка: </span></h4><!-- 
         --></div><!-- 
         --><div class="customer"><!-- 
-           --><span class="col1">Клиент: </span><span class="clientTel"><input type="text" id="clientTel"></span><span class="clientTelBtn" id="clientTelBtn">...</span><!-- 
+           --><span class="col1">Клиент: </span><span class="clientTel"><input type="text" id="clientTel"  autocomplete="false"></span><span class="clientTelBtn" id="clientTelBtn">...</span><!-- 
         --></div><!-- 
         --><div class="itogo"><!-- 
            --><div class="new" id="newOrder">!</div><!--
