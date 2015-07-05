@@ -324,16 +324,22 @@ class SellController extends \yii\web\Controller {
         $customer = Customer::findOne((int)$orderData['customerId']);
         if($customer){
             $customerId=$customer->customerId;
+            // header("x-cafe-debug-1: foundById");
         }
-        if($customerId == 0){
-            $customerquery = Customer::find();
-            $customerquery->andFilterWhere(['customerMobile' => $orderData['customerTel'] ]);
-            $customer = $customerquery->one();
+        
+        $orderData['customerTel'] = trim($orderData['customerTel']);
+        if($customerId == 0 && $orderData['customerTel']){ // 
+            // $customerquery = Customer::find();
+            // $customerquery->andFilterWhere(['customerMobile' => $orderData['customerTel'] ]);
+            // $customer = $customerquery->one();
+            $customer  = Customer::find()->where('customerMobile = :customerTel', ['customerTel'=>$orderData['customerTel']])->one();
             if($customer){
                 $customerId=$customer->customerId;
+                // header("x-cafe-debug-2: foundByTel ".$orderData['customerTel']);
             }
         }
         if($customerId == 0 && $orderData['customerTel']){
+            // header("x-cafe-debug-3: foundByTel");
             $model = new Customer();
             $model->customerMobile=$orderData['customerTel'];
             $model->save();

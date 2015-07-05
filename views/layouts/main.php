@@ -79,6 +79,12 @@ AppAsset::register($this);
                         ['label' => Yii::t('app','Sellers'), 'url' => ['/seller/index']]
                     ]
                 ];
+                $items[]=[
+                    'label'=>Yii::t('app','More'),
+                    'items'=>[
+                        ['label' => Yii::t('app','Subsystems'), 'url' => ['/subsystem/index']]
+                    ]
+                ];
             }
             
             if(Yii::$app->user->isGuest){

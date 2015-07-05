@@ -44,7 +44,7 @@ class OrderSearch extends Order {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params,$orderSearch=false) {// 
 
         //var_dump($params);
         $query = Order::find();
@@ -64,9 +64,10 @@ class OrderSearch extends Order {
             'desc' => ['pos.pos_title' => SORT_DESC],
         ];
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+        $this->load($params);
+        //if (!($this->load($params) && $this->validate())) {
+        //    return $dataProvider;
+        //}
 
         $query->andFilterWhere([
             'order_id' => $this->order_id,
@@ -80,7 +81,10 @@ class OrderSearch extends Order {
         ]);
 
 
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
+        //echo '<pre>nnn<br>'; print_r($orderSearch); echo '</pre>';
 
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
             $timestamp = strtotime($orderSearch['order_datetime_min']);
@@ -118,15 +122,19 @@ class OrderSearch extends Order {
         if (isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname']) > 0) {
             $query->andFilterWhere(['like', 'sysuser_fullname', $orderSearch['sysuser.sysuser_fullname']]);
         }
+        if (isset($orderSearch['pos.pos_title']) && strlen($orderSearch['pos.pos_title']) > 0) {
+            $query->andFilterWhere(['like', 'pos.pos_title', $orderSearch['pos.pos_title']]);
+        }
         
-        $query->andFilterWhere(['like', 'pos.pos_title', $this->getAttribute('pos.pos_title')]);
 
         return $dataProvider;
     }
 
-    public function getOrderTotal() {
+    public function getOrderTotal($orderSearch=false) {
 
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
         
         $where=[];
         
@@ -157,18 +165,18 @@ class OrderSearch extends Order {
             }
         }
 
-        if(strlen($orderSearch['order_payment_type'])>0){
+        if(isset($orderSearch['order_payment_type']) && strlen($orderSearch['order_payment_type'])>0){
             $value=preg_replace("/\\W/","",$orderSearch['order_payment_type']);
             $where[]=" (order_payment_type='$value') ";
         }
 
         
-        if(strlen($orderSearch['sysuser.sysuser_fullname'])>0){
+        if(isset($orderSearch['sysuser.sysuser_fullname']) && strlen($orderSearch['sysuser.sysuser_fullname'])>0){
             $value=  Yii::$app->db->quoteValue($orderSearch['sysuser.sysuser_fullname']);
             $where[]=" locate($value,sysuser.sysuser_fullname) ";
         }
 
-        if(strlen($orderSearch['pos.pos_title'])>0){
+        if(isset($orderSearch['pos.pos_title']) && strlen($orderSearch['pos.pos_title'])>0){
             $value=  Yii::$app->db->quoteValue($orderSearch['pos.pos_title']);
             $where[]=" locate($value,pos.pos_title) ";
         }

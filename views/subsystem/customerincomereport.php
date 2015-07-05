@@ -1,69 +1,60 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\jui\DatePicker;
-use app\models\Report;
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\OrderSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sellers');
-//$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Products'), 'url' => ['index']];
-//$this->params['breadcrumbs'][] = ['label' => $model->product_title, 'url' => ['view', 'id' => $model->product_id]];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Choose report type'), 'url' => ['/report/index']];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Sellers');
+$this->title = Yii::t('app', 'CustomerIncomeReport');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
+$this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
+$this->params['breadcrumbs'][] = $this->title;
 
 ?>
-
 <h1><?= Html::encode($this->title) ?></h1>
+<style type="text/css">
+    .col1, .col2{
+        display:inline-block;
+        vertical-align:top;
+    }
+    .col1{
+        width:25%;
+    }
+    .col2{
+        width:75%;
+    }
+    .width100{
+        width:100%;
+    }
+    .width90{
+        width:90%;
+    }
+    .width50{
+        width:43%;
+    }
+    .itogo{
+        margin-top: 20px;
+    }
+    #filterform{
+        padding-top:4px;
+    }
+    .toggler{
+        margin-left:-20px;
+        padding-left:20px;
+        background-image:url(./img/settings.png);
+        background-repeat:no-repeat;
+        background-position:left center;
+    }
+</style>
 
-
-    <style type="text/css">
-        .col1, .col2{
-            display:inline-block;
-            vertical-align:top;
-        }
-        .col1{
-            width:25%;
-        }
-        .col2{
-            width:75%;
-        }
-        .width100{
-            width:100%;
-        }
-        .width90{
-            width:90%;
-        }
-        .width50{
-            width:43%;
-        }
-        .itogo{
-            margin-top: 20px;
-        }
-        #filterform{
-            padding-top:4px;
-        }
-        .toggler{
-            margin-left:-20px;
-            padding-left:20px;
-            background-image:url(./img/settings.png);
-            background-repeat:no-repeat;
-        }
-    </style>
-
-
-<?php
-$orderSearch=Yii::$app->request->get('OrderSearch');
-//print_r($orderSearch);
-if(!$orderSearch){
-    $orderSearch=Array ( 
-        'order_datetime_min' =>'', 
-        'order_datetime_max' =>'' ) ;
-}
-// print_r($report);
-?>
 
 <span class="col1">
     <form method="get" id="filterform">
-        <input type="hidden" name="r" value="report/seller">
+        <input type="hidden" name="r" value="subsystem/customerincomereport">
+        <input type="hidden" name="sort" value="<?=$post['sort']?>">
+        <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
@@ -77,8 +68,8 @@ if(!$orderSearch){
         <div id="dateselector" style="display:none;">
             <span class="filter-element width50"><label><?=Yii::t('app','Order Datetime Min')?></label>
             <?=DatePicker::widget([
-                'name'  => 'OrderSearch[order_datetime_min]',
-                'value'  => ($orderSearch['order_datetime_min']?$orderSearch['order_datetime_min']:null),
+                'name'  => 'order_datetime_min',
+                'value'  => ($post['order_datetime_min']?$post['order_datetime_min']:null),
                 'language' => 'ru',
                 'dateFormat' => 'dd.MM.yyyy',
                 'options'=>['size'=>10, 'class'=>'form-control','id'=>'datefrom']
@@ -86,8 +77,8 @@ if(!$orderSearch){
             </span>
             <span class="filter-element width50"><label><?=Yii::t('app','Order Datetime Max')?></label>
             <?=DatePicker::widget([
-                'name'  => 'OrderSearch[order_datetime_max]',
-                'value'  => ($orderSearch['order_datetime_max']?$orderSearch['order_datetime_max']:null),
+                'name'  => 'order_datetime_max',
+                'value'  => ($post['order_datetime_max']?$post['order_datetime_max']:null),
                 'language' => 'ru',
                 'dateFormat' => 'dd.MM.yyyy',
                 'options'=>['size'=>10, 'class'=>'form-control','id'=>'dateto']
@@ -95,6 +86,29 @@ if(!$orderSearch){
             </span>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
+        
+
+        <br/>
+        <br/>
+        <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
+        <div id="otherOptions" style="display:none;">
+            <?php /* 
+            <span class="filter-element width90">
+                <label><?=Yii::t('app', 'Customer ID')?></label>
+                <?=Html::textInput( 'OrderSearch[customerId]', $post['customerId'], ['class'=>'form-control width100'] )?>
+            </span><br/>
+            */?>
+            <span class="filter-element width90">
+                <label><?=Yii::t('app', 'Customer Mobile')?></label>
+                <?=Html::textInput( 'customerMobile', $post['customerMobile'], ['class'=>'form-control width100'] )?>
+            </span><br/>
+            <span class="filter-element width90">
+                <label><?=Yii::t('app', 'Customer Name')?></label>
+                <?=Html::textInput( 'customerName', $post['customerName'], ['class'=>'form-control width100'] )?>
+            </span><br/>
+            <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
+        </div>
+
         <script type="application/javascript">
         function toggleSelector(selector){
             if(typeof(Storage) !== "undefined") {
@@ -178,6 +192,9 @@ if(!$orderSearch){
         }
         </script>
         <?php
+        
+        $this->registerJsFile('./js/Chart.min.js');
+    
         $this->registerJs("
             $(document).ready(function(){
                 if(typeof(Storage) !== \"undefined\") {
@@ -195,95 +212,88 @@ if(!$orderSearch){
 
             ");
         ?>
-        <?php
-        
-        $this->registerJsFile('./js/Chart.min.js');
-    
-        $this->registerJs("
-
-
-            $(document).ready(function(){
-                // Get the context of the canvas element we want to select
-                var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
-                var myNewChart = new Chart(ctx).Pie(data);
-
-            });
-
-            ");
-
-        ?>
-
     </form>
+
 </span><!-- 
 --><span class="col2">
-    
+    <div class="itogo breadcrumb">
     <?php
-    if(strlen($orderSearch['order_datetime_min'])>0 || strlen($orderSearch['order_datetime_max'])>0){
+    if(strlen($post['order_datetime_min'])>0
+            || strlen($post['order_datetime_max'])>0){
         ?>
-        <div class="itogo breadcrumb">
+        
             <?php
-            if($orderSearch['order_datetime_min']==$orderSearch['order_datetime_max']){
-                ?><?=$orderSearch['order_datetime_min']?><?php
+            if($post['order_datetime_min']==$post['order_datetime_max']){
+                ?><?=$post['order_datetime_min']?><?php
             }else{
-                ?><?=$orderSearch['order_datetime_min']?> &ndash; <?=$orderSearch['order_datetime_max']?><?php
+                ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
             }
             ?>
-           
-        </div>
+        
         <?php
     }
     ?>
-    
-    <span style="float:left;margin-right:20px;display:inline-block;"><b><?=Yii::t('app','Order Total')?></b><br><canvas id="myChart" width="250" height="250" ></canvas></span>
+    <?=Yii::t('app','Customers found')?>: <?=$data['n_records']?>    
+    </div>
 
-    <script type="application/javascript">
-        var data=[];
-    <?php
-      // $tmp=$query->all();
-      $colors=Report::getColors();
-      // foreach($tmp as $ke=>$tm){
-      foreach($report as $ke=>$row){
-          $colorId=$ke%count($colors);
-          echo "data.push({ value: {$row['order_total']},color:\"{$colors[$colorId][0]}\", highlight: \"{$colors[$colorId][1]}\", label: \"{$row['sysuser_fullname']}\"});";
-      }
-    ?>
-    </script>
+<div>
+<?=Yii::t('app','Pages')?>:
+<?php
 
-        <table class="table table-striped table-bordered">
-            <tr><thead>
-                <th><?=Yii::t('app','sysuser_fullname')?></th>
-                <th><?=Yii::t('app','Order Total')?></th>
-                <th><?=Yii::t('app','Order Count')?></th>
-                <th><?=Yii::t('app','Order Average')?></th>
-                <th><?=Yii::t('app','Workingtime')?></th>
-                <th><?=Yii::t('app','Wage')?></th>
-                <?php /*<th><=Yii::t('app','Seller Comission')></th></thead></tr> */?>
-                <tbody>
-            <?php
-            foreach($report as $row){
-                ?>
-                <tr>
-                    <td><?=$row['sysuser_fullname']?></td>
-                    <td><?=((double)$row['order_total']).'&nbsp;'.Yii::$app->params['currency']?></td>
-                    <td><?=$row['order_count']?></td>
-                    <td><?=round($row['order_average'],2).'&nbsp;'.Yii::$app->params['currency']?></td>
-                    <td><?php
-                         $hrs=(isset($workingtime[$row['seller_id']])?$workingtime[$row['seller_id']]['workingtime_hours']:0);
-                         $ihrs=floor($hrs);
-                         $rhrs=$hrs-$ihrs;
-                         echo "{$ihrs}:".floor(60*$rhrs);
-                        ?>
-                    </td>
-                    <td><?=round(isset($workingtime[$row['seller_id']])?$workingtime[$row['seller_id']]['workingtime_wage']:0,2).'&nbsp;'.Yii::$app->params['currency']?></td>
-                    <?php /*<td><=round($row['order_seller_comission'],2).' '.Yii::$app->params['currency']></td> */?>
-                </tr>
-                <?php
-            }
-            ?>
-            </tbody>
-        </table>
-    
-    
+$urlParameters = [
+    'subsystem/customerincomereport',
+    'order_datetime_min' => $post['order_datetime_min'],
+    'order_datetime_max' => $post['order_datetime_max'],
+    'customerMobile' => $post['customerMobile'],
+    'customerName' => $post['customerName'],
+    'page' => ( isset($post['page'])?$post['page']:'0'),
+    'sort' => ( isset($post['sort'])?$post['sort']:''),
+    'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
+];
 
-    
+        
+for($i=0;$i<$data['pageCount']; $i++){
+    if($i==$data['page']){
+        echo "<span class=\"pagelink active\">".($i+1)."</span>";
+    }else{
+        $urlParameters['page']=$i;
+        echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
+    }
+}
+
+function sortVal($curr,$next){
+    if($curr==$next){
+        return "-$next";
+    }elseif($curr=="-$next"){
+        return "";
+    }else{
+        return $next;
+    }
+}
+
+?>
+</div>
+<table class="table table-striped table-bordered">
+<tr>
+    <th></th>
+    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerId'),'page'=>0]))?>"><?=Yii::t('app', 'Customer ID')?></a></th>
+    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerMobile')]))?>"><?=Yii::t('app','Customer Mobile')?></a></th>
+    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerName')]))?>"><?=Yii::t('app','Customer Name')?></a></th>
+    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'total')]))?>"><?=Yii::t('app','totalIncome')?></a></th>
+</tr>
+
+<?php
+foreach($data['rows'] as $row){
+    ?><tr>
+        <td></td>
+        <td><?=$row['customerId']?></td>
+        <td><?=$row['customerMobile']?></td>
+        <td><?=$row['customerName']?></td>
+        <td><?=($row['total']?($row['total']."&nbsp;".\Yii::$app->params['currency']):'')?></td>
+      </tr><?php
+}
+?>
+
+
+</table>
 </span>

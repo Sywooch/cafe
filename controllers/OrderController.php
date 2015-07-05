@@ -44,8 +44,15 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
+        
+        $post = Yii::$app->request->queryParams;
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+        
         $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        // print_r($dataProvider->query->all());
 
         $sysuser = \Yii::$app->user->getIdentity();
         $role = \Yii::$app->authManager->getRolesByUser($sysuser->sysuser_id);        

@@ -231,5 +231,20 @@ return [
     'Customer Notes'=>'Примечания',
     'customerId'=>'Клиент',
     'CustomerIncomeReport'=>'Клиенты',
-    'OneCustomerReport'=>'Информация о клиенте'
+    'OneCustomerReport'=>'Информация о клиенте',
+    
+    'Subsystems'=>'Другие системы',
+    'Subsystem ID'=>'Код',
+    'Subsystem Title'=>'Название',
+    'Subsystem Url'=>'URL',
+    'Subsystem Api Key'=>'Секретный ключ',
+    'More'=>'Ещё',
+    'Create Subsystem'=>'Подключиться к другой системе',
+    'Update Subsystem:'=>'Изменить подключение к системе',
+    'Subsystem_reports'=>'Отчёты из другой системы',
+    'Orderreport'=>'Заказы',
+    'Pages'=>'Страницы',
+    'Sellerreport'=>'Продавцы',
+    'Customers found'=>'Найдено клиентов',
+
 ];

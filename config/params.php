@@ -16,6 +16,7 @@ return [
     'bill'=>'100,500,1000,5000', // какие бывают купюры
     'sellerCanReturnPayment'=>true,
     'workingtime_timeout'=> ( 3*3600 ), // 3 часа после последнего действия = ушел с работы
-    'sell_page_layout'=>'coffeetime-sell'
+    'sell_page_layout'=>'coffeetime-sell',
+    'apiKey'=>'66556ytiyugiubjn'
     // 'timezone'=>'Europe/Zaporozhye',// 'timezone'=>'Europe/Moscow'
 ];

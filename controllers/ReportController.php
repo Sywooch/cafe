@@ -54,25 +54,25 @@ class ReportController extends Controller {
         $workingtime=Report::sellerWorkingtimeReport();
 
         $report = Report::sellerReport();
-        $query = Report::sellerIncomeReport();
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => ['pageSize' => 20,],
-            'sort' => new Sort([
-                'attributes' => [
-                    'seller_id',
-                    'seller_fullname',
-                    'total',
-                ],
-            ])
-        ]);
+        //$query = Report::sellerIncomeReport();
+        //        $provider = new ActiveDataProvider([
+        //            'query' => $query,
+        //            'pagination' => ['pageSize' => 20,],
+        //            'sort' => new Sort([
+        //                'attributes' => [
+        //                    'seller_id',
+        //                    'seller_fullname',
+        //                    'total',
+        //                ],
+        //            ])
+        //        ]);
         
-        //print_r($workingtime);
+        // print_r($workingtime);
         // print_r($report);
         return $this->render('seller', [
             'report' => $report,
-            'provider'=>$provider,
-            'query'=>$query,
+            // 'provider'=>$provider,
+            // 'query'=>$query,
             'workingtime'=>$workingtime
         ]);
     }
@@ -122,6 +122,7 @@ class ReportController extends Controller {
             'maxCount'=>Report::packagingReportCount($orderSearch)
         ]);
     }
+    
     public function actionPosincome() {
         $query = Report::posIncomeReport();
         $provider = new ActiveDataProvider([
@@ -140,6 +141,7 @@ class ReportController extends Controller {
             'query'  => $query
         ]);
     }
+    
     public function actionSellerincome() {
         $query = Report::sellerIncomeReport();
         $provider = new ActiveDataProvider([
@@ -158,6 +160,7 @@ class ReportController extends Controller {
             'query'  => $query
         ]);
     }
+    
     public function actionHourlyincome() {
         return $this->render('hourlyincome', [
             'stats' => Report::incomeByHourReport(),
@@ -174,6 +177,7 @@ class ReportController extends Controller {
             'profit'=>$profit
         ]);
     }
+    
     public function actionDailyincome() {
         $stats = Report::incomeDaily();
         $profit= Report::profitDaily();
@@ -182,8 +186,7 @@ class ReportController extends Controller {
             'profit'=> $profit
         ]);
     }    
-    
-    
+        
     public function actionCustomerincome() {
         $query = Report::customerIncomeReport();
         $data = new ActiveDataProvider([
@@ -201,8 +204,7 @@ class ReportController extends Controller {
             'data' => $data,
         ]);
     }    
-    
-    
+        
     public function actionOnecustomer($customerId){
         
         $data=Report::onecustomerReport($customerId);

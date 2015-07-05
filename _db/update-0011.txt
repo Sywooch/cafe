@@ -1,0 +1,1 @@
+CREATE TABLE `subsystem`( `subsystemId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, `subsystemTitle` VARCHAR(255), `subsystemUrl` VARCHAR(1024), `subsystemApiKey` VARCHAR(1024), PRIMARY KEY (`subsystemId`) ); 
