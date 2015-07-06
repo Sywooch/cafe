@@ -17,12 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <ul>
         <ul>
-            <li><?=Html::a( Yii::t('app','Orders'), ['/subsystem/orderreport','sort'=>'-order_id','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'Orders'), ['/subsystem/orderreport','sort'=>'-order_id','subsystemId'=>$model->subsystemId], [] )?></li>
             <li><?=Html::a( Yii::t('app', 'Sellers'), ['/subsystem/sellerreport','subsystemId'=>$model->subsystemId], [] )?></li>
             <li><?=Html::a( Yii::t('app', 'CustomerIncomeReport'), ['/subsystem/customerincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'ProductReport'), ['/subsystem/productreport','subsystemId'=>$model->subsystemId], [] )?></li>
         <?php /*
         
-        <li><?=Html::a( Yii::t('app','ProductReport'), ['/subsystem/reportproduct','subsystemId'=>$model->subsystemId], [] )?></li>
+       
         <li><?=Html::a( Yii::t('app','PackagingReport'), ['/subsystem/reportpackaging','subsystemId'=>$model->subsystemId], [] )?></li>
         <li><?=Html::a( Yii::t('app', 'PosIncomeReport'), ['/subsystem/reportposincome','subsystemId'=>$model->subsystemId], [] )?></li>
         <li><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/subsystem/reporthourlyincome','subsystemId'=>$model->subsystemId], [] )?></li>

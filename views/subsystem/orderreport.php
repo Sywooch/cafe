@@ -245,12 +245,16 @@ $urlParameters = [
     'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
 ];
 
+$imin=max(0, $data['page']-5);
+$imax=min($data['pageCount']-1,$data['page']+5);
 for($i=0;$i<$data['pageCount']; $i++){
-    if($i==$data['page']){
-        echo "<span class=\"pagelink active\">".($i+1)."</span>";
-    }else{
-        $urlParameters['page']=$i;
-        echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
+    if($i==0 || $i==($data['pageCount']-1) || ($i>=$imin && $i<=$imax)){
+        if($i==$data['page']){
+            echo "<span class=\"pagelink active\">".($i+1)."</span>";
+        }else{
+            $urlParameters['page']=$i;
+            echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
+        }        
     }
 }
 

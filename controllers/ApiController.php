@@ -58,7 +58,7 @@ class ApiController extends \yii\web\Controller
         }
         
         
-        $rowsPerPage=20;
+        $rowsPerPage=100;
         $page=isset($post['page'])?max(0, (int)$post['page'] ):0;
         
         //addOrderBy()
@@ -340,4 +340,81 @@ class ApiController extends \yii\web\Controller
         return json_encode($json);
     }
 
+    
+    public function actionProductreport(){
+        $post = array_merge(Yii::$app->request->queryParams, Yii::$app->getRequest()->getBodyParams());
+        // print_r($post);   echo "<hr>";
+
+        // print_r($post);   echo "<hr>";
+        $key=md5($post['time'].Yii::$app->params['apiKey']);
+        $time=strtotime(gmdate('Y-m-d H:i:s'));
+        // echo "{$post['time']} ".time().' key='.$key.'  '.$post['key'];   echo "<hr>";
+        if($key!=$post['key'] || $post['time']<=$time){
+            // access denied error
+            $json=[
+                "status"=>"error",
+                'posOptions'=>[],
+                'sellerOptions'=>[],
+                'paymentTypeOptions'=>[],
+                'n_records'=>0,
+                'total'=>0,
+                'page'=>0,
+                'pageCount'=>0,
+                'sort'=>'',
+                'post'=>$post,
+                'rows'=>[]
+            ];
+            return json_encode($json);
+        }
+
+        
+        $query = Report::productReport($post);
+        
+        $rowsPerPage=100;
+        $page=isset($post['page'])?max(0, (int)$post['page'] ):0;
+
+        $json=[];
+        
+        $json['posOptions']=ArrayHelper::map(\Yii::$app->db->createCommand("select distinct pos_title from `pos`", [])->queryAll(),'pos_title','pos_title');
+        $json['sellerOptions']=ArrayHelper::map(\Yii::$app->db->createCommand("select distinct sysuser_fullname from `order`", [])->queryAll(),'sysuser_fullname','sysuser_fullname');
+        $json['paymentTypeOptions'] = ArrayHelper::map($nOrders=\Yii::$app->db->createCommand("select distinct order_payment_type from `order`", [])->queryAll(),'order_payment_type','order_payment_type');
+        
+        $json['n_records']=$query->count();
+        $pagination = new \yii\data\Pagination(['totalCount' => $json['n_records'], 'pageSize'=>$rowsPerPage]);
+        $json['page']=$page;
+        $json['pageCount']=$pagination->getPageCount();
+        
+        
+        $query->offset($rowsPerPage * $page);
+        
+        $query->limit($rowsPerPage);
+        
+        $json['sort']="";
+        if(isset($post['sort'])){
+            $sort=preg_replace('/[^0-9a-z._-]/i','',trim($post['sort']));
+            //exit('sort='.$sort);
+            
+            if(strlen($sort)>0){
+                if(substr($sort,0,1)=='-'){
+                    $query->addOrderBy(substr($sort,1)." DESC");
+                    $json['sort']="$sort";
+                }else{
+                    $query->addOrderBy("$sort ASC");
+                    $json['sort']="$sort";
+                }                
+            }
+        }
+
+        $json['post']=$post;
+        $json['rows']=$query->all();
+        //        print_r($rows);
+        //        exit('<hr>');
+        //        $cnt=count($rows);
+        //        for($i=0;$i<$cnt;$i++){
+        //            $json['rows'][$i]=$rows[$i]->attributes;
+        //        }
+        
+        return json_encode($json);
+
+    }
 }

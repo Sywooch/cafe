@@ -197,4 +197,25 @@ class SubsystemController extends Controller {
         ]);
     }
     
+    public function actionProductreport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['sort'])){ $post['sort']='';  }
+        
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        if(!isset($post['pos.pos_title'])){ $post['pos.pos_title']='';  }
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if(!isset($post['product_title'])){ $post['product_title']='';  }
+        if(!isset($post['sysuser.sysuser_fullname'])){ $post['sysuser.sysuser_fullname']='';  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::productreport($subsystem, $post);
+        return $this->render('productreport', [
+                    'data' => $data,
+                    'post' => $post,
+                    'subsystem'=>$subsystem
+        ]);
+    }
 }

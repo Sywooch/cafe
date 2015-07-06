@@ -78,10 +78,10 @@ class ReportController extends Controller {
     }
 
     public function actionProduct() {
-
+        $orderSearch = \Yii::$app->request->get('OrderSearch');
         $provider = new ActiveDataProvider(
                 [
-            'query' => Report::productReport(),
+            'query' => Report::productReport($orderSearch),
             'pagination' => ['pageSize' => 20,],
             'sort' => new Sort([
                 'attributes' => [

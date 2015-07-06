@@ -46,7 +46,23 @@ class Subsystem extends \yii\db\ActiveRecord
         ];
     }
     
-    
+        
+    public static function download($url,$data) {
+        // var_dump($url);
+        // var_dump($data);
+        //url-ify the data for the POST
+	$ch = curl_init();
+	$timeout = 15;
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch,CURLOPT_POST, sizeof($data));
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+	$reply = curl_exec($ch);
+	curl_close($ch);
+	return $reply;
+    }
+
     public static function orderreport($subsystem, $filter){
         
         $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
@@ -99,21 +115,18 @@ class Subsystem extends \yii\db\ActiveRecord
         return json_decode($json, true);
     }
 
-    
-    
-    public static function download($url,$data) {
-        // var_dump($url);
-        // var_dump($data);
-        //url-ify the data for the POST
-	$ch = curl_init();
-	$timeout = 15;
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch,CURLOPT_POST, sizeof($data));
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
-	$reply = curl_exec($ch);
-	curl_close($ch);
-	return $reply;
+    public static function productreport($subsystem, $post){
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/productreport",$postData);
+        //echo $json;exit('<hr>');
+        return json_decode($json, true);
     }
 }

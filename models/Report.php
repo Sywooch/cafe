@@ -96,10 +96,12 @@ class Report extends Model {
         return $data;
     }
 
-    public static function productReport() {
+    public static function productReport($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        // if(!$orderSearch){
+        //   $orderSearch = Yii::$app->request->get('OrderSearch');
+        // }
 
         $query = new Query;
         $query->select('product.product_id, 
