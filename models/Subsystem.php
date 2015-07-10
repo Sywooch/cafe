@@ -129,4 +129,85 @@ class Subsystem extends \yii\db\ActiveRecord
         //echo $json;exit('<hr>');
         return json_decode($json, true);
     }
+    
+    
+
+    public static function packagingreport($subsystem, $post){
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/packagingreport",$postData);
+        //echo $json;exit('<hr>');
+        return json_decode($json, true);
+    }
+    
+    
+    public static function posincomereport($subsystem, $post) {
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/posincomereport",$postData);
+        //echo $json;exit('<hr>');
+        return json_decode($json, true);        
+    }
+    
+    
+    public static function hourlyincomereport($subsystem, $post) {
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/hourlyincomereport",$postData);
+        // echo $json;exit('<hr>');
+        return json_decode($json, true);        
+    }
+ 
+    
+    public static function weekdailyincomereport($subsystem, $post) {
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/weekdailyincomereport",$postData);
+        // echo $json;exit('<hr>');
+        return json_decode($json, true);        
+    }
+    public static function dailyincomereport($subsystem, $post) {
+        $time=strtotime(gmdate('Y-m-d H:i:s'))+300;
+        $postData=array_merge(
+                    $post,
+                    [
+                        'time'=>$time,
+                        'key'=>md5($time.$subsystem->subsystemApiKey),
+                    ]
+                );
+        // print_r($postData);
+        $json=self::download($subsystem->subsystemUrl."?r=api/dailyincomereport",$postData);
+        // echo $json;exit('<hr>');
+        return json_decode($json, true);        
+    }
+    
+    
 }

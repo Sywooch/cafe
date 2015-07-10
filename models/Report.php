@@ -196,7 +196,7 @@ class Report extends Model {
         if (isset($orderSearch['packaging_title']) && strlen($orderSearch['packaging_title']) > 0) {
             $query->andWhere(" LOCATE (:packaging_title_value,order_packaging.packaging_title) ", ['packaging_title_value' => $orderSearch['packaging_title']]);
         }
-        if (isset($orderSearch['category']) && strlen($orderSearch['category']) > 0) {
+        if (isset($orderSearch['category']) && strlen($orderSearch['category']) > 0 && $orderSearch['category']>0) {
             $query->andWhere(" packaging.category_id=:category_id_value ", ['category_id_value' => $orderSearch['category']]);
         }
 
@@ -272,14 +272,16 @@ class Report extends Model {
         return $query;
     }
 
-    public static function incomeByHourReport() {
+    public static function incomeByHourReport($orderSearch=false) {
 
         $t = Array();
         for ($i = 0; $i < 24; $i++) {
             $t[$i] = 0;
         }
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
 
         // select 
 
@@ -323,14 +325,17 @@ class Report extends Model {
         return $t;
     }
 
-    public static function incomeByWeekday() {
+    public static function incomeByWeekday($orderSearch=false) {
 
         $t = Array();
         for ($i = 1; $i < 8; $i++) {
             $t[$i] = 0;
         }
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
+        
 
         // select 
 
@@ -374,10 +379,13 @@ class Report extends Model {
         return $t;
     }
 
-    public static function incomeDaily() {
+    public static function incomeDaily($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
+        
 
         // get date interval
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
@@ -472,10 +480,13 @@ class Report extends Model {
         return $t;
     }
 
-    public static function profitDaily() {
+    public static function profitDaily($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        // posted data
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
 
         // get date interval
         if (isset($orderSearch['order_datetime_min']) && strlen($orderSearch['order_datetime_min']) > 0) {
@@ -601,11 +612,12 @@ class Report extends Model {
     
     
     
-    public static function profitWeekDaily() {
+    public static function profitWeekDaily($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
-
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
         
         $t = Array();
         for ($i = 1; $i < 8; $i++) {
@@ -686,10 +698,14 @@ class Report extends Model {
 
     
     
-    public static function profitHourly() {
+    public static function profitHourly($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        
+        // posted data
+        if(!$orderSearch){
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
 
         $t = Array();
         for ($i = 0; $i < 24; $i++) {
@@ -772,10 +788,12 @@ class Report extends Model {
 
     
     
-    public static function countOrdersHourly() {
+    public static function countOrdersHourly($orderSearch=false) {
 
         // posted data
-        $orderSearch = Yii::$app->request->get('OrderSearch');
+        if (!$orderSearch) {
+            $orderSearch = Yii::$app->request->get('OrderSearch');
+        }
 
         $t = Array();
         for ($i = 0; $i < 24; $i++) {
