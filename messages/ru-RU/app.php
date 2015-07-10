@@ -246,5 +246,5 @@ return [
     'Pages'=>'Страницы',
     'Sellerreport'=>'Продавцы',
     'Customers found'=>'Найдено клиентов',
-
+    'Packagingreport'=>'Популярность фасовок'
 ];
