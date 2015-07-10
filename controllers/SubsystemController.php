@@ -218,4 +218,103 @@ class SubsystemController extends Controller {
                     'subsystem'=>$subsystem
         ]);
     }
+    
+
+    public function actionPackagingreport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['sort'])){ $post['sort']='';  }
+        
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        if(!isset($post['pos.pos_title'])){ $post['pos.pos_title']='';  }
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if(!isset($post['product_title'])){ $post['product_title']='';  }
+        if(!isset($post['sysuser.sysuser_fullname'])){ $post['sysuser.sysuser_fullname']='';  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+        if(!isset($post['packaging_title'])){ $post['packaging_title']='';  }
+        if(!isset($post['category'])){ $post['category']='0';  }
+        
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::packagingreport($subsystem, $post);
+        
+        return $this->render('packagingreport', [
+                    'data' => $data,
+                    'post' => $post,
+                    'subsystem'=>$subsystem
+        ]);
+    }
+    
+    
+    public function actionPosincomereport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::posincomereport($subsystem, $post);
+        return $this->render('posincomereport', [
+                    'data' => $data,
+                    'post' => $post,
+                    'subsystem'=>$subsystem
+        ]);
+    }
+    
+    
+    
+    public function actionHourlyincomereport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        if(!isset($post['pos.pos_title'])){ $post['pos.pos_title']='';  }
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if(!isset($post['sysuser.sysuser_fullname'])){ $post['sysuser.sysuser_fullname']='';  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::hourlyincomereport($subsystem, $post);
+        return $this->render('hourlyincomereport', [
+            'data' => $data,
+            'post' => $post,
+            'subsystem'=>$subsystem
+        ]);
+    }
+        
+    
+    public function actionWeekdailyincomereport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        if(!isset($post['pos.pos_title'])){ $post['pos.pos_title']='';  }
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if(!isset($post['sysuser.sysuser_fullname'])){ $post['sysuser.sysuser_fullname']='';  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::weekdailyincomereport($subsystem, $post);
+        return $this->render('weekdailyincomereport', [
+            'data' => $data,
+            'post' => $post,
+            'subsystem'=>$subsystem
+        ]);
+    }
+    
+    
+    public function actionDailyincomereport(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        if(!isset($post['pos.pos_title'])){ $post['pos.pos_title']='';  }
+        if( isset($post['pos_pos_title'])){ $post['pos.pos_title']=$post['pos_pos_title'];  }
+        if(!isset($post['sysuser.sysuser_fullname'])){ $post['sysuser.sysuser_fullname']='';  }
+        if( isset($post['sysuser_sysuser_fullname'])){ $post['sysuser.sysuser_fullname']=$post['sysuser_sysuser_fullname'];  }
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::dailyincomereport($subsystem, $post);
+        return $this->render('dailyincomereport', [
+            'data' => $data,
+            'post' => $post,
+            'subsystem'=>$subsystem
+        ]);
+    }
 }
