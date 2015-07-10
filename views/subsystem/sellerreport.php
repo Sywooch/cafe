@@ -9,7 +9,7 @@ use app\models\Report;
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sellerreport');
+$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'Sellerreport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
@@ -63,26 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
         }
     </style>
 <div class="order-index">
-    <span class="col1"><h1><?= Html::encode($this->title) ?></h1></span><!-- 
- --><span class="col2">
-    <?php
-    if(strlen($post['order_datetime_min'])>0 || strlen($post['order_datetime_max'])>0){
-        ?>
-        <div class="itogo breadcrumb">
-            <?php
-            if($post['order_datetime_min']==$post['order_datetime_max']){
-                ?><?=$post['order_datetime_min']?><?php
-            }else{
-                ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
-            }
-            ?>
-           
-        </div>
-        <?php
-    }
-    ?>       
-    </span><!--
- --><span class="col1">
+    <h1><?= Html::encode($this->title) ?></h1>
+    <span class="col1">
     <form method="get" id="filterform">
         <input type="hidden" name="r" value="subsystem/sellerreport">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
@@ -221,6 +203,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </form></span><!--
  --><span class="col2">
+    <?php
+    if(strlen($post['order_datetime_min'])>0 || strlen($post['order_datetime_max'])>0){
+        ?>
+        <div class="itogo breadcrumb">
+            <?php
+            if($post['order_datetime_min']==$post['order_datetime_max']){
+                ?><?=$post['order_datetime_min']?><?php
+            }else{
+                ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
+            }
+            ?>
+           
+        </div>
+        <?php
+    }
+    ?>
     <span style="float:left;margin-right:20px;display:inline-block;"><b><?=Yii::t('app','Order Total')?></b><br><canvas id="myChart" width="250" height="250" ></canvas></span>
     <script type="application/javascript">
         var data=[];

@@ -1,20 +1,21 @@
 <?php
 
-
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\jui\DatePicker;
+use app\models\Report;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'ProductReport');
+$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'PosIncomeReport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
 
 //print_r($post);
 //print_r($data);
+
 ?>
     <style type="text/css">
         .col1, .col2{
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             width:43%;
         }
         .itogo{
-            
+            margin-top: 20px;
         }
         #filterform{
             padding-top:4px;
@@ -62,9 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </style>
 <div class="order-index">
     <h1><?= Html::encode($this->title) ?></h1>
-    <span class="col1"><form method="get" id="filterform">
-        <input type="hidden" name="r" value="subsystem/productreport">
-        <input type="hidden" name="sort" value="<?=$post['sort']?>">
+    <span class="col1">
+    <form method="get" id="filterform">
+        <input type="hidden" name="r" value="subsystem/posincomereport">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
@@ -95,15 +96,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options'=>['size'=>10, 'class'=>'form-control','id'=>'dateto']
             ])?>
             </span>
-            <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
-        </div>
-        <br/>
-        <br/>
-        <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
-        <div id="otherOptions" style="display:none;">
-            <span class="filter-element width90"><label><?=Yii::t('app','product_title')?></label><?=Html::textInput( 'product_title', $post['product_title'], ['class'=>'form-control width100'] )?></span><br/>
-            <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('pos.pos_title', $post['pos.pos_title'], array_merge([''=>Yii::t('app','All POSs')],$data['posOptions']), ['class'=>'form-control width100'] )?></span><br/>
-            <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('sysuser.sysuser_fullname', $post['sysuser.sysuser_fullname'], array_merge([''=>Yii::t('app','All sellers')],$data['sellerOptions']), ['class'=>'form-control'] )?></span><br/>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
         <script type="application/javascript">
@@ -207,89 +199,78 @@ $this->params['breadcrumbs'][] = $this->title;
             ");
         ?>
 
-    </form></span><!--
-    --><span class="col2">
-        <?php
-            if(strlen($post['order_datetime_min'])>0 
-                    || strlen($post['order_datetime_max'])>0
-                    || strlen($post['pos.pos_title'])>0
-                    || strlen($post['product_title'])>0){
-                ?>
-                <div class="itogo breadcrumb">
-                    <?php
-                    if($post['order_datetime_min']==$post['order_datetime_max']){
-                        ?><?=$post['order_datetime_min']?><?php
-                    }else{
-                        ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
-                    }
-                    ?>
 
-                    <?=$post['pos.pos_title']?>
-                    <?=$post['product_title']?>
-                </div>
+    </form></span><!--
+ --><span class="col2">
+     
+         <?php
+    if(strlen($post['order_datetime_min'])>0 || strlen($post['order_datetime_max'])>0){
+        ?>
+        <div class="itogo breadcrumb">
+            <?php
+            if($post['order_datetime_min']==$post['order_datetime_max']){
+                ?><?=$post['order_datetime_min']?><?php
+            }else{
+                ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
+            }
+            ?>
+           
+        </div>
+        <?php
+    }
+    ?>  
+     
+    <span style="float:left;margin-right:20px;display:inline-block;"><b><?=Yii::t('app','Order Total')?></b><br><canvas id="myChart" width="250" height="250" ></canvas></span>
+    <script type="application/javascript">
+        var data=[];
+    <?php
+      // $tmp=$query->all();
+      $colors=Report::getColors();
+      // foreach($tmp as $ke=>$tm){
+      foreach($data['rows'] as $ke=>$row){
+          $colorId=$ke%count($colors);
+          echo "data.push({ value: {$row['total']},color:\"{$colors[$colorId][0]}\", highlight: \"{$colors[$colorId][1]}\", label: \"{$row['pos_title']}\"});";
+      }
+    ?>
+    </script>
+    <?php
+    
+        $this->registerJsFile('./js/Chart.min.js');
+    
+        $this->registerJs("
+
+
+            $(document).ready(function(){
+                // Get the context of the canvas element we want to select
+                var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
+                var myNewChart = new Chart(ctx).Pie(data);
+
+            });
+
+            ");
+
+    ?>
+ 
+         <table class="table table-striped table-bordered">
+            <tr><thead>
+                <th><?=Yii::t('app','pos_id')?></th>
+                <th><?=Yii::t('app','pos_title')?></th>
+                <th><?=Yii::t('app','totalIncome')?></th>
+                <th><?=Yii::t('app','n_orders')?></th>
+                <tbody>
+            <?php
+            foreach($data['rows'] as $row){
+                ?>
+                <tr>
+                    <td><?=$row['pos_id']?></td>
+                    <td><?=$row['pos_title']?></td>
+                    <td><?=((double)$row['total']).'&nbsp;'.Yii::$app->params['currency']?></td>
+                    <td><?=$row['n_orders']?></td>
+                </tr>
                 <?php
             }
             ?>
-        <div>
-        <?=Yii::t('app','Pages')?>:
-        <?php
-
-        // /index.php?r=site/index&src=ref1#name
-        $urlParameters = [
-            'subsystem/productreport',
-            'order_datetime_min' => ( isset($post['order_datetime_min'])?$post['order_datetime_min']:''),
-            'order_datetime_max' => ( isset($post['order_datetime_max'])?$post['order_datetime_max']:''),
-            'sysuser.sysuser_fullname' => ( isset($post['sysuser.sysuser_fullname'])?$post['sysuser.sysuser_fullname']:''),
-            'pos.pos_title' => ( isset($post['pos.pos_title'])?$post['pos.pos_title']:''),
-            'product_title' => ( isset($post['product_title'])?$post['product_title']:''),
-            'page' => ( isset($post['page'])?$post['page']:'0'),
-            'sort' => ( isset($post['sort'])?$post['sort']:''),
-            'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
-        ];
-
-
-        $imin=max(0, $data['page']-5);
-        $imax=min($data['pageCount']+1,$data['page']+5);
-        for($i=0;$i<$data['pageCount']; $i++){
-            if($i==0 || $i==($data['pageCount']+1) || ($i>=$imin && $i<=$imax)){
-                if($i==$data['page']){
-                    echo "<span class=\"pagelink active\">".($i+1)."</span>";
-                }else{
-                    $urlParameters['page']=$i;
-                    echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
-                }        
-            }
-        }
-
-        function sortVal($curr,$next){
-            if($curr==$next){
-                return "-$next";
-            }elseif($curr=="-$next"){
-                return "";
-            }else{
-                return $next;
-            }
-        }
-
-        ?>
-        </div>
-        <table class="table table-striped table-bordered">
-        <tr>
-            <th></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'product_id'),'page'=>0]))?>"><?=Yii::t('app','product_id')?></a></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'product_title')]))?>"><?=Yii::t('app','product_title')?></a></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'total_packaging_product_quantity')]))?>"><?=Yii::t('app','total_packaging_product_quantity')?></a></th>
-        </tr>        
-        <?php
-        foreach($data['rows'] as $row){
-            ?><tr>
-                <td></td>
-                <td><?=$row['product_id']?></td>
-                <td><?=$row['product_title']?></td>
-                <td><?=(round($row['total_packaging_product_quantity'],5).' '.$row['product_unit'])?></td>
-              </tr><?php
-        }
-        ?>
+            </tbody>
         </table>
     </span>
 </div>

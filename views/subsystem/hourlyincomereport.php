@@ -8,13 +8,14 @@ use yii\jui\DatePicker;
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'ProductReport');
+$this->title = $subsystem->subsystemTitle.' - '.Yii::t('app', 'HourlyIncomeReport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
 
 //print_r($post);
 //print_r($data);
+
 ?>
     <style type="text/css">
         .col1, .col2{
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             width:43%;
         }
         .itogo{
-            
+            margin-top: 20px;
         }
         #filterform{
             padding-top:4px;
@@ -61,11 +62,57 @@ $this->params['breadcrumbs'][] = $this->title;
         }
     </style>
 <div class="order-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <span class="col1"><form method="get" id="filterform">
-        <input type="hidden" name="r" value="subsystem/productreport">
-        <input type="hidden" name="sort" value="<?=$post['sort']?>">
+<h1><?= Html::encode($this->title) ?></h1>
+
+<style type="text/css">
+    .col1, .col2{
+        display:inline-block;
+        vertical-align:top;
+    }
+    .col1{
+        width:25%;
+    }
+    .col2{
+        width:75%;
+    }
+    .width100{
+        width:100%;
+    }
+    .width90{
+        width:90%;
+    }
+    .width50{
+        width:43%;
+    }
+    .itogo{
+        margin-top: 20px;
+    }
+    #filterform{
+        padding-top:4px;
+    }
+    .toggler{
+        margin-left:-20px;
+        padding-left:20px;
+        background-image:url(./img/settings.png);
+        background-repeat:no-repeat;
+        background-position:left center;
+    }
+</style>
+
+
+<span class="col1">
+    
+    <p>
+    <b><?=Yii::t('app','Similar reports')?></b>
+    <div><b><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/subsystem/hourlyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></b></div>
+    <div><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/subsystem/weekdailyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></div>
+    <div><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/subsystem/dailyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></div>
+    </p>
+
+    <form method="get" id="filterform">
+        <input type="hidden" name="r" value="subsystem/hourlyincomereport">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
+        <b><?=Yii::t('app','Time interval')?></b>
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
@@ -97,15 +144,21 @@ $this->params['breadcrumbs'][] = $this->title;
             </span>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
+        
         <br/>
         <br/>
         <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
         <div id="otherOptions" style="display:none;">
-            <span class="filter-element width90"><label><?=Yii::t('app','product_title')?></label><?=Html::textInput( 'product_title', $post['product_title'], ['class'=>'form-control width100'] )?></span><br/>
-            <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('pos.pos_title', $post['pos.pos_title'], array_merge([''=>Yii::t('app','All POSs')],$data['posOptions']), ['class'=>'form-control width100'] )?></span><br/>
-            <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('sysuser.sysuser_fullname', $post['sysuser.sysuser_fullname'], array_merge([''=>Yii::t('app','All sellers')],$data['sellerOptions']), ['class'=>'form-control'] )?></span><br/>
+            <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('pos.pos_title', $post['pos.pos_title'], ([''=>Yii::t('app','All POSs')]+$data['posOptions']), ['class'=>'form-control width100'] )?></span><br/>
+            <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('sysuser.sysuser_fullname', $post['sysuser.sysuser_fullname'], ([''=>Yii::t('app','All sellers')]+$data['sellerOptions']), ['class'=>'form-control'] )?></span><br/>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
+        <?php
+        /*
+            <span class="filter-element width90"><label><?=Yii::t('app','packaging_title')?></label><?=Html::textInput( 'OrderSearch[packaging_title]', $post['packaging_title'], ['class'=>'form-control width100'] )?></span><br/>
+         */
+        ?>
+
         <script type="application/javascript">
         function toggleSelector(selector){
             if(typeof(Storage) !== "undefined") {
@@ -189,6 +242,9 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         </script>
         <?php
+        
+        $this->registerJsFile('./js/Chart.min.js');
+    
         $this->registerJs("
             $(document).ready(function(){
                 if(typeof(Storage) !== \"undefined\") {
@@ -206,90 +262,126 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ");
         ?>
+    </form>
 
-    </form></span><!--
-    --><span class="col2">
-        <?php
-            if(strlen($post['order_datetime_min'])>0 
-                    || strlen($post['order_datetime_max'])>0
-                    || strlen($post['pos.pos_title'])>0
-                    || strlen($post['product_title'])>0){
-                ?>
-                <div class="itogo breadcrumb">
-                    <?php
-                    if($post['order_datetime_min']==$post['order_datetime_max']){
-                        ?><?=$post['order_datetime_min']?><?php
-                    }else{
-                        ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
-                    }
-                    ?>
-
-                    <?=$post['pos.pos_title']?>
-                    <?=$post['product_title']?>
-                </div>
-                <?php
+</span><!-- 
+--><span class="col2">
+    <?php
+    if(   strlen($post['order_datetime_min'])>0
+       || strlen($post['order_datetime_max'])>0
+       || strlen($post['pos.pos_title'])>0
+       || strlen($post['sysuser.sysuser_fullname'])>0){
+        ?>
+        <div class="itogo breadcrumb">
+            <?php
+            if($post['order_datetime_min']==$post['order_datetime_max']){
+                ?><?=$post['order_datetime_min']?><?php
+            }else{
+                ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
             }
             ?>
-        <div>
-        <?=Yii::t('app','Pages')?>:
-        <?php
-
-        // /index.php?r=site/index&src=ref1#name
-        $urlParameters = [
-            'subsystem/productreport',
-            'order_datetime_min' => ( isset($post['order_datetime_min'])?$post['order_datetime_min']:''),
-            'order_datetime_max' => ( isset($post['order_datetime_max'])?$post['order_datetime_max']:''),
-            'sysuser.sysuser_fullname' => ( isset($post['sysuser.sysuser_fullname'])?$post['sysuser.sysuser_fullname']:''),
-            'pos.pos_title' => ( isset($post['pos.pos_title'])?$post['pos.pos_title']:''),
-            'product_title' => ( isset($post['product_title'])?$post['product_title']:''),
-            'page' => ( isset($post['page'])?$post['page']:'0'),
-            'sort' => ( isset($post['sort'])?$post['sort']:''),
-            'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
-        ];
-
-
-        $imin=max(0, $data['page']-5);
-        $imax=min($data['pageCount']+1,$data['page']+5);
-        for($i=0;$i<$data['pageCount']; $i++){
-            if($i==0 || $i==($data['pageCount']+1) || ($i>=$imin && $i<=$imax)){
-                if($i==$data['page']){
-                    echo "<span class=\"pagelink active\">".($i+1)."</span>";
-                }else{
-                    $urlParameters['page']=$i;
-                    echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
-                }        
-            }
-        }
-
-        function sortVal($curr,$next){
-            if($curr==$next){
-                return "-$next";
-            }elseif($curr=="-$next"){
-                return "";
-            }else{
-                return $next;
-            }
-        }
-
-        ?>
+            <?=$post['pos.pos_title']?>
+            <?=$post['sysuser.sysuser_fullname']?>
         </div>
-        <table class="table table-striped table-bordered">
-        <tr>
-            <th></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'product_id'),'page'=>0]))?>"><?=Yii::t('app','product_id')?></a></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'product_title')]))?>"><?=Yii::t('app','product_title')?></a></th>
-            <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'total_packaging_product_quantity')]))?>"><?=Yii::t('app','total_packaging_product_quantity')?></a></th>
-        </tr>        
         <?php
-        foreach($data['rows'] as $row){
-            ?><tr>
-                <td></td>
-                <td><?=$row['product_id']?></td>
-                <td><?=$row['product_title']?></td>
-                <td><?=(round($row['total_packaging_product_quantity'],5).' '.$row['product_unit'])?></td>
-              </tr><?php
+    }
+    ?>
+
+    
+    <canvas id="myChart1" width="720" height="300"></canvas>
+    <div id="legend1"></div>
+    <br>
+    <canvas id="myChart2" width="720" height="300"></canvas>
+    <div id="legend2"></div>
+    <style type="text/css">
+        #legend span{
+            display:inline-block;
+            width:15px;
+            margin-right:5px;
+            height: 15px;
+            vertical-align: absmiddle;
         }
-        ?>
-        </table>
-    </span>
+    </style>
+
+
+    <script type="application/javascript">
+    var data1 = {
+        labels: [<?='"'.join('","',array_keys($data['stats'])).'"'?>],
+        datasets: [
+            {
+                label: "<?=Yii::t('app','Income')?>",
+                fillColor: "#66FF00",
+                strokeColor: "#66FF00",
+                highlightFill: "#66FF00",
+                highlightStroke: "#66CC33",
+                data: [<?=join(',',array_values($data['stats']))?>]
+            }
+            //,
+            //{
+            //    label: "<?=Yii::t('app','Profit')?>",
+            //    fillColor: "#99CCFF",
+            //    strokeColor: "#99CCFF",
+            //    highlightFill: "#99CCFF",
+            //    highlightStroke: "#CC00CC",
+            //    data: [<?=join(',',array_values($data['profit']))?>]
+            //}
+        ]
+    };
+    var data2 = {
+        labels: [<?='"'.join('","',array_keys($data['count'])).'"'?>],
+        datasets: [
+            {
+                label: "<?=Yii::t('app','Order Count')?>",
+                fillColor: "#99CCFF",
+                strokeColor: "#99CCFF",
+                highlightFill: "#99CCFF",
+                highlightStroke: "#CC00CC",
+                data: [<?=join(',',array_values($data['count']))?>]
+            }
+        ]
+    };    </script>
+    <?php
+    
+    $this->registerJs("
+        
+
+        $(document).ready(function(){
+            Chart.defaults.global.scaleFontFamily=\"monospace\";
+            
+            $('#myChart1').attr('width',$('.col2').innerWidth());
+            var ctx1 = document.getElementById(\"myChart1\").getContext(\"2d\");
+            var myBarChart1 = new Chart(ctx1).Bar(data1, {
+               barStrokeWidth : 1,
+               barValueSpacing : 3,
+            });
+            $('#legend1').html(myBarChart1.generateLegend());
+            
+
+            $('#myChart2').attr('width',$('.col2').innerWidth());
+            var ctx2 = document.getElementById(\"myChart2\").getContext(\"2d\");
+            var myBarChart2 = new Chart(ctx2).Bar(data2, {
+               barStrokeWidth : 1,
+               barValueSpacing : 3,
+            });
+            $('#legend2').html(myBarChart2.generateLegend());
+        });
+
+        ");
+    ?>
+
+    <?php
+    /*
+    <table class="table table-striped table-bordered">
+    <tr><th><?=Yii::t('app','Hour')?></th><th><?=Yii::t('app','totalIncome')?></th></tr>
+    <?php
+    foreach($stats as $hrs=>$total){
+        echo "<tr><td>{$hrs}</td><td>{$total}</td></tr>";
+    }
+    ?>
+    </table>
+     * 
+     */
+    ?>
+</span>
+
 </div>

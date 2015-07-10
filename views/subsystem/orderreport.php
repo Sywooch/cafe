@@ -7,7 +7,7 @@ use yii\jui\DatePicker;
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Orderreport');
+$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'Orderreport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             width:43%;
         }
         .itogo{
-            margin-top: 20px;
+            
         }
         #filterform{
             padding-top:4px;
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         }
     </style>
 <div class="order-index">
-
+<h1><?= Html::encode($this->title) ?></h1>
 <?php
 $summary=[
         'order_total_sum'=>((float)$data['total']['order_total_sum']),
@@ -70,13 +70,7 @@ $summary=[
         'order_total_avg'=>round($data['total']['order_total_avg'],2)
 ];
 ?>    
-<span class="col1"><h1><?= Html::encode($this->title) ?></h1></span><!-- 
- --><span class="col2"><div class="itogo breadcrumb">
-        <span class="filter-element"><?=Yii::t('app','foundOrdersTotal',$summary)?></span>
-        <span class="filter-element"><?=Yii::t('app','foundOrdersCount',$summary)?></span>
-        <span class="filter-element"><?=Yii::t('app','foundOrdersAvg',$summary)?></span>        
-     </div></span><!--
- --><span class="col1"><form method="get" id="filterform">
+<span class="col1"><form method="get" id="filterform">
         <input type="hidden" name="r" value="subsystem/orderreport">
         <input type="hidden" name="sort" value="<?=$post['sort']?>">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
@@ -226,7 +220,11 @@ $summary=[
 
     </form></span><!--
 --><span class="col2">
-
+<div class="itogo breadcrumb">
+        <span class="filter-element"><?=Yii::t('app','foundOrdersTotal',$summary)?></span>
+        <span class="filter-element"><?=Yii::t('app','foundOrdersCount',$summary)?></span>
+        <span class="filter-element"><?=Yii::t('app','foundOrdersAvg',$summary)?></span>        
+     </div>
 <div>
 <?=Yii::t('app','Pages')?>:
 <?php

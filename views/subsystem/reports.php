@@ -21,15 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <li><?=Html::a( Yii::t('app', 'Sellers'), ['/subsystem/sellerreport','subsystemId'=>$model->subsystemId], [] )?></li>
             <li><?=Html::a( Yii::t('app', 'CustomerIncomeReport'), ['/subsystem/customerincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
             <li><?=Html::a( Yii::t('app', 'ProductReport'), ['/subsystem/productreport','subsystemId'=>$model->subsystemId], [] )?></li>
-        <?php /*
-        
-       
-        <li><?=Html::a( Yii::t('app','PackagingReport'), ['/subsystem/reportpackaging','subsystemId'=>$model->subsystemId], [] )?></li>
-        <li><?=Html::a( Yii::t('app', 'PosIncomeReport'), ['/subsystem/reportposincome','subsystemId'=>$model->subsystemId], [] )?></li>
-        <li><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/subsystem/reporthourlyincome','subsystemId'=>$model->subsystemId], [] )?></li>
-        <li><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/subsystem/reportweekdailyincome','subsystemId'=>$model->subsystemId], [] )?></li>
-        <li><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/subsystem/reportdailyincome','subsystemId'=>$model->subsystemId], [] )?></li>
-        */ ?>
+            <li><?=Html::a( Yii::t('app', 'PackagingReport'), ['/subsystem/packagingreport','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'PosIncomeReport'), ['/subsystem/posincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/subsystem/hourlyincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/subsystem/weekdailyincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
+            <li><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/subsystem/dailyincomereport','subsystemId'=>$model->subsystemId], [] )?></li>
         </ul>
     </ul>
 

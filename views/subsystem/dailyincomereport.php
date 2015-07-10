@@ -1,19 +1,17 @@
 <?php
-
 use yii\helpers\Html;
-use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\OrderSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'CustomerIncomeReport');
+$this->title = $subsystem->subsystemTitle.' - '.Yii::t('app', 'DailyIncomeReport');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
 <h1><?= Html::encode($this->title) ?></h1>
+
 <style type="text/css">
     .col1, .col2{
         display:inline-block;
@@ -51,18 +49,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <span class="col1">
+    <p>
+    <b><?=Yii::t('app','Similar reports')?></b>
+    <div><?=Html::a( Yii::t('app', 'HourlyIncomeReport'), ['/subsystem/hourlyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></div>
+    <div><?=Html::a( Yii::t('app', 'WeekdailyIncomeReport'), ['/subsystem/weekdailyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></div>
+    <div><b><?=Html::a( Yii::t('app', 'DailyIncomeReport'), ['/subsystem/dailyincomereport','subsystemId'=>$post['subsystemId']], ['class'=>'filter-element'] )?></b></div>
+    </p>
     <form method="get" id="filterform">
-        <input type="hidden" name="r" value="subsystem/customerincomereport">
-        <input type="hidden" name="sort" value="<?=$post['sort']?>">
+        <input type="hidden" name="r" value="subsystem/dailyincomereport">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
+        <b><?=Yii::t('app','Time interval')?></b>
         <div>
-       <!-- <label><?=Yii::t('app','Order report')?></label> -->
-            <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
-            <a class="filter-element width90" href="javascript:void(yesterday())"><?=Yii::t('app','yesterday').' '.date('d.m.Y',time()-3600*24)?></a>
-       <!-- <a class="filter-element width90" href="javascript:void(thisweek())"><?=Yii::t('app','thisweek')?></a> -->
+        <!-- <label><?=Yii::t('app','Order report')?></label> -->
+        <!-- <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a> -->
+        <!-- <a class="filter-element width90" href="javascript:void(yesterday())"><?=Yii::t('app','yesterday').' '.date('d.m.Y',time()-3600*24)?></a> -->
+            <a class="filter-element width90" href="javascript:void(thisweek())"><?=Yii::t('app','thisweek')?></a>
             <a class="filter-element width90" href="javascript:void(lastweek())"><?=Yii::t('app','lastweek')?></a>
-       <!-- <a class="filter-element width90" href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a> -->
-       <!-- <a class="filter-element width90" href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a> -->
+            <a class="filter-element width90" href="javascript:void(thismonth())"><?=Yii::t('app','thismonth')?></a>
+            <a class="filter-element width90" href="javascript:void(lastmonth())"><?=Yii::t('app','lastmonth')?></a>
         </div>
         <a class="filter-element width90" href="javascript:void(toggleSelector('#dateselector'))"><?=Yii::t('app','Order Datetime Set')?></a>
         <div id="dateselector" style="display:none;">
@@ -87,27 +91,19 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
         
-
         <br/>
         <br/>
         <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
         <div id="otherOptions" style="display:none;">
-            <?php /* 
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer ID')?></label>
-                <?=Html::textInput( 'OrderSearch[customerId]', $post['customerId'], ['class'=>'form-control width100'] )?>
-            </span><br/>
-            */?>
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer Mobile')?></label>
-                <?=Html::textInput( 'customerMobile', $post['customerMobile'], ['class'=>'form-control width100'] )?>
-            </span><br/>
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer Name')?></label>
-                <?=Html::textInput( 'customerName', $post['customerName'], ['class'=>'form-control width100'] )?>
-            </span><br/>
+            <span class="filter-element width90"><label><?=Yii::t('app','Pos')?></label><?=Html::dropDownList('pos.pos_title', $post['pos.pos_title'], ([''=>Yii::t('app','All POSs')]+$data['posOptions']), ['class'=>'form-control width100'] )?></span><br/>
+            <span class="filter-element width90"><label><?=Yii::t('app','seller')?></label><?=Html::dropDownList('sysuser.sysuser_fullname', $post['sysuser.sysuser_fullname'], ([''=>Yii::t('app','All sellers')]+$data['sellerOptions']), ['class'=>'form-control'] )?></span><br/>
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
+        <?php
+        /*
+            <span class="filter-element width90"><label><?=Yii::t('app','packaging_title')?></label><?=Html::textInput( 'OrderSearch[packaging_title]', $post['packaging_title'], ['class'=>'form-control width100'] )?></span><br/>
+         */
+        ?>
 
         <script type="application/javascript">
         function toggleSelector(selector){
@@ -216,12 +212,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </span><!-- 
 --><span class="col2">
-    <div class="itogo breadcrumb">
     <?php
-    if(strlen($post['order_datetime_min'])>0
-            || strlen($post['order_datetime_max'])>0){
+    if(   strlen($post['order_datetime_min'])>0
+       || strlen($post['order_datetime_max'])>0
+       || strlen($post['pos.pos_title'])>0
+       || strlen($post['sysuser.sysuser_fullname'])>0){
         ?>
-        
+        <div class="itogo breadcrumb">
             <?php
             if($post['order_datetime_min']==$post['order_datetime_max']){
                 ?><?=$post['order_datetime_min']?><?php
@@ -229,71 +226,90 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
             }
             ?>
-        
+            <?=$post['pos.pos_title']?>
+            <?=$post['sysuser.sysuser_fullname']?>
+        </div>
         <?php
     }
     ?>
-    <?=Yii::t('app','Customers found')?>: <?=$data['n_records']?>    
-    </div>
 
-<div>
-<?=Yii::t('app','Pages')?>:
-<?php
+    
+    <canvas id="myChart" width="<?=(70+count($data['stats'])*22)?>" height="400"></canvas>
+    <div id="legend"></div>
 
-$urlParameters = [
-    'subsystem/customerincomereport',
-    'order_datetime_min' => $post['order_datetime_min'],
-    'order_datetime_max' => $post['order_datetime_max'],
-    'customerMobile' => $post['customerMobile'],
-    'customerName' => $post['customerName'],
-    'page' => ( isset($post['page'])?$post['page']:'0'),
-    'sort' => ( isset($post['sort'])?$post['sort']:''),
-    'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
-];
-
+    <script type="application/javascript">
+    
+    var data = {
+        labels: [<?php
+                 $delim='';
+                 foreach($data['stats'] as $key=>$val){
+                     echo $delim.'"'.date('d.m.Y',strtotime($key)).'"';
+                     $delim=',';
+                 }
+                ?>],
+        datasets: [
+            {
+                label: "<?=Yii::t('app','Income')?>",
+                fillColor: "#66FF00",
+                strokeColor: "#66FF00",
+                highlightFill: "#66FF00",
+                highlightStroke: "#66CC33",
+                data: [<?=join(',',array_values($data['stats']))?>]
+            },
+            {
+                label: "<?=Yii::t('app','Profit')?>",
+                fillColor: "#99CCFF",
+                strokeColor: "#99CCFF",
+                highlightFill: "#99CCFF",
+                highlightStroke: "#CC00CC",
+                data: [<?=join(',',array_values($data['profit']))?>]
+            }
+        ]
+    };
+    </script>
+    <style type="text/css">
+        #legend span{
+            display:inline-block;
+            width:15px;
+            margin-right:5px;
+            height: 15px;
+            vertical-align: absmiddle;
+        }
+    </style>
+    <?php
+    
+    $this->registerJs("
         
-for($i=0;$i<$data['pageCount']; $i++){
-    if($i==$data['page']){
-        echo "<span class=\"pagelink active\">".($i+1)."</span>";
-    }else{
-        $urlParameters['page']=$i;
-        echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
+
+        $(document).ready(function(){
+        
+
+            $('#myChart').attr('width',$('.col2').innerWidth());
+            // Get the context of the canvas element we want to select
+            var ctx = document.getElementById(\"myChart\").getContext(\"2d\");
+            // Chart.defaults.global.responsive = true;
+            Chart.defaults.global.scaleFontFamily=\"monospace\";
+            var myBarChart = new Chart(ctx).Bar(data, {
+               barStrokeWidth : 1,
+               barValueSpacing : 3,
+            });
+            $('#legend').html(myBarChart.generateLegend());
+        });
+
+        ");
+    ?>
+
+    <?php
+    /*
+    <table class="table table-striped table-bordered">
+    <tr><th><?=Yii::t('app','Hour')?></th><th><?=Yii::t('app','totalIncome')?></th></tr>
+    <?php
+    foreach($stats as $hrs=>$total){
+        echo "<tr><td>{$hrs}</td><td>{$total}</td></tr>";
     }
-}
-
-function sortVal($curr,$next){
-    if($curr==$next){
-        return "-$next";
-    }elseif($curr=="-$next"){
-        return "";
-    }else{
-        return $next;
-    }
-}
-
-?>
-</div>
-<table class="table table-striped table-bordered">
-<tr>
-    <th></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerId'),'page'=>0]))?>"><?=Yii::t('app', 'Customer ID')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerMobile')]))?>"><?=Yii::t('app','Customer Mobile')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerName')]))?>"><?=Yii::t('app','Customer Name')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'total')]))?>"><?=Yii::t('app','totalIncome')?></a></th>
-</tr>
-
-<?php
-foreach($data['rows'] as $row){
-    ?><tr>
-        <td></td>
-        <td><?=$row['customerId']?></td>
-        <td><?=$row['customerMobile']?></td>
-        <td><?=$row['customerName']?></td>
-        <td><?=($row['total']?($row['total']."&nbsp;".\Yii::$app->params['currency']):'')?></td>
-      </tr><?php
-}
-?>
-
-
-</table>
+    ?>
+    </table>
+     * 
+     */
+    ?>
 </span>
