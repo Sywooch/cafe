@@ -317,4 +317,31 @@ class SubsystemController extends Controller {
             'subsystem'=>$subsystem
         ]);
     }
+    
+    
+    public function actionOrderview(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::orderview($subsystem, $post);
+        return $this->render('orderview', [
+            'data' => $data,
+            'post' => $post,
+            'subsystem'=>$subsystem
+        ]);
+    }
+    
+    public function actionOnecustomer(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        if(!isset($post['order_datetime_min'])){ $post['order_datetime_min']='';  }
+        if(!isset($post['order_datetime_max'])){ $post['order_datetime_max']='';  }
+        $subsystemId = $post['subsystemId'];
+        $subsystem = $this->findModel($subsystemId);
+        $data = Subsystem::onecustomer($subsystem, $post);
+        return $this->render('onecustomer', [
+            'data' => $data,
+            'post' => $post,
+            'subsystem'=>$subsystem
+        ]);
+    }
 }

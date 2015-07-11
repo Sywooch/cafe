@@ -4,10 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Order;
+use app\models\Customer;
 use app\models\OrderSearch;
 use yii\helpers\ArrayHelper;
 use app\models\Report;
 use app\models\Workingtime;
+use yii\db\Query;
 
 class ApiController extends \yii\web\Controller {
 
@@ -623,4 +625,109 @@ class ApiController extends \yii\web\Controller {
         return json_encode($json);
     }
 
+    
+    
+    public function actionOrderview(){
+        $post = array_merge(Yii::$app->request->queryParams, Yii::$app->getRequest()->getBodyParams());
+        //print_r($post);   echo "<hr>";
+        //print_r($post);   echo "<hr>";
+        $key = md5($post['time'] . Yii::$app->params['apiKey']);
+        $time = strtotime(gmdate('Y-m-d H:i:s'));
+        // echo "{$post['time']} ".time().' key='.$key.'  '.$post['key'];   echo "<hr>";
+        if ($key != $post['key'] || $post['time'] <= $time) {
+            // access denied error
+            $json = [
+                "status" => "error",
+                'posOptions' => [],
+                'sellerOptions' => [],
+                'paymentTypeOptions' => [],
+                'n_records' => 0,
+                'total' => 0,
+                'page' => 0,
+                'pageCount' => 0,
+                'sort' => '',
+                'post' => $post,
+                'rows' => []
+            ];
+            return json_encode($json);
+        }
+        
+        
+        $json=[];
+        $model=Order::findOne(['order_id'=>$post['order_id']]);
+        $json['order']=$model->attributes;
+        
+        $json['pos']=$model->getPos()->one()->attributes;
+        $json['sysuser']=$model->getSysuser()->one()->attributes;
+
+        if($json['order']['customerId']>0){
+            $json['customer']=$model->getCustomer()->one()->attributes;
+        }
+        
+        $json['items']=$model->getOrderPackagings()->all();
+        $cnt=count($json['items']);
+        for( $i = 0 ; $i < $cnt ; $i++ ){
+            $json['items'][$i]=$json['items'][$i]->attributes;
+        }
+        // print_r($json);
+        return json_encode($json);
+    }
+    
+    
+    public function actionOnecustomer(){
+        $post = array_merge(Yii::$app->request->queryParams, Yii::$app->getRequest()->getBodyParams());
+        //print_r($post);   echo "<hr>";
+        //print_r($post);   echo "<hr>";
+        $key = md5($post['time'] . Yii::$app->params['apiKey']);
+        $time = strtotime(gmdate('Y-m-d H:i:s'));
+        // echo "{$post['time']} ".time().' key='.$key.'  '.$post['key'];   echo "<hr>";
+        if ($key != $post['key'] || $post['time'] <= $time) {
+            // access denied error
+            $json = [
+                "status" => "error",
+                'posOptions' => [],
+                'sellerOptions' => [],
+                'paymentTypeOptions' => [],
+                'n_records' => 0,
+                'total' => 0,
+                'page' => 0,
+                'pageCount' => 0,
+                'sort' => '',
+                'post' => $post,
+                'rows' => []
+            ];
+            return json_encode($json);
+        }
+                // get customer info
+        $customer = Customer::findOne($post['customerId']);
+        
+        
+        // query to select all customer's orders
+        
+        $query = new Query;
+        $query->select('o.*, pos.pos_title')->from('`order` o')->join('INNER JOIN', 'pos', 'o.pos_id=pos.pos_id') ;
+        $query->andFilterWhere(['customerId' => $post['customerId'], ]);
+        
+        if (isset($post['order_datetime_min']) && strlen($post['order_datetime_min']) > 0) {
+            $timestamp = strtotime($post['order_datetime_min']);
+            if ($timestamp !== false) {
+                $min_date = date('Y-m-d 00:00:00', $timestamp);
+                $query->andWhere(" o.order_datetime>=:min_date ", ['min_date' => $min_date]);
+            }
+        }
+        if (isset($post['order_datetime_max']) && strlen($post['order_datetime_max']) > 0) {
+            $timestamp = strtotime($post['order_datetime_max']);
+            if ($timestamp !== false) {
+                $max_date = date('Y-m-d 23:59:59', $timestamp);
+                $query->andWhere(" o.order_datetime<=:max_date ", ['max_date' => $max_date]);
+            }
+        }
+        
+        
+        $json=[];
+        $json['customer']=$customer->attributes;
+        $json['orders']=$query->all();
+        // echo '<pre>'; print_r($json); echo '</pre>'; 
+        return json_encode($json);
+    }
 }
