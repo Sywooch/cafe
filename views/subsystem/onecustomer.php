@@ -4,16 +4,19 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\jui\DatePicker;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\OrderSearch */
+/* @var $searchModel app\models\post */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'CustomerIncomeReport');
+$this->title = "{$subsystem->subsystemTitle} - ".Yii::t('app', 'OneCustomerReport')." {$data['customer']['customerId']}";
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Subsystem_reports'), 'url' => ['/subsystem/index']];
 $this->params['breadcrumbs'][] = ['label' => $subsystem->subsystemTitle, 'url' => ['/subsystem/reports', 'subsystemId'=>$subsystem->subsystemId]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'CustomerIncomeReport'), 'url' => ['/subsystem/customerincomereport', 'subsystemId'=>$subsystem->subsystemId]];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
+
+<h1><?=Html::encode($this->title)?></h1>
+
 <style type="text/css">
     .col1, .col2{
         display:inline-block;
@@ -47,14 +50,28 @@ $this->params['breadcrumbs'][] = $this->title;
         background-repeat:no-repeat;
         background-position:left center;
     }
-</style>
+        
+    .attrView{
+        
+    }
+    .attrView .attrViewLabel{
+        display:inline-block;
+        width:200px;
+        vertical-align:top;
+    }
+    .attrView .attrViewValue{
+        display:inline-block;
+        width:400px;
+        vertical-align:top;
+    }
 
+</style>
 
 <span class="col1">
     <form method="get" id="filterform">
-        <input type="hidden" name="r" value="subsystem/customerincomereport">
-        <input type="hidden" name="sort" value="<?=$post['sort']?>">
+        <input type="hidden" name="r" value="subsystem/onecustomer">
         <input type="hidden" name="subsystemId" value="<?=$post['subsystemId']?>">
+        <input type="hidden" name="customerId" value="<?=$post['customerId']?>">
         <div>
        <!-- <label><?=Yii::t('app','Order report')?></label> -->
             <a class="filter-element width90" href="javascript:void(today())"><?=Yii::t('app','today').' '.date('d.m.Y')?></a>
@@ -87,28 +104,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
         </div>
         
-
-        <br/>
-        <br/>
-        <a class="filter-element width90 toggler" href="javascript:void(toggleSelector('#otherOptions'))"><b><?=Yii::t('app','Order report flter')?></b></a>
-        <div id="otherOptions" style="display:none;">
-            <?php /* 
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer ID')?></label>
-                <?=Html::textInput( 'OrderSearch[customerId]', $post['customerId'], ['class'=>'form-control width100'] )?>
-            </span><br/>
-            */?>
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer Mobile')?></label>
-                <?=Html::textInput( 'customerMobile', $post['customerMobile'], ['class'=>'form-control width100'] )?>
-            </span><br/>
-            <span class="filter-element width90">
-                <label><?=Yii::t('app', 'Customer Name')?></label>
-                <?=Html::textInput( 'customerName', $post['customerName'], ['class'=>'form-control width100'] )?>
-            </span><br/>
-            <span class="filter-element"><label>&nbsp;</label><input type="submit" class="btn btn-success" value="<?=Yii::t('app','find')?>"></span>
-        </div>
-
         <script type="application/javascript">
         function toggleSelector(selector){
             if(typeof(Storage) !== "undefined") {
@@ -193,7 +188,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </script>
         <?php
         
-        $this->registerJsFile('./js/Chart.min.js');
+
     
         $this->registerJs("
             $(document).ready(function(){
@@ -216,12 +211,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </span><!-- 
 --><span class="col2">
-    <div class="itogo breadcrumb">
     <?php
     if(strlen($post['order_datetime_min'])>0
             || strlen($post['order_datetime_max'])>0){
         ?>
-        
+        <div class="itogo breadcrumb">
             <?php
             if($post['order_datetime_min']==$post['order_datetime_max']){
                 ?><?=$post['order_datetime_min']?><?php
@@ -229,71 +223,102 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?><?=$post['order_datetime_min']?> &ndash; <?=$post['order_datetime_max']?><?php
             }
             ?>
-        
+        </div>
         <?php
     }
     ?>
-    <?=Yii::t('app','Customers found')?>: <?=$data['n_records']?>    
+    <div class="attrView">
+        <span class="attrViewLabel"><?=Yii::t('app', 'Customer ID')?></span>
+        <span class="attrViewValue"><?=$data['customer']['customerId']?></span>
     </div>
-
-<div>
-<?=Yii::t('app','Pages')?>:
-<?php
-
-$urlParameters = [
-    'subsystem/customerincomereport',
-    'order_datetime_min' => $post['order_datetime_min'],
-    'order_datetime_max' => $post['order_datetime_max'],
-    'customerMobile' => $post['customerMobile'],
-    'customerName' => $post['customerName'],
-    'page' => ( isset($post['page'])?$post['page']:'0'),
-    'sort' => ( isset($post['sort'])?$post['sort']:''),
-    'subsystemId' => ( isset($post['subsystemId'])?$post['subsystemId']:''),
-];
-
-        
-for($i=0;$i<$data['pageCount']; $i++){
-    if($i==$data['page']){
-        echo "<span class=\"pagelink active\">".($i+1)."</span>";
-    }else{
-        $urlParameters['page']=$i;
-        echo "<a href=\"".Url::to($urlParameters)."\" class=\"pagelink\">".($i+1)."</a>";
+    <div class="attrView">
+        <span class="attrViewLabel"><?=Yii::t('app', 'Customer Mobile')?></span>
+        <span class="attrViewValue"><?=$data['customer']['customerMobile']?></span>
+    </div>
+    <div class="attrView">
+        <span class="attrViewLabel"><?=Yii::t('app', 'Customer Name')?></span>
+        <span class="attrViewValue"><?=$data['customer']['customerName']?></span>
+    </div>
+    <div class="attrView">
+        <span class="attrViewLabel"><?=Yii::t('app', 'Customer Notes')?></span>
+        <span class="attrViewValue"><?=$data['customer']['customerNotes']?></span>
+    </div>
+    
+    <h3><?=Yii::t('app', 'Orders')?></h3>
+    <table class="table table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>#</th>
+        <th><?=Yii::t('app','Pos')?></th>
+        <th><?=Yii::t('app','seller')?></th>
+        <th><?=Yii::t('app','Order Datetime')?></th>
+        <th><?=Yii::t('app','paytype')?></th>
+        <th><?=Yii::t('app','Order Total')?></th>
+        <th><?=Yii::t('app','Order Discount')?></th>
+    </tr>
+    <?php
+    foreach($data['orders'] as $row){
+        ?><tr>
+            <td><a href="<?=Url::to(['subsystem/orderview','subsystemId' => $post['subsystemId'],'order_id'=>$row['order_id']])?>" class="glyphicon glyphicon-eye-open"></a></td>
+            <td><?=$row['order_id']?></td>
+            <td><?=$row['pos_title']?></td>
+            <td><?=$row['sysuser_fullname']?></td>
+            <td><?=date('d.m.Y H:i:s',strtotime($row['order_datetime']))?></td>
+            <td><?=$row['order_payment_type']?></td>
+            <td><?=$row['order_total']?>&nbsp;<?=\Yii::$app->params['currency']?></td>
+            <td><?=($row['order_discount']?($row['order_discount']."&nbsp;".\Yii::$app->params['currency']):'')?></td>
+          </tr><?php
     }
-}
+    ?>
+    </table>
 
-function sortVal($curr,$next){
-    if($curr==$next){
-        return "-$next";
-    }elseif($curr=="-$next"){
-        return "";
-    }else{
-        return $next;
-    }
-}
+    <?php 
+    /*
+    echo GridView::widget([
+        'dataProvider' => $dataprovider,
+        //'filterModel' => $searchModel,
+        'columns' => [
+            //   ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'template' => '{view}&nbsp;{update}{products}{supply}&nbsp;&nbsp;&nbsp;{delete}',
+                'template' => '{view}',
+                'buttons'=>[
+                   'view'=>function ($url, $model, $key) {
+                               return '<b>'.Html::a(' <span class="glyphicon glyphicon-eye-open"></span> ', ['order/view','id'=>$model['order_id']],['title'=>Yii::t('app', 'Order {id}',['id'=>$model['order_id']])]).'</b>';
+                             },
+                ]
+            ],
+            
+            [
+                'attribute' => 'order_id',
+                'label' => Yii::t('app', 'Order ID'),
+            ],
+            [
+                'attribute' => 'order_datetime',
+                'label' => Yii::t('app','Дата и время заказа'),
+                'content'=>function ($model, $key, $index, $column){
+                                return date(Yii::t('app','date_format'),strtotime($model['order_datetime']));
+                           }
+            ],
+            [
+                'attribute' => 'order_total',
+                'label' => Yii::t('app','Order Total'),
+                'content'=>function ($model, $key, $index, $column){
+                                return round($model['order_total'],5).' '.Yii::$app->params['currency'];
+                           }
+            ],
+            [
+                'attribute' => 'order_discount',
+                'label' => Yii::t('app','Order Discount'),
+                'content'=>function ($model, $key, $index, $column){
+                                return $model['discount_title']?round($model['order_discount'],5).' '.Yii::$app->params['currency']." ({$model['discount_title']}) ":'';
+                           }
+            ],
+        ],
+    ]);
+     * 
+     */
+    ?>
 
-?>
-</div>
-<table class="table table-striped table-bordered">
-<tr>
-    <th></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerId'),'page'=>0]))?>"><?=Yii::t('app', 'Customer ID')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerMobile')]))?>"><?=Yii::t('app','Customer Mobile')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'customerName')]))?>"><?=Yii::t('app','Customer Name')?></a></th>
-    <th><a href="<?=Url::to(array_merge($urlParameters,['page'=>0,'sort'=>sortVal($urlParameters['sort'],'total')]))?>"><?=Yii::t('app','totalIncome')?></a></th>
-</tr>
-
-<?php
-foreach($data['rows'] as $row){
-    ?><tr>
-        <td><a href="<?=Url::to(['subsystem/onecustomer','subsystemId'=>$subsystem->subsystemId,'customerId'=>$row['customerId']])?>" class="glyphicon glyphicon-eye-open"></a></td>
-        <td><?=$row['customerId']?></td>
-        <td><?=$row['customerMobile']?></td>
-        <td><?=$row['customerName']?></td>
-        <td><?=($row['total']?($row['total']."&nbsp;".\Yii::$app->params['currency']):'')?></td>
-      </tr><?php
-}
-?>
-
-
-</table>
 </span>

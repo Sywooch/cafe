@@ -282,7 +282,7 @@ function sortVal($curr,$next){
 <?php
 foreach($data['rows'] as $row){
     ?><tr>
-        <td></td>
+        <td><a href="<?=Url::to(['subsystem/orderview','subsystemId' => $post['subsystemId'],'order_id'=>$row['order_id']])?>" class="glyphicon glyphicon-eye-open"></a></td>
         <td><?=$row['order_id']?></td>
         <td><?=$row['pos_title']?></td>
         <td><?=$row['sysuser_fullname']?></td>
