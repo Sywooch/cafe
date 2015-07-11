@@ -246,5 +246,7 @@ return [
     'Pages'=>'Страницы',
     'Sellerreport'=>'Продавцы',
     'Customers found'=>'Найдено клиентов',
-    'Packagingreport'=>'Популярность фасовок'
+    'Packagingreport'=>'Популярность фасовок',
+    'Orderview'=>'Заказ',
+    'datetime_format'=>'d.m.Y H:i:s'
 ];
