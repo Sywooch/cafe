@@ -120,7 +120,10 @@ return [
     'Discount ID'=>'Код скидки',
     'Discount Title'=>'Название скидки',
     'Discount Description'=>'Примечания',
-    'Discount Rule'=>'Правило вычисления',
+    'Discount Rule'=>'Настройка',
+    'Discount Auto'=>'Предлагать автоматически',
+    'Discount Type'=>'Тип скидки',
+    'Discount Type Simple'=>'Простая формула',
     'Create Discount'=>'Создать скидку',
     'Update Discount: '=>'Изменить скидку: ',
     'Duplicate Order'=>'Заказ можно добавить только один раз',
@@ -248,5 +251,11 @@ return [
     'Customers found'=>'Найдено клиентов',
     'Packagingreport'=>'Популярность фасовок',
     'Orderview'=>'Заказ',
-    'datetime_format'=>'d.m.Y H:i:s'
+    'datetime_format'=>'d.m.Y H:i:s',
+    
+    'Discount Type Simple'=>'Правило',
+    'Discount Type Nth'=>'Каждый n-й бесплатно',
+    'eachNth_period'=>'Каждая ',
+    'eachNth_category'=>'Из категории ',
+    'Discounted items available'=>'Доступно {discounts_available} шт. в категории {category_title}'
 ];

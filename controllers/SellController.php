@@ -256,7 +256,7 @@ class SellController extends \yii\web\Controller {
         $order_packaging = Array();
         $order_total = 0;
         $pos_product_update = Array();
-        foreach ($tmp as $packaging_id => $order_packaging_number) {
+        foreach ($tmp as $packaging_id => $pack) {
             //$packaging = Packaging::findOne($packaging_id);
             $posPackaging = PosPackaging::find()->where(['packaging_id' => ((int) $packaging_id), 'pos_id' => ((int) $pos_id)])->one();
             if ($posPackaging) {
@@ -270,18 +270,18 @@ class SellController extends \yii\web\Controller {
             if ($packaging != null) {
                 $order_packaging[] = [
                     'packaging' => $packaging,
-                    'order_packaging_number' => $order_packaging_number,
+                    'order_packaging_number' => $pack['count'],
                     'packaging_price' => $packaging_price
                 ];
 
-                $order_total+=$packaging_price * $order_packaging_number;
+                $order_total+=$packaging_price * $pack['count'];
 
                 $packagingProducts = $packaging->getPackagingProducts()->all();
                 foreach ($packagingProducts as $pp) {
                     if (!isset($pos_product_update[$pp->product_id])) {
                         $pos_product_update[$pp->product_id] = 0;
                     }
-                    $pos_product_update[$pp->product_id]+=$pp->packaging_product_quantity * $order_packaging_number;
+                    $pos_product_update[$pp->product_id]+=$pp->packaging_product_quantity * $pack['count'];
                 }
             }
         }
@@ -306,13 +306,14 @@ class SellController extends \yii\web\Controller {
 
                 $order->discount_id = $discount->discount_id;
                 $order->discount_title = $discount->discount_title;
+                
                 // update order_total
-                $order->order_discount = Discount::getDiscountValue(
-                                [
-                            'discount_id' => $discount->discount_id,
-                            'order_total' => $order_total,
-                            'order_packaging' => $order_packaging
-                                ], json_decode($discount->discount_rule));
+                $discountSubtype=Discount::subtypeFactory($discount);
+                $discountSubtypeValue = $discountSubtype->apply($orderData);
+                
+                $order->discount_count = $discountSubtypeValue['discount_count'];
+                $order->order_discount = $discountSubtypeValue['discount_value'];
+                
                 $order->order_total-=$order->order_discount;
             }
         }
@@ -351,9 +352,6 @@ class SellController extends \yii\web\Controller {
             }            
         }
         $order->customerId = $customerId;
-
-        
-        
         
         $order->order_hash = Order::createOrderHash($order->pos_id, $order->seller_id, $order->order_datetime, $order->order_total, $order->order_discount);
 
@@ -527,5 +525,53 @@ class SellController extends \yii\web\Controller {
         //    }
         //}
         return 'OK';
+    }
+    
+    
+    public function actionGetdiscount(){
+        $post = array_merge(\Yii::$app->request->queryParams, \Yii::$app->getRequest()->getBodyParams());
+        $order = $post['order'];
+        $reply=[
+            'status'=>'undefined',
+            'discount_id'=>0,
+            'discount_title'=>'',
+            'discount_value'=>0,
+            'discount_count'=>0
+        ];
+        
+        $discountModel=null;
+        if(isset($order['discount_id']) && $order['discount_id']>0){
+            $discountModel = Discount::findOne($order['discount_id']);
+        }
+        if($discountModel !== null){
+            // get one discount
+            $discountSubtype = Discount::subtypeFactory($discountModel);
+            $tmp=$discountSubtype->apply($order);
+            if($tmp){
+                $reply['status']='success';
+                $reply['discount_id']=$discountModel->discount_id;
+                $reply['discount_title']=$discountModel->discount_title;
+                $reply['discount_value']=$tmp['discount_value'];
+                $reply['discount_count']=$tmp['discount_count'];
+                $reply['discount_message']=$tmp['discount_message'];
+            }
+        }else{
+            // get discounts which have discount_auto=true
+            $discountList = Discount::find()->where(['discount_auto' => 1])->all();
+            foreach($discountList as $discountModel){
+                $discountSubtype=Discount::subtypeFactory($discountModel);
+                $tmp=$discountSubtype->apply($order);
+                if($tmp && $tmp['discount_count']>0 ){
+                    $reply['status']='success';
+                    $reply['discount_id']=$discountModel->discount_id;
+                    $reply['discount_title']=$discountModel->discount_title;
+                    $reply['discount_value']=$tmp['discount_value'];
+                    $reply['discount_count']=$tmp['discount_count'];
+                    $reply['discount_message']=$tmp['discount_message'];
+                    break;
+                }
+            }
+        }
+        return json_encode($reply);
     }
 }

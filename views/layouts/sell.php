@@ -91,7 +91,12 @@ AppAsset::register($this);
 <script type="application/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
 <script src="js/jquery.toast.js" type="text/javascript"></script>
-<script src="js/sell.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var params={
+        currency:'<?=Yii::$app->params['currency']?>'
+    };
+</script>
+<script src="js/sell-02.js" type="text/javascript"></script>
 <script src="js/custom.js" type="text/javascript"></script>
 
 

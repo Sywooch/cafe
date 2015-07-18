@@ -108,4 +108,4 @@ $(window).load(function () {
     var textStatWidth = $('.statistika').width() - window.statistikaHeight  -(zigzagWidth - 3 * window.zakazBorderWidth + 1)-12;
     $('.text_stat').css({width: (textStatWidth) + 'px',height:window.statistikaHeight+'px'});
 
-})
+});

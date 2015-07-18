@@ -41,7 +41,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['pos_id', 'seller_id', 'sysuser_id'], 'required'],
-            [['pos_id', 'seller_id', 'sysuser_id', 'order_day_sequence_number','customerId'], 'integer'],
+            [['pos_id', 'seller_id', 'sysuser_id', 'order_day_sequence_number','customerId','discount_count'], 'integer'],
             [['order_datetime'], 'safe'],
             [['order_total', 'order_discount','order_seller_comission'], 'number'],
             [['order_payment_type'], 'string', 'max' => 32],
@@ -69,6 +69,7 @@ class Order extends \yii\db\ActiveRecord
             'order_seller_comission'=>Yii::t('app', 'Seller Comission'),
             'order_notes'=>Yii::t('app', 'order_notes'),
             'customerId'=>Yii::t('app', 'customerId'),
+            'discount_count'=>Yii::t('app', 'discount_count'),
         ];
     }
 

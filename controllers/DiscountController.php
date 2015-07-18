@@ -82,7 +82,7 @@ class DiscountController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->discount_id]);
+            return $this->redirect(['update', 'id' => $model->discount_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

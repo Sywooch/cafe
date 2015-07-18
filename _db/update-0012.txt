@@ -1,3 +1,4 @@
 ALTER TABLE `discount` ADD COLUMN `discount_auto` TINYINT(1) DEFAULT 0 NOT NULL AFTER `discount_rule`;
 ALTER TABLE `discount` ADD COLUMN `discount_type` VARCHAR(64) NULL AFTER `discount_auto`; 
-ALTER TABLE `order` ADD COLUMN `discount_count` INT DEFAULT 0 NOT NULL AFTER `discount_title`; 
+ALTER TABLE `order` ADD COLUMN `discount_count` INT AFTER `discount_title`; 
+ALTER TABLE `order` CHANGE `discount_count` `discount_count` INT(11) NULL DEFAULT '0';

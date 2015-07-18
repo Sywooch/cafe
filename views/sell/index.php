@@ -70,10 +70,13 @@ function processTemplate(data){
 
 var discounts={};
 <?php
+// echo '<pre>';print_r($discounts);echo '</pre>';
 foreach($discounts as $key=>$discount){
     if(strlen($discount->discount_rule)>0){
-       echo "discounts['{$discount->discount_id}']=".$discount->discount_rule.";\n";     
+        //echo "discounts['{$discount->discount_id}']=".$discount->discount_rule.";\n";
+        echo "discounts['{$discount->discount_id}']='".str_replace("'",'`',$discount->discount_title)."';\n";     
     }
 }
+
 ?>
 </script>
