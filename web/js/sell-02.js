@@ -407,7 +407,7 @@ function onDiscountReceived(reply){
         $.toast().reset('all');
         $.toast({
             position: 'top-center',
-            text: "<b>Cкидка " + reply.discount_title + " : <br>" + reply.discount_count + " шт. на сумму "+reply.discount_value+""+params.currency+"</b>",
+            text: "Cкидка &quot;" + reply.discount_title + "&quot;: <br>" + reply.discount_count + " шт. на сумму "+reply.discount_value+""+params.currency+" ",
             bgColor: '#aaaaff',
             hideAfter:10000,
             showHideTransition: 'slide'  // It can be plain, fade or slide
@@ -420,7 +420,7 @@ function onDiscountReceived(reply){
             $.toast().reset('all');
             $.toast({
                 position: 'top-center',
-                text: "<b>Возможна скидка " + reply.discount_title + " : <br>" + reply.discount_message + "</b>",
+                text: "Возможна скидка " + reply.discount_title + " : <br>" + reply.discount_message + " ",
                 bgColor: '#aaaaff',
                 hideAfter:10000,
                 showHideTransition: 'slide'  // It can be plain, fade or slide
@@ -531,7 +531,7 @@ function onOrderCreated(event, verbose) {
             if (verbose)
                 $.toast({
                     position: 'mid-center',
-                    text: "<b>Заказ сохранён на сервере</b>",
+                    text: "Заказ сохранён на сервере",
                     showHideTransition: 'slide'  // It can be plain, fade or slide
                 });
             getStats();
@@ -548,7 +548,7 @@ function onOrderCreated(event, verbose) {
             if (verbose)
                 $.toast({
                     position: 'mid-center',
-                    text: "<b>Не удаётся сохранить заказ<br/>на сервере</b>",
+                    text: "Не удаётся сохранить заказ<br/>на сервере",
                     bgColor: 'red',
                     showHideTransition: 'slide'  // It can be plain, fade or slide
                 });
