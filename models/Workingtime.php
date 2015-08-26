@@ -157,6 +157,9 @@ class Workingtime extends \yii\db\ActiveRecord {
 
         // load POS record
         $pos = Pos::find()->where(['pos_id' => $seller->pos_id])->one();
+        if (!$pos) {
+            return false;
+        }
         // var_dump($pos);
         // start time
         $start_time = $pos->pos_worktime_start;
